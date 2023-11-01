@@ -24,7 +24,7 @@ public class MyCode {
 
         String projectPath = System.getProperty("user.dir");    //获取当前项目根目录
 
-        gc.setOutputDir(projectPath+"/src/main/java");
+        gc.setOutputDir(projectPath+"/children/src/main/java");
         gc.setAuthor("sq");
         gc.setOpen(false);  //是否打开资源管理器（文件夹）
         gc.setFileOverride(false);  //是否覆盖已有文件
@@ -50,7 +50,7 @@ public class MyCode {
         PackageConfig pc = new PackageConfig();
         pc.setModuleName("children");
         pc.setParent("com.blbd");
-        pc.setEntity("pojo");
+        pc.setEntity("dao.entity");
         pc.setMapper("mapper");
         pc.setService("service");
         pc.setController("controller");
@@ -60,15 +60,13 @@ public class MyCode {
         //4、策略配置
         StrategyConfig strategy = new StrategyConfig();
         //设置表名映射，重点要改的地方
-        strategy.setInclude("child");
+        strategy.setInclude("subject","task_child");
         //设置包的命名规则，下划线转驼峰命名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         //列,数据库字段
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //使用lombok开启编程
         strategy.setEntityLombokModel(true);
-        //逻辑删除字段
-        strategy.setLogicDeleteFieldName("deleted");
         //设置restful风格
         strategy.setRestControllerStyle(true);
         //下划线命名,如localhost:8080/hello_id_2
