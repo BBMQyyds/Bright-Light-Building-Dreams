@@ -83,4 +83,6 @@
         </plugins>
     </build>
 
+    <!--测试rule-->
+
 </project>
