@@ -1,11 +1,27 @@
 package com.blbd.children.dao.entity;
 
-/**
- * @Author Zang Xinrui
- * @Description TODO
- * @Date 2023/10/31 13:45
- * @Version 1.0
- */
-public class Child {
+import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+/**
+ * @author sq ♥ovo♥
+ * @date 2023/11/1 - 10:35
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@ApiModel(value="Child对象", description="")
+public class Child {
+    private String id;
+    private String username;
+    private Integer score;
+    private String password;
+    private String name;
+    private String grade;
+    private String locate;
+    private Integer duty;
 }
