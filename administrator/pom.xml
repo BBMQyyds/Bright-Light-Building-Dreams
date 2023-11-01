@@ -3,12 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.17</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.neu</groupId>
+        <artifactId>Bright-Light-Building-Dreams</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.blbd</groupId>
     <artifactId>administrator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>administrator</name>
@@ -38,6 +36,32 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- JPA依赖 -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <!-- Hibernate JPA实现 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.5.7.Final</version>
+        </dependency>
+        <!-- 数据库连接池（HikariCP） -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <!-- 选择您的数据库驱动程序 -->
+        <!-- 例如，MySQL数据库 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.27</version>
         </dependency>
 
     </dependencies>
