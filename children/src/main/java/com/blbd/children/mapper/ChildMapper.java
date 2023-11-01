@@ -2,7 +2,11 @@ package com.blbd.children.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blbd.children.dao.entity.Child;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author sq ♥ovo♥
@@ -10,7 +14,12 @@ import org.springframework.stereotype.Repository;
  */
 //在对应的mapper上面继承一个基本接口就可以
 @Repository //表示是持久层dao
+@Component
+@Mapper
 public interface ChildMapper extends BaseMapper<Child> {
 
-
+/**
+ * 查询儿童登录信息
+ */
+List<Child> queryList(Child child);
 }

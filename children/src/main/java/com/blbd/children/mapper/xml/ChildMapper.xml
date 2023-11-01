@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blbd.children.mapper.ChildMapper">
 
+    <select id="queryList" resultType="com.blbd.children.dao.entity.Child">
+        SELECT *
+        FROM child
+        WHERE username =#{username} and password = #{password}
+    </select>
 </mapper>

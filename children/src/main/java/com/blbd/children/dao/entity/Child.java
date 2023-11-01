@@ -24,4 +24,14 @@ public class Child {
     private String grade;
     private String locate;
     private Integer duty;
+
+    public Child(String id, String username, Integer score) {
+        this.id = id;
+        this.username = username;
+        this.score = score;
+    }
+
+    public Child() {
+
+    }
 }
