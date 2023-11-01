@@ -1,11 +1,23 @@
 package com.blbd.children.dao.entity;
 
-/**
- * @Author Zang Xinrui
- * @Description TODO
- * @Date 2023/10/31 13:45
- * @Version 1.0
- */
-public class Child {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * @author sq ♥ovo♥
+ * @date 2023/11/1 - 10:35
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Child {
+    private String id;
+    private String username;
+    private Integer score;
+    private String password;
+    private String name;
+    private String grade;
+    private String locate;
+    private Integer duty;
 }

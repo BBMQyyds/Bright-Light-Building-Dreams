@@ -1,0 +1,22 @@
+# 数据库连接配置
+spring:
+  datasource:
+    username: mgzm_user
+    password: mgzm123456
+    url: jdbc:mysql://8.140.242.177:3310/mgzm?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #Spring Boot 默认是不注入这些属性值的，需要自己绑定
+    #druid 数据源专有配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
