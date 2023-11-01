@@ -8,6 +8,7 @@ import java.util.Date;
 public class Task {
     private String id;
     private int score;
+    private String content;
     private Date startTime;
     private Date finishTime;
     private String video;
