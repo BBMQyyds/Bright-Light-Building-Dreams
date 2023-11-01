@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.17</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.neu</groupId>
+        <artifactId>Bright-Light-Building-Dreams</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <groupId>com.blbd</groupId>
     <artifactId>volunteer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -17,6 +17,59 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+
+        <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context</artifactId> <version>5.2.3.RELEASE</version> </dependency>
+
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version> <!-- 使用适当的版本 -->
+            <scope>test</scope>
+        </dependency>
+
+        <!--swagger2-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+
+        <!--模板引擎 依赖:mybatis-plus代码生成的时候报异常-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <!--配置ApiModel在实体类中不生效-->
+        <!--<dependency>
+            <groupId>com.spring4all</groupId>
+            <artifactId>spring-boot-starter-swagger</artifactId>
+            <version>1.5.1.RELEASE</version>
+        </dependency>-->
+        <!--freemarker-->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <!--beetl-->
+        <dependency>
+            <groupId>com.ibeetl</groupId>
+            <artifactId>beetl</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
