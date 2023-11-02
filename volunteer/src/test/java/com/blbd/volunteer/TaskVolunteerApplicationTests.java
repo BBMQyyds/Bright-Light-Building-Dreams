@@ -10,13 +10,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest(classes = VolunteerApplication.class)
 @RunWith(SpringRunner.class)
-class VolunteerApplicationTests {
+class TaskVolunteerApplicationTests {
 
     @Autowired
     private VolunteerEntityMapper volunteerEntityMapper;
 
-
-    //新增志愿者测试，测试成功
     @Test
     public void testInsertVolunteer() {
         VolunteerEntity volunteerEntity = new VolunteerEntity();
@@ -24,10 +22,13 @@ class VolunteerApplicationTests {
         volunteerEntity.setVolPassword("123456");
         volunteerEntity.setVolId("2");
 
+        // 执行插入操作
         int rowsInserted = volunteerEntityMapper.insert(volunteerEntity);
 
-        assert rowsInserted == 1;
+        // 检查插入是否成功
+        assert rowsInserted == 1; // 期望插入一行数据
 
+        // 还可以添加其他断言，如检查插入后的数据是否正确
     }
 
     }
