@@ -4,7 +4,6 @@ package com.blbd.children.controller;
 import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.service.impl.ChildServiceImpl;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,7 @@ import java.util.List;
  * @since 2023-11-01
  */
 //给文档加注释
-@Api(tags = "控制器-child")
+//@Api(tags = "控制器-child")
 @RestController
 @RequestMapping("/children/child")
 public class ChildController {

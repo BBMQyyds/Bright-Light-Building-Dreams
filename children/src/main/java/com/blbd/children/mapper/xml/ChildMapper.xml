@@ -4,7 +4,7 @@
 
     <select id="queryList" resultType="com.blbd.children.dao.entity.Child">
         SELECT *
-        FROM child
+        FROM mgzm.child
         WHERE username =#{username} and password = #{password}
     </select>
 </mapper>

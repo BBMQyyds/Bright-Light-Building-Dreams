@@ -1,6 +1,5 @@
 package com.blbd.children.dao.entity;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Child对象", description="")
+//@ApiModel(value="Child对象", description="")
 public class Child {
     private String id;
     private String username;
