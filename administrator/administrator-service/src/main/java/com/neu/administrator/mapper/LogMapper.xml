@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.LogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Log">
+        <id column="log_id" property="logId" />
+        <result column="log_date" property="logDate" />
+        <result column="log_content" property="logContent" />
+        <result column="log_volunteer_id" property="logVolunteerId" />
+        <result column="log_child_id" property="logChildId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        log_id, log_date, log_content, log_volunteer_id, log_child_id
+    </sql>
+
+</mapper>

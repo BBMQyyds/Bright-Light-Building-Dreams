@@ -1,0 +1,49 @@
+#发送请求的时候，自带/administrator内容，这个服务里就不用再写了
+server:
+  servlet:
+    context-path: /administrator
+  port: 63000
+#微服务配置
+spring:
+  application:
+    name: administrator-api #服务名称
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://8.140.242.177:3310/serverTimezone=UTC&userUnicode=true&useSSL=false&
+    username: mgzm_user
+    password: mgzm123456
+#  cloud:
+#    nacos:
+#      server-addr: 192.168.101.65:8848
+#      discovery: #服务注册的相关配置
+#        namespace: devNeu
+#        group: xuecheng-plus-project
+#      config: #配置文件的相关信息
+#        namespace: devNeu #我的命名空间，无论是配置也好，服务也好，都在我的命名空间下
+#        group: xuecheng-plus-project
+#        file-extension: yaml
+#        refresh-enabled: true
+#        extension-configs: #扩展配置,可以引用其他工程的配置文件
+#          - data-id: content-service-${spring.profiles.active}.yaml
+#            group: xuecheng-plus-project
+#            refresh: true
+#        shared-configs:  #共享配置
+#          - data-id: swagger-${spring.profiles.active}.yaml
+#            group: xuecheng-plus-common
+#            refresh: true
+#          - data-id: logging-${spring.profiles.active}.yaml
+#            group: xuecheng-plus-common
+#            refresh: true
+#  profiles:
+#    active: dev #环境名,拼接配置文件用的
+# 日志文件配置路径
+logging:
+  config: classpath:log4j2-dev.xml
+
+swagger:
+  title: "明光筑梦管理系统"
+  description: "明光筑梦内容管理系统接口文档"
+  base-package: com.neu.administrator
+  version: 1.0.0
+  enabled: true
+

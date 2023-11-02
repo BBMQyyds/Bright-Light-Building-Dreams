@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.TaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Task">
+        <id column="id" property="id" />
+        <result column="score" property="score" />
+        <result column="start_time" property="startTime" />
+        <result column="finish_time" property="finishTime" />
+        <result column="video" property="video" />
+        <result column="subject" property="subject" />
+        <result column="grade" property="grade" />
+        <result column="status" property="status" />
+        <result column="is_must_do" property="mustDo" />
+        <result column="content" property="content" />
+        <result column="name" property="name" />
+        <result column="task_photo" property="taskPhoto" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, score, start_time, finish_time, video, subject, grade, status, is_must_do, content, name, task_photo
+    </sql>
+
+</mapper>
