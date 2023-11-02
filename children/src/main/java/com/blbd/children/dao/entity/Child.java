@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author sq ♥ovo♥
+ * @author sq ovo
  * @date 2023/11/1 - 10:35
  */
 @Data
@@ -24,4 +24,14 @@ public class Child {
     private String grade;
     private String locate;
     private Integer duty;
+
+    public Child(String id, String username, Integer score) {
+        this.id = id;
+        this.username = username;
+        this.score = score;
+    }
+
+    public Child() {
+
+    }
 }

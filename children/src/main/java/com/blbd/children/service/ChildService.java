@@ -1,7 +1,10 @@
 package com.blbd.children.service;
 
+import com.blbd.children.config.UUIDUtil;
 import com.blbd.children.dao.entity.Child;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ChildService extends IService<Child> {
 
+    Child c = new Child();
+
+    List<Child> verifyChild(Child c);
 }
