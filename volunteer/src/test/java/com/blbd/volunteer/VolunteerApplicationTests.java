@@ -20,9 +20,9 @@ class VolunteerApplicationTests {
     @Test
     public void testInsertVolunteer() {
         VolunteerEntity volunteerEntity = new VolunteerEntity();
-        volunteerEntity.setVolName("wuhao");
+        volunteerEntity.setVolName("wuhao11");
         volunteerEntity.setVolPassword("123456");
-        volunteerEntity.setVolId("2");
+        volunteerEntity.setVolId("3");
 
         int rowsInserted = volunteerEntityMapper.insert(volunteerEntity);
 
