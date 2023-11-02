@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blbd.volunteer.dao.VolunteerEntityMapper">
+    <resultMap id="VolunteerMap" type="com.blbd.volunteer.dao.entity.VolunteerEntity">
+
+        <id column="vol_id" jdbcType="VARCHAR" property="volId" />
+        <result column="vol_username" jdbcType="VARCHAR" property="volUsername" />
+        <result column="vol_password" jdbcType="VARCHAR" property="volPassword"/>
+        <result column="vol_name" jdbcType="VARCHAR" property="volName"/>
+        <result column="vol_locate" jdbcType="VARCHAR" property="volLocate"/>
+        <result column="vol_organization" jdbcType="VARCHAR" property="volOrganization"/>
+        <result column="vol_duty" jdbcType="VARCHAR" property="volDuty"/>
+        <result column="vol_corrected_tasks" jdbcType="VARCHAR" property="volCorrectedTasks"/>
+        <result column="vol_tel" jdbcType="VARCHAR" property="volTel"/>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="com.blbd.volunteer.dao.entity.VolunteerEntity">
+
+        insert into volunteer (vol_id, vol_username,vol_password,
+        vol_name, vol_locate,
+        vol_organization, vol_duty, vol_corrected_tasks,
+        vol_tel)
+        values (#{volId,jdbcType=VARCHAR}, #{volUsername,jdbcType=VARCHAR}, #{volPassword,jdbcType=VARCHAR},
+        #{volName,jdbcType=VARCHAR}, #{volLocate,jdbcType=VARCHAR},
+        #{volOrganization,jdbcType=VARCHAR}, #{volDuty,jdbcType=VARCHAR},
+        #{volCorrectedTasks,jdbcType=VARCHAR}, #{volTel,jdbcType=VARCHAR})
+    </insert>
+
+    </mapper>

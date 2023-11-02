@@ -1,0 +1,15 @@
+server:
+  port: 8085
+
+mybatis:
+  typeAliasesPackage: com.blbd.volunteer.dao.entity
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    cache-enabled: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://8.140.242.177:3310/mgzm?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: mgzm_user
+    password: mgzm123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
