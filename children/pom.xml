@@ -15,6 +15,16 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!--代码生成器-->
+        <!--<dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -50,11 +60,7 @@
             <artifactId>spring-boot-starter-swagger</artifactId>
             <version>1.5.1.RELEASE</version>
         </dependency>-->
-        <!--freemarker-->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-        </dependency>
+
         <!--beetl-->
         <dependency>
             <groupId>com.ibeetl</groupId>
@@ -82,12 +88,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--配置ApiModel在实体类中不生效-->
-        <!--<dependency>
-            <groupId>com.spring4all</groupId>
-            <artifactId>spring-boot-starter-swagger</artifactId>
-            <version>1.5.1.RELEASE</version>
-        </dependency>-->
+
 
     </dependencies>
 

@@ -1,7 +1,7 @@
 package com.blbd.children.mapper;
 
-import com.blbd.children.dao.entity.Subject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.blbd.children.dao.entity.Task;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author sq
- * @since 2023-11-01
+ * @since 2023-11-02
  */
 @Repository
-public interface SubjectMapper extends BaseMapper<Subject> {
+public interface TaskMapper extends BaseMapper<Task> {
 
 }

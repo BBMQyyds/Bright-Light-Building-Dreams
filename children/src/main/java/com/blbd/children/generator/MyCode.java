@@ -60,7 +60,7 @@
 //        //4、策略配置
 //        StrategyConfig strategy = new StrategyConfig();
 //        //设置表名映射，重点要改的地方
-//        strategy.setInclude("subject","task_child");
+//        strategy.setInclude("task");
 //        //设置包的命名规则，下划线转驼峰命名
 //        strategy.setNaming(NamingStrategy.underline_to_camel);
 //        //列,数据库字段
@@ -71,6 +71,8 @@
 //        strategy.setRestControllerStyle(true);
 //        //下划线命名,如localhost:8080/hello_id_2
 //        strategy.setControllerMappingHyphenStyle(true);
+//        // 设置表字段的注解，这里加入 @TableField
+//        strategy.setEntityTableFieldAnnotationEnable(true);
 //        mpg.setStrategy(strategy);
 //
 //        mpg.execute();  //执行

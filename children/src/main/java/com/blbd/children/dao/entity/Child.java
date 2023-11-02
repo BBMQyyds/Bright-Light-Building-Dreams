@@ -1,5 +1,6 @@
 package com.blbd.children.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@TableName("child")
 //@ApiModel(value="Child对象", description="")
 public class Child {
     private String id;

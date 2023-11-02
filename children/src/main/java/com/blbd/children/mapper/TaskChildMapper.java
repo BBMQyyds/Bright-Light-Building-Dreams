@@ -2,6 +2,7 @@ package com.blbd.children.mapper;
 
 import com.blbd.children.dao.entity.TaskChild;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author sq
  * @since 2023-11-01
  */
+@Repository
 public interface TaskChildMapper extends BaseMapper<TaskChild> {
 
 }
