@@ -24,15 +24,16 @@ public class AdministratorCodeGenerator {
 	private static final String DATA_SOURCE_PASSWORD  = "mgzm123456";
 	//生成的表
 	private static final String[] TABLE_NAMES = new String[]{
-			"child",
-			"log",
-			"order",
-			"organization",
-			"subject",
-			"task",
-			"task_child",
-			"task_volunteer",
-			"volunteer"
+			"administrator"
+//			"child",
+//			"log",
+//			"order",
+//			"organization",
+//			"subject",
+//			"task",
+//			"task_child",
+//			"task_volunteer",
+//			"volunteer"
 
 	};
 

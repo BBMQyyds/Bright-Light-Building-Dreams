@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.SubjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Subject">
+        <result column="id" property="id" />
+        <result column="value" property="value" />
+        <result column="content" property="content" />
+        <result column="donate_id" property="donateId" />
+        <result column="name" property="name" />
+        <result column="sub_photo" property="subPhoto" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, value, content, donate_id, name, sub_photo
+    </sql>
+
+</mapper>

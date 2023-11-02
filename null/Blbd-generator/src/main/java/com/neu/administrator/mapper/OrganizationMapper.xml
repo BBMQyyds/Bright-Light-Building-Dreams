@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.OrganizationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Organization">
+        <id column="org_id" property="orgId" />
+        <result column="org_name" property="orgName" />
+        <result column="org_introduction" property="orgIntroduction" />
+        <result column="org_number" property="orgNumber" />
+        <result column="org_address" property="orgAddress" />
+        <result column="org_volunteer_id" property="orgVolunteerId" />
+        <result column="org_pass_if" property="orgPassIf" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        org_id, org_name, org_introduction, org_number, org_address, org_volunteer_id, org_pass_if
+    </sql>
+
+</mapper>
