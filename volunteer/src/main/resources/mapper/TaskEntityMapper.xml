@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blbd.volunteer.dao.TaskEntityMapper">
+
+    <resultMap id="TaskMap" type="com.blbd.volunteer.dao.entity.TaskEntity">
+
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="score" jdbcType="VARCHAR" property="score" />
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="finish_time" jdbcType="INTEGER" property="finishTime"/>
+        <result column="video" jdbcType="VARCHAR" property="video"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="is_must_do" jdbcType="TINYINT" property="isMustDo"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="task_photo" jdbcType="VARCHAR" property="taskPhoto"/>
+
+    </resultMap>
+
+
+</mapper>

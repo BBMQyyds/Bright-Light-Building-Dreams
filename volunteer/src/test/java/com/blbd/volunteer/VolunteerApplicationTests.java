@@ -22,7 +22,7 @@ class VolunteerApplicationTests {
         VolunteerEntity volunteerEntity = new VolunteerEntity();
         volunteerEntity.setVolName("wuhao11");
         volunteerEntity.setVolPassword("123456");
-        volunteerEntity.setVolId("3");
+        volunteerEntity.setVolId("99");
 
         int rowsInserted = volunteerEntityMapper.insert(volunteerEntity);
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blbd.volunteer.dao.TaskVolunteerEntityMapper">
+
+    <resultMap id="TaskVolunteerMap" type="com.blbd.volunteer.dao.entity.TaskVolunteerEntity">
+
+        <id column="volunteer_id" jdbcType="VARCHAR" property="volunteerId" />
+        <result column="child_id" jdbcType="VARCHAR" property="childId" />
+        <result column="task_id" jdbcType="VARCHAR" property="taskId"/>
+        <result column="approval_start_time" jdbcType="TIMESTAMP" property="approvalStartTime"/>
+        <result column="approval_finish_time" jdbcType="TIMESTAMP" property="approvalFinishTime"/>
+        <result column="approval_end_time" jdbcType="TIMESTAMP" property="approvalEndTime"/>
+        <result column="is_completed_approval" jdbcType="TINYINT" property="isCompletedApproval"/>
+        <result column="approval_comments" jdbcType="VARCHAR" property="approvalComments"/>
+
+
+    </resultMap>
+</mapper>

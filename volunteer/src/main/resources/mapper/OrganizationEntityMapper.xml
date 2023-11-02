@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blbd.volunteer.dao.OrganizationEntityMapper">
+    <resultMap id="OrganizationMap" type="com.blbd.volunteer.dao.entity.OrganizationEntity">
+
+        <id column="org_id" jdbcType="VARCHAR" property="orgId" />
+        <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+        <result column="org_introduction" jdbcType="VARCHAR" property="orgIntroduction"/>
+        <result column="org_number" jdbcType="INTEGER" property="orgNumber"/>
+        <result column="org_address" jdbcType="VARCHAR" property="orgAddress"/>
+        <result column="org_volunteer_id" jdbcType="VARCHAR" property="orgVolunteerId"/>
+        <result column="org_pass_if" jdbcType="VARCHAR" property="orgPassIf"/>
+
+    </resultMap>
+</mapper>
