@@ -13,9 +13,9 @@ import java.util.List;
  * @date 2023/11/1 - 11:13
  */
 //在对应的mapper上面继承一个基本接口就可以
+//@Component  zxr
+//@Mapper  zxr
 @Repository //表示是持久层dao
-@Component
-@Mapper
 public interface ChildMapper extends BaseMapper<Child> {
 
 /**
