@@ -7,6 +7,7 @@ import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,9 @@ class ChildrenApplicationTests {
 
     @Autowired
     private TaskMapper taskMapper;
+
+    @Autowired
+    private TaskService taskService;
 
     @Test
     void contextLoads() {
@@ -73,7 +77,7 @@ class ChildrenApplicationTests {
                         .ne("grade", child.getGrade())
         );
 
-// 合并任务列表
+        // 合并任务列表
         List<Task> tasks = new ArrayList<>();
         tasks.addAll(mustDoTasks);
         System.out.println("mustDoTasks:" + mustDoTasks);
@@ -86,6 +90,7 @@ class ChildrenApplicationTests {
         System.out.println("---------------");
         System.out.println("tasks" + tasks);
     }
+
     @Test
     void viewAllTask(){
         List<Task> tasks = taskMapper.selectList(
