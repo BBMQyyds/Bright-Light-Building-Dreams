@@ -90,7 +90,7 @@ class ChildrenApplicationTests {
         System.out.println("---------------");
         System.out.println("tasks" + tasks);
     }
-    
+
     @Test
     void viewAllTask(){
         List<Task> tasks = taskMapper.selectList(
