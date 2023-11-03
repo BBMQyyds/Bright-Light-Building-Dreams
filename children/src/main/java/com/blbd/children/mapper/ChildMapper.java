@@ -14,12 +14,8 @@ import java.util.List;
  */
 //在对应的mapper上面继承一个基本接口就可以
 //@Component  zxr
-//@Mapper  zxr
+@Mapper
 @Repository //表示是持久层dao
 public interface ChildMapper extends BaseMapper<Child> {
 
-/**
- * 查询儿童登录信息
- */
-List<Child> queryList(Child child);
 }
