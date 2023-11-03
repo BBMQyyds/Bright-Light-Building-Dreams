@@ -1,17 +1,17 @@
 package com.blbd.children.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Child;
+import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.service.impl.ChildServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,35 +24,35 @@ import java.util.List;
  */
 //给文档加注释
 //@Api(tags = "控制器-child")
+@Controller
 @RestController
 @RequestMapping("/children/child")
 public class ChildController {
 
-    @Autowired
-    private ChildServiceImpl childService;
+    @Resource
+    ChildMapper childMapper;
     /**
      * 登录验证
      */
-
-    @RequestMapping(value="/childLogin",method= RequestMethod.POST,headers = "Accept=application/json")
-    public HttpResponseEntity childLogin(@RequestBody Child child){
+    @PostMapping("/loginChild")
+    public HttpResponseEntity loginChild(@RequestParam("username") String username,
+                                         @RequestParam("password") String password){
         HttpResponseEntity httpResponseEntity=new HttpResponseEntity();
-        try{
-            List<Child> hasChild = childService.verifyChild(child);
-            if(CollectionUtils.isEmpty(hasChild)){
-                httpResponseEntity.setCode("0");
-                httpResponseEntity.setData(null);
-                httpResponseEntity.setMessage("用户或密码错误");
-            }else{
-                httpResponseEntity.setCode("666");
-                httpResponseEntity.setData(hasChild);
-                httpResponseEntity.setMessage("登录成功");
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+        //将输入的数据与数据库进行匹配，看是否存在
+        Child hasChild = childMapper.selectOne(Wrappers.<Child>lambdaQuery().eq(Child::getUsername, username)
+                .eq(Child::getPassword, password));
+        if (hasChild == null) {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(null);
+            httpResponseEntity.setMessage("用户或密码错误");
+        } else {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(hasChild);
+            httpResponseEntity.setMessage("登录成功");
+
         }
         return httpResponseEntity;
     }
+
 }
 
