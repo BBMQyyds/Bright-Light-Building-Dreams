@@ -18,7 +18,6 @@ import java.util.List;
  * @since 2023-11-01
  */
 public interface TaskChildService extends IService<TaskChild> {
-
     /**
      * 查看已提交未批改任务--已提交任务
      */
@@ -29,5 +28,4 @@ public interface TaskChildService extends IService<TaskChild> {
      * 查看已批改（已完成）任务--已完成任务
      */
     List<Task> getCorrectedTasks();
-
 }

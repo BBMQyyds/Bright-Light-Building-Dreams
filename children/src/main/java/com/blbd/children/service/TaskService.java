@@ -7,9 +7,6 @@ import java.sql.Wrapper;
 import java.util.List;
 
 /**
- * <p>
- *  服务类
- * </p>
  *
  * @author sq
  * @since 2023-11-02

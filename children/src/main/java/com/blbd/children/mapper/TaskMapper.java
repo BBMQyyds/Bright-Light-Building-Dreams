@@ -5,10 +5,6 @@ import com.blbd.children.dao.entity.Task;
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
  * @author sq
  * @since 2023-11-02
  */

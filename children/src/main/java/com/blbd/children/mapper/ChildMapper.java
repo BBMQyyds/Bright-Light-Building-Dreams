@@ -16,8 +16,4 @@ import java.util.List;
 @Repository //表示是持久层dao
 public interface ChildMapper extends BaseMapper<Child> {
 
-/**
- * 查询儿童登录信息
- */
-List<Child> queryList(Child child);
 }
