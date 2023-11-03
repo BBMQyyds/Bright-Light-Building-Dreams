@@ -1,9 +1,15 @@
 package com.blbd.children.controller;
 
 
+import com.blbd.children.dao.entity.Task;
+import com.blbd.children.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,6 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/children/task")
 public class TaskController {
+    @Autowired
+    private TaskService taskService;
+
+    @GetMapping("/list")
+    public List<Task> getTaskList(){
+        return taskService.list();
+    }
 
 }
 

@@ -20,3 +20,8 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
+
+
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
