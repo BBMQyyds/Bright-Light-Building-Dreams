@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
 public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+
     private String id;
     @TableField("value")
     private Integer value;

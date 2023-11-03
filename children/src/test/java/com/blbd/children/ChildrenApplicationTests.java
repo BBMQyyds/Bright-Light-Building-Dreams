@@ -3,9 +3,11 @@ package com.blbd.children;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
+import com.blbd.children.dao.entity.Subject;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
+import com.blbd.children.mapper.SubjectMapper;
 import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskService;
 import org.junit.jupiter.api.Test;
@@ -31,6 +33,8 @@ class ChildrenApplicationTests {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private SubjectMapper subjectMapper;
     @Test
     void contextLoads() {
         List<Child> childrenList = childMapper.selectList(null);
@@ -43,9 +47,9 @@ class ChildrenApplicationTests {
         taskMapper.selectList(null).forEach(System.out::println);
     }
     @Test
-    void insert() {
-        Task task = new Task();
-        taskMapper.insert(task);
+    void QueryOneSubject() {
+        Subject subjects = subjectMapper.selectOne(Wrappers.<Subject>lambdaQuery().eq(Subject::getId, "1"));
+        System.out.println(subjects);
     }
     @Test
     void loginChild(){

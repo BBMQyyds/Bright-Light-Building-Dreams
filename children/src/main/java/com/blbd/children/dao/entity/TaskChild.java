@@ -30,13 +30,13 @@ public class TaskChild implements Serializable {
     /**
      * 孩子ID，复合主键，外键
      */
-    @TableId
+//    @TableId
     private String childId;
 
     /**
      * 任务ID，复合主键，外键
      */
-    @TableId
+//    @TableId
     private String taskId;
 
     /**
