@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * <p>
  *  服务类
- *  查看已提交未批改任务
- *  查看已批改（已完成）任务
- *  根据任务名查询任务列表
+ *  孩子-任务相关：
+ *      查看已提交未批改任务
+ *      查看已批改（已完成）任务
  * </p>
  *
  * @author sq
@@ -19,5 +19,15 @@ import java.util.List;
  */
 public interface TaskChildService extends IService<TaskChild> {
 
+    /**
+     * 查看已提交未批改任务--已提交任务
+     */
+    List<Task> getSubmittedUncorrectedTasks();
+
+
+    /**
+     * 查看已批改（已完成）任务--已完成任务
+     */
+    List<Task> getCorrectedTasks();
 
 }
