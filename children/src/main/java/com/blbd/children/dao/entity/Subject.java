@@ -21,11 +21,12 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("subject")
-//@ApiModel(value="Subject对象", description="")
+//@ApiModel(value="Subject对象", description="商品/可兑换物品")
 public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id",type = IdType.ASSIGN_UUID)
     private String id;
 
     private Integer value;
@@ -36,5 +37,6 @@ public class Subject implements Serializable {
 
     private String name;
 
+    private String subPhoto;
 
 }
