@@ -60,7 +60,7 @@
 //        //4、策略配置
 //        StrategyConfig strategy = new StrategyConfig();
 //        //设置表名映射，重点要改的地方
-//        strategy.setInclude("task");
+//        strategy.setInclude("order");
 //        //设置包的命名规则，下划线转驼峰命名
 //        strategy.setNaming(NamingStrategy.underline_to_camel);
 //        //列,数据库字段
