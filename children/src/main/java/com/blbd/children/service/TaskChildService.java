@@ -21,11 +21,11 @@ public interface TaskChildService extends IService<TaskChild> {
     /**
      * 查看已提交未批改任务--已提交任务
      */
-    List<Task> getSubmittedUncorrectedTasks();
+    List<Task> getSubmittedUncorrectedTasksByChildId(String childId);
 
 
     /**
      * 查看已批改（已完成）任务--已完成任务
      */
-    List<Task> getCorrectedTasks();
+    List<Task> getCorrectedTasks(String childId);
 }
