@@ -6,7 +6,9 @@ import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
+import com.blbd.children.mapper.TaskChildMapper;
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.service.TaskChildService;
 import com.blbd.children.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ class ChildrenApplicationTests {
     @Autowired
     private TaskService taskService;
 
+
+
     @Test
     void contextLoads() {
         List<Child> childrenList = childMapper.selectList(null);
@@ -39,20 +43,23 @@ class ChildrenApplicationTests {
     }
 
     @Test
-    void testSelectAllTasks() {
-        taskMapper.selectList(null).forEach(System.out::println);
-    }
-    @Test
-    void insert() {
-        Task task = new Task();
-        taskMapper.insert(task);
-    }
-    @Test
     void loginChild(){
         //将输入的数据与数据库进行匹配，看是否存在
         Child child1 = childMapper.selectOne(Wrappers.<Child>lambdaQuery().eq(Child::getUsername, "user1").eq(Child::getPassword, "password1"));
         System.out.println(child1);
     }
+
+    @Test
+    void testSelectAllTasks() {
+        taskMapper.selectList(null).forEach(System.out::println);
+    }
+
+    @Test
+    void insert() {
+        Task task = new Task();
+        taskMapper.insert(task);
+    }
+
     @Test
     void taskmustDoNot(){
         Child child = new Child();

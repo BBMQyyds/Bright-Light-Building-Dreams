@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
- *
  * @author sq
  * @since 2023-11-01
+ *
+ * 注意数据库认为已提交即已完成
  */
 @Service
 public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild> implements TaskChildService {
@@ -30,13 +30,14 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     private TaskMapper taskMapper;
 
     /**
-     * 查看已提交未批改任务--
+     * 查看当前孩子的已提交未批改任务--
      */
     @Override
-    public List<Task> getSubmittedUncorrectedTasks() {
+    public List<Task> getSubmittedUncorrectedTasksByChildId(String childId) {
         HashMap<String, Object> map = new HashMap<>();
 
         //自定义要查询的
+        map.put("child_id",childId);
         map.put("is_completed",1);
         map.put("is_corrected",0);
 
@@ -65,12 +66,29 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     }
 
     /**
-     * 查看已批改（已完成）任务--已完成任务
+     * 查看当前孩子的已批改（已完成）任务--已完成任务
      */
     @Override
-    public List<Task> getCorrectedTasks() {
-        return null;
-    }
+    public List<Task> getCorrectedTasks(String childId) {
+        HashMap<String, Object> map = new HashMap<>();
 
+        //自定义要查询的
+        map.put("child_id",childId);
+        map.put("is_corrected",1);
+
+        List<TaskChild> taskChildList = taskChildMapper.selectByMap(map);
+
+        List<String> taskIds = taskChildList.stream().map(TaskChild::getTaskId).collect(Collectors.toList());
+
+        if (taskIds.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        QueryWrapper<Task> taskQW = new QueryWrapper<>();
+        taskQW.in("id",taskIds);
+        List<Task> tasks = taskMapper.selectList(taskQW);
+
+        return tasks;
+    }
 
 }
