@@ -1,6 +1,7 @@
 package com.neu.administrator.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.neu.administrator.constants.MqConstants;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
 import com.neu.administrator.model.po.Administrator;
@@ -10,6 +11,7 @@ import com.neu.base.model.RestResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ public class AdministratorInfoController {
 
     @Autowired
     private AdministratorInfoService administratorInfoService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @ApiOperation("管理员登录接口")
     @PostMapping("/login")
@@ -76,24 +81,26 @@ public class AdministratorInfoController {
         }
     }
 
-    @ApiOperation("更新es文档数据")
-    @PutMapping("/updateEs")
-    public void updateEs() throws IOException {
-        administratorInfoService.updateIndex();
-    }
 
-    @ApiOperation("删除es孩子数据")
+    @ApiOperation("删除孩子数据")
     @DeleteMapping("/delete")
     public RestResponse<String> deleteChildById(@RequestBody Child child){
-        administratorInfoService.deleteById(child.getId());
+//        administratorInfoService.deleteById(child.getId());
+        administratorInfoService.deleteByIdEs(child.getId());
+        //发送mq同步数据
+        rabbitTemplate.convertAndSend(MqConstants.CHILD_EXCHANGE,MqConstants.CHILD_DELETE_KEY,child.getId());
         return RestResponse.success("删除成功");
+
     }
 
-    @ApiOperation("新增或修改es孩子数据")
+    @ApiOperation("新增或修改孩子数据")
     @PutMapping("/save")
     public RestResponse<String> saveChildById(@RequestBody Child child ){
-        administratorInfoService.saveById(child);
-        return RestResponse.success("新增成功");
+        administratorInfoService.saveByIdEs(child);
+        //发送mq同步数据
+        rabbitTemplate.convertAndSend(MqConstants.CHILD_EXCHANGE,MqConstants.CHILD_INSERT_KEY,child);
+//        administratorInfoService.saveById(child);
+        return RestResponse.success("操作成功");
     }
 
     @ApiOperation("es分页搜索")

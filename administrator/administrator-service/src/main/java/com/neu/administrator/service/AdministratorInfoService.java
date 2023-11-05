@@ -16,14 +16,19 @@ public interface AdministratorInfoService extends IService<Administrator> {
     //分页搜索
     PageResult search(RequestParams params) ;
 
-    //删除
+    //删除mq同步
     void deleteById(String id);
 
-    //改查
+    //改查mq同步
     void saveById(Child child);
 
-    //更新数据
-    public void updateIndex () throws IOException;
+    //es删除
+    void deleteByIdEs(String id);
+
+    //es保存
+    void saveByIdEs(Child child);
+
+
 
 
 

@@ -11,6 +11,7 @@ import com.neu.administrator.model.es.RequestParams;
 import com.neu.administrator.model.po.Administrator;
 import com.neu.administrator.model.po.Child;
 import com.neu.administrator.service.AdministratorInfoService;
+import com.neu.administrator.service.ChildService;
 import com.neu.base.exception.BlbdException;
 import com.neu.base.model.RestResponse;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -48,27 +49,12 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
+
+
     @Autowired
     private ChildMapper childMapper;
 
-    public void updateIndex () throws IOException {
-        //批量查询孩子数据
-        List<Child> children=childMapper.selectList(null);
-        System.out.println(children.toString());
 
-        //批量插入数据
-        BulkRequest request=new BulkRequest();
-        //准备参数
-        for(Child child:children){
-            request.add(
-                    new IndexRequest("child")
-                            .id(child.getId())
-                            .source(JSON.toJSONString(child),XContentType.JSON)
-            );
-        }
-        restHighLevelClient.bulk(request,RequestOptions.DEFAULT);
-
-    }
 
     public PageResult search(RequestParams params)  {
     try{
@@ -164,19 +150,41 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         }
         return new PageResult(total,children);
     }
-
+    //mq监听数据库
     public void deleteById(String id) {
-        try{
-            //创建request
-            DeleteRequest request=new DeleteRequest("child",id);
-            //发送请求
-            restHighLevelClient.delete(request, RequestOptions.DEFAULT);
-        }catch (IOException e){
-            throw new BlbdException("删除学生失败");
-        }
+        childMapper.deleteById(id);
     }
 
     public void saveById(Child child) {
+            //从数据库里查询是否有该孩子
+            Child temp=childMapper.selectById(child.getId());
+
+            //如果孩子不存在,则保存
+            if(temp==null){
+               childMapper.insert(child);
+            }else {
+                //如果孩子存在，则更新
+                childMapper.updateById(child);
+            }
+
+    }
+
+
+    //es
+    //删除文档信息
+    public void deleteByIdEs(String id) {
+        try{
+            //1.准备Request
+            DeleteRequest request=new DeleteRequest("child",id);
+            //2.发送请求
+            restHighLevelClient.delete(request,RequestOptions.DEFAULT);
+        }catch (IOException e){
+            throw new BlbdException("删除失败");
+        }
+
+    }
+    //更新或新增文档信息
+    public void saveByIdEs(Child child) {
         try{
             //从文档库里查询是否有该孩子
             GetRequest getRequest=new GetRequest("child").id(child.getId());
@@ -203,4 +211,5 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
             throw new BlbdException("操作失败");
         }
     }
+
 }
