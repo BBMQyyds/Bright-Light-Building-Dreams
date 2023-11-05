@@ -92,7 +92,7 @@ public class AdministratorInfoController {
     @ApiOperation("新增或修改es孩子数据")
     @PutMapping("/save")
     public RestResponse<String> saveChildById(@RequestBody Child child ){
-        administratorInfoService.saveById(child.getId());
+        administratorInfoService.saveById(child);
         return RestResponse.success("新增成功");
     }
 

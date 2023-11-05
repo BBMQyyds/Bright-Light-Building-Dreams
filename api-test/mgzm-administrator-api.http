@@ -17,3 +17,44 @@ Content-Type: application/json
 }
 
 
+###分页搜索查询小孩
+GET {{administrator_host}}/administrator/user/search
+Content-Type: application/json
+
+{
+  "page": "1",
+  "size": "5",
+  "name": "chenyucy"
+}
+
+###新增小孩
+PUT {{administrator_host}}/administrator/user/save
+Content-Type: application/json
+
+{
+  "id": "4",
+  "username": "20210004",
+  "score": "100",
+  "password": "123456",
+  "name": "cycy",
+  "grade": "D",
+  "locate": "b504",
+  "duty": "4",
+  "completed_tasks": "2"
+}
+
+###修改小孩
+PUT {{administrator_host}}/administrator/user/save
+Content-Type: application/json
+
+{
+  "id": "4",
+  "name": "chenyucy",
+  "grade": "D"
+
+}
+
+
+
+
+

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
 import com.neu.administrator.model.po.Administrator;
+import com.neu.administrator.model.po.Child;
 import com.neu.base.model.RestResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -19,7 +20,7 @@ public interface AdministratorInfoService extends IService<Administrator> {
     void deleteById(String id);
 
     //改查
-    void saveById(String id);
+    void saveById(Child child);
 
     //更新数据
     public void updateIndex () throws IOException;

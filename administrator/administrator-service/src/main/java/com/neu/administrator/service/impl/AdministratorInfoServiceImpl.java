@@ -18,12 +18,15 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -173,23 +176,23 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         }
     }
 
-    public void saveById(String id) {
+    public void saveById(Child child) {
         try{
-            //根据id从数据库查询用户
-            LambdaQueryWrapper<Child> queryWrapper=new LambdaQueryWrapper<>();
-            queryWrapper.eq(Child::getId,id);
-            Child child=childMapper.selectOne(queryWrapper);
+            //从文档库里查询是否有该孩子
+            GetRequest getRequest=new GetRequest("child").id(child.getId());
+            boolean exist=restHighLevelClient.exists(getRequest,RequestOptions.DEFAULT);
+
             //如果孩子不存在,则保存
-            if(child==null){
+            if(!exist){
                 //创建request
-                IndexRequest request=new IndexRequest("child").id(id);
+                IndexRequest request=new IndexRequest("child").id(child.getId());
                 //准备参数
                 request.source(JSON.toJSONString(child), XContentType.JSON);
                 //发送请求
                 restHighLevelClient.index(request,RequestOptions.DEFAULT);
             }else {
                 //如果孩子存在，则更新
-                UpdateRequest request=new UpdateRequest("child",id);
+                UpdateRequest request=new UpdateRequest("child",child.getId());
                 //准备参数
                 request.doc(JSON.toJSONString(child),XContentType.JSON);
                 //发送请求
