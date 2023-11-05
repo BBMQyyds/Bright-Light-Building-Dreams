@@ -10,12 +10,13 @@
 
     <modules>
         <module>Bright-Light-Building-Dreams-Base</module>
-        <module>Blbd-generator</module>
+        <module>administrator</module>
+        <!--        <module>Blbd-generator</module>-->
     </modules>
 
-<!--父工程不能忘记pom-->
-    <packaging>pom</packaging>
 
+    <!--父工程不能忘记pom-->
+    <packaging>pom</packaging>
 
 
     <properties>
@@ -244,6 +245,7 @@
 
             <!--责处理项目资源文件并拷贝到输出目录，如果有额外的资源文件目录则需要配置-->
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.0</version>
@@ -253,59 +255,59 @@
                     <useDefaultDelimiters>true</useDefaultDelimiters>
                 </configuration>
             </plugin>
+
+
+
+
         </plugins>
     </build>
 
 
-
-
-
-
     <!--    <properties>-->
-<!--        <java.version>1.8</java.version>-->
-<!--    </properties>-->
-<!--    <dependencies>-->
+    <!--        <java.version>1.8</java.version>-->
+    <!--    </properties>-->
+    <!--    <dependencies>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
+    <!--        <dependency>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-starter-web</artifactId>-->
+    <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>com.mysql</groupId>-->
-<!--            <artifactId>mysql-connector-j</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+    <!--        <dependency>-->
+    <!--            <groupId>com.mysql</groupId>-->
+    <!--            <artifactId>mysql-connector-j</artifactId>-->
+    <!--            <scope>runtime</scope>-->
+    <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
+    <!--        <dependency>-->
+    <!--            <groupId>org.projectlombok</groupId>-->
+    <!--            <artifactId>lombok</artifactId>-->
+    <!--            <optional>true</optional>-->
+    <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-test</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+    <!--        <dependency>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-starter-test</artifactId>-->
+    <!--            <scope>test</scope>-->
+    <!--        </dependency>-->
 
-<!--    </dependencies>-->
+    <!--    </dependencies>-->
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <excludes>-->
-<!--                        <exclude>-->
-<!--                            <groupId>org.projectlombok</groupId>-->
-<!--                            <artifactId>lombok</artifactId>-->
-<!--                        </exclude>-->
-<!--                    </excludes>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <excludes>-->
+    <!--                        <exclude>-->
+    <!--                            <groupId>org.projectlombok</groupId>-->
+    <!--                            <artifactId>lombok</artifactId>-->
+    <!--                        </exclude>-->
+    <!--                    </excludes>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 
 </project>
