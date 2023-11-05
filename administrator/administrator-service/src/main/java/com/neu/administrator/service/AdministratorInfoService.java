@@ -3,8 +3,10 @@ package com.neu.administrator.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
+import com.neu.administrator.model.es.SearchVolParams;
 import com.neu.administrator.model.po.Administrator;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Volunteer;
 import com.neu.base.model.RestResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,7 +31,11 @@ public interface AdministratorInfoService extends IService<Administrator> {
     void saveByIdEs(Child child);
 
 
+    void deleteVolunteerById(String id);
 
 
 
+    void saveVolunteerById(Volunteer volunteer);
+
+    PageResult searchVol(SearchVolParams params);
 }

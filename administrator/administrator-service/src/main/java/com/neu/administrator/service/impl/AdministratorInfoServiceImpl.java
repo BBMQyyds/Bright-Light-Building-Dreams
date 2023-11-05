@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neu.administrator.mapper.AdministratorMapper;
 import com.neu.administrator.mapper.ChildMapper;
+import com.neu.administrator.mapper.VolunteerMapper;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
+import com.neu.administrator.model.es.SearchVolParams;
+import com.neu.administrator.model.es.VolunteerConstants;
 import com.neu.administrator.model.po.Administrator;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Volunteer;
 import com.neu.administrator.service.AdministratorInfoService;
 import com.neu.administrator.service.ChildService;
 import com.neu.base.exception.BlbdException;
@@ -54,28 +58,31 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
     @Autowired
     private ChildMapper childMapper;
 
+    @Autowired
+    private VolunteerMapper volunteerMapper;
+
 
 
     public PageResult search(RequestParams params)  {
-    try{
-        //1.准备Request
-        SearchRequest request=new SearchRequest("child");
-        //2.准备请求参数
-        //2.1 query
-        buildBasicQuery(params,request);
-        //2.2分页
-        int page=params.getPage();
-        int size=params.getSize();
-        request.source().from((page-1)*size).size(size);
-        //todo 排序
-        //3.发送请求
-        SearchResponse response=restHighLevelClient.search(request,RequestOptions.DEFAULT);
-        //解析响应
-        return handleResponse(response);
+        try{
+            //1.准备Request
+            SearchRequest request=new SearchRequest("child");
+            //2.准备请求参数
+            //2.1 query
+            buildBasicQuery(params,request);
+            //2.2分页
+            int page=params.getPage();
+            int size=params.getSize();
+            request.source().from((page-1)*size).size(size);
+            //todo 排序
+            //3.发送请求
+            SearchResponse response=restHighLevelClient.search(request,RequestOptions.DEFAULT);
+            //解析响应
+            return handleResponse(response);
 
-    }catch (IOException e){
-        throw new BlbdException("搜索失败");
-     }
+        }catch (IOException e){
+            throw new BlbdException("搜索失败");
+        }
     }
 
     private void buildBasicQuery(RequestParams params,SearchRequest request){
@@ -140,13 +147,13 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
 //                }
 //            }
 
-                //todo 排序信息
+            //todo 排序信息
 //                Object[] sortValues=hit.getSortValues();
 //                if(sortValues.length>0){
 //                    child.setScore(Integer.parseInt(sortValues[0].toString()));
 //                }
-                //放入集合
-                children.add(child);
+            //放入集合
+            children.add(child);
         }
         return new PageResult(total,children);
     }
@@ -156,16 +163,16 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
     }
 
     public void saveById(Child child) {
-            //从数据库里查询是否有该孩子
-            Child temp=childMapper.selectById(child.getId());
+        //从数据库里查询是否有该孩子
+        Child temp=childMapper.selectById(child.getId());
 
-            //如果孩子不存在,则保存
-            if(temp==null){
-               childMapper.insert(child);
-            }else {
-                //如果孩子存在，则更新
-                childMapper.updateById(child);
-            }
+        //如果孩子不存在,则保存
+        if(temp==null){
+            childMapper.insert(child);
+        }else {
+            //如果孩子存在，则更新
+            childMapper.updateById(child);
+        }
 
     }
 
@@ -212,4 +219,67 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         }
     }
 
+
+    //志愿者
+
+    @Override
+    public void deleteVolunteerById(String id) {
+        volunteerMapper.deleteById(id);
+    }
+
+    @Override
+    public void saveVolunteerById(Volunteer volunteer) {
+        //从数据库里查询是否有该志愿者
+        Child temp=childMapper.selectById(volunteer.getVolId());
+
+        //如果孩子不存在,则保存
+        if(temp==null){
+            volunteerMapper.insert(volunteer);
+        }else {
+            //如果孩子存在，则更新
+            volunteerMapper.updateById(volunteer);
+        }
+    }
+
+
+
+    public void deleteVolunteerByIdEs(String id) {
+        try{
+            //1.准备Request
+            DeleteRequest request=new DeleteRequest("volunteer",id);
+            //2.发送请求
+            restHighLevelClient.delete(request,RequestOptions.DEFAULT);
+        }catch (IOException e){
+            throw new BlbdException("删除失败");
+        }
+
+    }
+    //更新或新增文档信息
+    public void saveVolunteerByIdEs(Volunteer volunteer) {
+        try{
+            //从文档库里查询是否有该孩子
+            GetRequest getRequest=new GetRequest("volunteer").id(volunteer.getVolId());
+            boolean exist=restHighLevelClient.exists(getRequest,RequestOptions.DEFAULT);
+
+            //如果志愿者不存在,则保存
+            if(!exist){
+                //创建request
+                IndexRequest request=new IndexRequest("volunteer").id(volunteer.getVolId());
+                //准备参数
+                request.source(JSON.toJSONString(volunteer), XContentType.JSON);
+                //发送请求
+                restHighLevelClient.index(request,RequestOptions.DEFAULT);
+            }else {
+                //如果孩子存在，则更新
+                UpdateRequest request=new UpdateRequest("volunteer",volunteer.getVolId());
+                //准备参数
+                request.doc(JSON.toJSONString(volunteer),XContentType.JSON);
+                //发送请求
+                restHighLevelClient.update(request,RequestOptions.DEFAULT);
+            }
+
+        }catch (IOException e){
+            throw new BlbdException("操作失败");
+        }
+    }
 }

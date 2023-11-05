@@ -2,8 +2,12 @@ package com.neu.administrator;
 
 import com.alibaba.fastjson.JSON;
 import com.neu.administrator.mapper.ChildMapper;
+import com.neu.administrator.mapper.VolunteerMapper;
 import com.neu.administrator.model.es.ChildConstants;
+import com.neu.administrator.model.es.VolunteerConstants;
+import com.neu.administrator.model.es.VolunteerConstants.*;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Volunteer;
 import com.neu.administrator.service.AdministratorInfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.statement.create.index.CreateIndex;
@@ -43,6 +47,9 @@ public class AdministratorTests {
     @Autowired
     private ChildMapper childMapper;
 
+    @Autowired
+    private VolunteerMapper volunteerMapper;
+
 
     @Autowired
     @Test
@@ -74,6 +81,10 @@ public class AdministratorTests {
         client.indices().create(request, RequestOptions.DEFAULT);
 
     }
+
+
+
+
 
     //判断索引库是否存在
     @Test
@@ -128,6 +139,72 @@ public class AdministratorTests {
     }
 
 
+
+    //创建索引库
+    @Test
+    public void createVolunteerIndex() throws IOException{
+        CreateIndexRequest request=new CreateIndexRequest("volunteer");
+        request.source(VolunteerConstants.VOL_MAPPING_TEMPLATE, XContentType.JSON);
+        //client.indices()方法的返回值是IndicesClient类型，封装了所有与索引库操作有关的方法。
+        client.indices().create(request, RequestOptions.DEFAULT);
+
+    }
+
+
+
+
+
+    //判断索引库是否存在
+    @Test
+    public void testExistVolunteerIndex() throws IOException {
+        GetIndexRequest request=new GetIndexRequest("volunteer");
+        boolean exists=client.indices().exists(request,RequestOptions.DEFAULT);
+        System.out.println(exists?"索引库存在":"索引库不存在");
+    }
+
+
+    //批量插入数据
+    @Test
+    public void testVolunteerBulkRequest() throws IOException{
+        //批量查询志愿者数据
+        List<Volunteer> volunteers=volunteerMapper.selectList(null);
+        System.out.println(volunteers.toString());
+
+        //批量插入数据
+        BulkRequest request=new BulkRequest();
+        //准备参数
+        for(Volunteer volunteer:volunteers){
+            request.add(
+                    new IndexRequest("volunteer")
+                            .id(volunteer.getVolId())
+                            .source(JSON.toJSONString(volunteer),XContentType.JSON)
+            );
+        }
+        client.bulk(request,RequestOptions.DEFAULT);
+
+    }
+
+    //查询文档数据
+    @Test
+    public void testVolunteerGetDocumentById() throws IOException{
+        GetRequest request=new GetRequest("volunteer","22");
+        GetResponse response=client.get(request,RequestOptions.DEFAULT);
+        String json=response.getSourceAsString();
+        Volunteer child=JSON.parseObject(json,Volunteer.class);
+        System.out.println(child.toString());
+
+    }
+
+    //修改文档数据
+    @Test
+    public void updateVolunteerDocumentById() throws IOException{
+        UpdateRequest request=new UpdateRequest("volunteer","22");
+        request.doc(
+                "name","sb"
+        );
+        client.update(request,RequestOptions.DEFAULT);
+
+    }
 
 
 

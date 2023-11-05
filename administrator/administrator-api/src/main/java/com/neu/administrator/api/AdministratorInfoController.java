@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.neu.administrator.constants.MqConstants;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
+import com.neu.administrator.model.es.SearchVolParams;
 import com.neu.administrator.model.po.Administrator;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Volunteer;
 import com.neu.administrator.service.AdministratorInfoService;
 import com.neu.base.model.RestResponse;
 import io.swagger.annotations.Api;
@@ -109,6 +111,28 @@ public class AdministratorInfoController {
         return RestResponse.success(administratorInfoService.search(params));
     }
 
+
+
+
+    @ApiOperation("删除志愿者数据")
+    @DeleteMapping("/volunteer/delete")
+    public RestResponse<String> deleteVolunteerById(String id){
+        administratorInfoService.deleteVolunteerById(id);
+        return RestResponse.success("删除成功");
+    }
+
+    @ApiOperation("新增或修改es志愿者数据")
+    @PutMapping("/volunteer/save")
+    public RestResponse<String> saveVolunteerById(@RequestBody Volunteer volunteer ){
+        administratorInfoService.saveVolunteerById(volunteer);
+        return RestResponse.success("操作成功");
+    }
+
+    @ApiOperation("es分页搜索志愿者")
+    @GetMapping("/volunteer/search")
+    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
+        return RestResponse.success(administratorInfoService.searchVol(params));
+    }
 
 
 

@@ -4,17 +4,18 @@ import com.neu.administrator.model.po.Child;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
-public class PageResult {
+public class  PageResult<T> {
     private Long total;
-    private List<Child> children;
+    private List<T> objects;
 
     public PageResult() {
     }
 
-    public PageResult(Long total, List<Child> children) {
+    public PageResult(Long total, List<T> objects) {
         this.total = total;
-        this.children = children;
+        this.objects = objects;
     }
 }
