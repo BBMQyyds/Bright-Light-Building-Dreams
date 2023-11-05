@@ -1,6 +1,7 @@
 package com.blbd.children.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blbd.children.dao.dto.ScoreDTO;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.TaskChildMapper;
@@ -90,5 +91,14 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
 
         return tasks;
     }
+    /**
+     * 查看所有的获得的积分记录
+     */
+    public List<ScoreDTO> viewTaskScore(String childId) {
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("child_id",childId);
+        map.put("is_corrected",1);
 
+        return null;
+    }
 }
