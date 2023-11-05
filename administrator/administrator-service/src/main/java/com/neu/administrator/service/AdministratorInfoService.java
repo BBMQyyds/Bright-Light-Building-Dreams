@@ -38,4 +38,6 @@ public interface AdministratorInfoService extends IService<Administrator> {
     void saveVolunteerById(Volunteer volunteer);
 
     PageResult searchVol(SearchVolParams params);
+    void deleteVolunteerByIdEs(String id);
+    void saveVolunteerByIdEs(Volunteer volunteer);
 }

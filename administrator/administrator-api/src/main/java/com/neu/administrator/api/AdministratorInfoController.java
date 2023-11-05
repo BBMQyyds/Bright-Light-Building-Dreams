@@ -118,6 +118,7 @@ public class AdministratorInfoController {
     @DeleteMapping("/volunteer/delete")
     public RestResponse<String> deleteVolunteerById(String id){
         administratorInfoService.deleteVolunteerById(id);
+        rabbitTemplate.convertAndSend(MqConstants.VOL_EXCHANGE,MqConstants.VOL_DELETE_KEY,id);
         return RestResponse.success("删除成功");
     }
 
@@ -125,6 +126,7 @@ public class AdministratorInfoController {
     @PutMapping("/volunteer/save")
     public RestResponse<String> saveVolunteerById(@RequestBody Volunteer volunteer ){
         administratorInfoService.saveVolunteerById(volunteer);
+        rabbitTemplate.convertAndSend(MqConstants.VOL_EXCHANGE,MqConstants.VOL_INSERT_KEY,volunteer);
         return RestResponse.success("操作成功");
     }
 

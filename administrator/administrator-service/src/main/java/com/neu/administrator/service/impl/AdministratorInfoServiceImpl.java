@@ -230,7 +230,7 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
     @Override
     public void saveVolunteerById(Volunteer volunteer) {
         //从数据库里查询是否有该志愿者
-        Child temp=childMapper.selectById(volunteer.getVolId());
+        Volunteer temp=volunteerMapper.selectById(volunteer.getVolId());
 
         //如果孩子不存在,则保存
         if(temp==null){
@@ -242,6 +242,106 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
     }
 
 
+
+
+//    志愿者
+
+    @Override
+    public PageResult searchVol(SearchVolParams params) {
+        try{
+            //1.准备Request
+            SearchRequest request=new SearchRequest("volunteer");
+            //2.准备请求参数
+            //2.1 query
+            buildVolBasicQuery(params,request);
+            //2.2分页
+            int page=params.getPage();
+            int size=params.getSize();
+            request.source().from((page-1)*size).size(size);
+            //todo 排序
+            //3.发送请求
+            SearchResponse response=restHighLevelClient.search(request,RequestOptions.DEFAULT);
+            //解析响应
+            return handleVolResponse(response);
+
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new BlbdException("搜索失败");
+        }
+    }
+
+    private void buildVolBasicQuery(SearchVolParams params,SearchRequest request){
+        //1.准备Boolean查询
+        BoolQueryBuilder boolQuery= QueryBuilders.boolQuery();
+        //1.1关键字搜索，match查询，放到must里
+        //name
+        String name=params.getVolName();
+        if(StringUtils.isNoneBlank(name)){
+            //不为空，根据关键字查询
+            boolQuery.must(QueryBuilders.matchQuery("name",name));
+        }else {
+            //为空，查询全部
+            boolQuery.must(QueryBuilders.matchAllQuery());
+        }
+        //根据分数查询
+        String location =params.getVolLocate();
+        if(location!=null){
+            //不为空，根据关键字查询
+            boolQuery.must(QueryBuilders.matchQuery("location",location));
+        }else {
+            //为空，查询全部
+            boolQuery.must(QueryBuilders.matchAllQuery());
+        }
+
+        String tel=params.getVolTel();
+        if(StringUtils.isNoneBlank((tel))){
+            boolQuery.must(QueryBuilders.matchQuery("vol_tel",tel));
+        }else {
+            //为空，查询全部
+            boolQuery.must(QueryBuilders.matchAllQuery());
+        }
+
+        //设置查询条件
+        request.source().query(boolQuery);
+
+    }
+
+    private PageResult handleVolResponse(SearchResponse response){
+        SearchHits searchHits= response.getHits();
+        //1.总条数
+        long total=searchHits.getTotalHits().value;
+        //2.获取文档数组
+        SearchHit[] hits=searchHits.getHits();
+        //3.遍历
+        List<Volunteer> volunteers=new ArrayList<>(hits.length);
+        for(SearchHit hit:hits){
+            //获取source
+            String json=hit.getSourceAsString();
+            //反序列化，非高亮的
+            Volunteer volunteer= JSON.parseObject(json,Volunteer.class);
+            //todo 处理高亮结果
+//            Map<String, HighlightField> map=hit.getHighlightFields();
+//            if(map!=null && !map.isEmpty()) {
+//                //根据字段名获取高凉解过
+//                HighlightField highlightField = map.get("name");
+//                if (highlightField != null) {
+//                    //获取高亮结果字符串数组的第一个元素
+//                    String hName = highlightField.getFragments()[0].toString();
+//                    //把高亮结果放到对象中
+//                    child.setName(hName);
+//                }
+//            }
+
+            //todo 排序信息
+//                Object[] sortValues=hit.getSortValues();
+//                if(sortValues.length>0){
+//                    child.setScore(Integer.parseInt(sortValues[0].toString()));
+//                }
+            //放入集合
+            volunteers.add(volunteer);
+        }
+        return new PageResult(total,volunteers);
+    }
 
     public void deleteVolunteerByIdEs(String id) {
         try{

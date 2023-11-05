@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.neu.administrator.mapper.ChildMapper;
 import com.neu.administrator.mapper.VolunteerMapper;
 import com.neu.administrator.model.es.ChildConstants;
+import com.neu.administrator.model.es.PageResult;
+import com.neu.administrator.model.es.SearchVolParams;
 import com.neu.administrator.model.es.VolunteerConstants;
 import com.neu.administrator.model.es.VolunteerConstants.*;
 import com.neu.administrator.model.po.Child;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,7 +54,9 @@ public class AdministratorTests {
     private VolunteerMapper volunteerMapper;
 
 
-    @Autowired
+
+
+
     @Test
     public void LoginTest(){
 
@@ -206,6 +211,52 @@ public class AdministratorTests {
 
     }
 
+
+
+
+    //测试志愿者CRUD
+    @Test
+    public void searchVolTest(){
+        SearchVolParams params=new SearchVolParams();
+        params.setVolName("吴昊");
+        params.setPage(1);
+        params.setSize(3);
+
+        PageResult pageResult = administratorInfoService.searchVol(params);
+
+        log.info(pageResult.toString());
+    }
+
+
+
+    @Test
+    @Transactional
+    public void deleteVolunteerByIdTest(){
+        administratorInfoService.deleteVolunteerById("001");
+    }
+
+    @Test
+    @Transactional
+    public void saveVolunteerByIdTest(){
+        Volunteer volunteer=new Volunteer();
+
+        volunteer.setVolId("001");
+        administratorInfoService.saveVolunteerById(volunteer);
+    }
+
+    @Test
+    @Transactional
+    public void selectByVolId(){
+        Volunteer temp=volunteerMapper.selectByVolId("001");
+        log.info(temp.toString());
+    }
+
+    @Test
+    @Transactional
+    public void updateByVolId(){
+        Volunteer volunteer=new Volunteer();
+
+    }
 
 
 
