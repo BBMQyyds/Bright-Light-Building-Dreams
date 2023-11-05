@@ -17,8 +17,11 @@ import java.util.List;
 public interface PurchaseService extends IService<Purchase> {
     /**
      * 查看当前孩子的订单列表
-     * @return
      */
     public List<PurchaseDTO> getListByChildId(String childId);
 
+    /**
+     * 插入订单
+     */
+    public int addPurchase(Purchase purchase);
 }

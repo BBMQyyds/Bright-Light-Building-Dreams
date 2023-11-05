@@ -19,7 +19,7 @@
 //@Configuration
 //@EnableSwagger2
 //public class SwaggerConfig {
-//    //配置swagger的docket的bean实例
+//    /*//配置swagger的docket的bean实例
 //    //没有set方法，只能通过构造器
 //    //@Profile("prod")
 //    @Bean
@@ -47,6 +47,6 @@
 //                "MIT License",
 //                "https://opensource.org/licenses/MIT",
 //                new ArrayList<>());
-//    }
+//    }*/
 //
 //}
