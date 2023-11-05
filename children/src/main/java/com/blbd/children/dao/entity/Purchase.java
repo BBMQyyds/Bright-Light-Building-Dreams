@@ -1,10 +1,8 @@
 package com.blbd.children.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,15 +42,15 @@ public class Purchase implements Serializable {
     private Integer value;
 
     /**
-     * 订单的兑换时间
+     * 订单的兑换时间,即生成时间
      */
-    @TableField("date")
+    @TableField(fill = FieldFill.INSERT)
     private Date date;
 
     /**
      * 订单的状态(进行中、已完成)
      */
-    @TableField("status")
+    @TableField(fill = FieldFill.INSERT)
     private Boolean status;
 
     /**
