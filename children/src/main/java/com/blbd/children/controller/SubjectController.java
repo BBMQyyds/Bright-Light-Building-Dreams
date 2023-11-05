@@ -38,11 +38,11 @@ public class SubjectController {
         if (subjects.size() == 0){
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(null);
-            httpResponseEntity.setMessage("无可兑换商品");
+            httpResponseEntity.setMessage("无可兑换物品");
         }else {
             httpResponseEntity.setCode("666");
             httpResponseEntity.setData(subjects);
-            httpResponseEntity.setMessage("查询所有商品成功");
+            httpResponseEntity.setMessage("查询所有物品成功");
         }
         return httpResponseEntity;
     }
@@ -53,11 +53,11 @@ public class SubjectController {
         if (subjects == null){
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(null);
-            httpResponseEntity.setMessage("无可兑换商品");
+            httpResponseEntity.setMessage("查询物品详细信息失败");
         }else {
             httpResponseEntity.setCode("666");
             httpResponseEntity.setData(subjects);
-            httpResponseEntity.setMessage("查询所有商品成功");
+            httpResponseEntity.setMessage("查询物品的详细信息成功");
         }
         return httpResponseEntity;
     }
