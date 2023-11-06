@@ -1,6 +1,6 @@
 package com.blbd.children.service;
 
-import com.blbd.children.dao.dto.ScoreDTO;
+import com.blbd.children.dao.dto.ScoreAddDTO;
 import com.blbd.children.mapper.ScoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ScoreService {
         this.scoreMapper = scoreMapper;
     }
 
-    public List<ScoreDTO> getScoreTasks(String childId) {
+    public List<ScoreAddDTO> getScoreTasks(String childId) {
         return scoreMapper.getScoreTasks(childId);
     }
 }

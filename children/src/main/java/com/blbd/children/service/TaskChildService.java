@@ -1,6 +1,6 @@
 package com.blbd.children.service;
 
-import com.blbd.children.dao.dto.ScoreDTO;
+import com.blbd.children.dao.dto.ScoreAddDTO;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -29,5 +29,6 @@ public interface TaskChildService extends IService<TaskChild> {
      * 查看已批改（已完成）任务--已完成任务
      */
     List<Task> getCorrectedTasks(String childId);
+
 
 }

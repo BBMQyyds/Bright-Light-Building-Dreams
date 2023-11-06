@@ -1,6 +1,7 @@
 package com.blbd.children.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
@@ -26,17 +27,15 @@ public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id",type = IdType.ASSIGN_UUID)
     private String id;
-
+    @TableField("value")
     private Integer value;
-
+    @TableField("content")
     private String content;
-
+    @TableField("donate_id")
     private String donateId;
-
+    @TableField("name")
     private String name;
-
     private String subPhoto;
 
 }

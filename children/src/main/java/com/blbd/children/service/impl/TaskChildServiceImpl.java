@@ -1,8 +1,7 @@
 package com.blbd.children.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.blbd.children.dao.dto.ScoreDTO;
+
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.TaskChildMapper;
@@ -32,7 +31,7 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     private TaskChildService taskChildService;
 
     /**
-     * 查看当前孩子的已提交未批改任务--
+     * 查看当前孩子的已提交未批改任务
      */
     @Override
     public List<Task> getSubmittedUncorrectedTasksByChildId(String childId) {
@@ -92,4 +91,5 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
 
         return tasks;
     }
+
 }

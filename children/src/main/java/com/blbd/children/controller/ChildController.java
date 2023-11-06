@@ -49,7 +49,6 @@ public class ChildController {
             httpResponseEntity.setCode("666");
             httpResponseEntity.setData(hasChild);
             httpResponseEntity.setMessage("登录成功");
-
         }
         return httpResponseEntity;
     }

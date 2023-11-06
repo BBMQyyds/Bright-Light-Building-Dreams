@@ -1,17 +1,15 @@
 package com.blbd.children.dao.dto;
 
-import lombok.Data;
-
-import java.util.Date;
-@Data
 public class ScoreDTO {
 
-//    积分值
-    private String num;
-//    获得积分的日期
-    private Date date;
-//    任务名称
-    private String taskName;
-//    类型
-    private final String kind = "学习任务";
+        //    每一条记录的唯一标识（taskChild）
+        private String id;
+        //    获得的积分值
+        private Integer score;
+        //    做的什么任务
+        private String taskName;
+        //     收入——学习任务    支出——积分商城
+        private String kind;
+
 }
+

@@ -1,5 +1,5 @@
 package com.blbd.children.mapper;
-import com.blbd.children.dao.dto.ScoreDTO;
+import com.blbd.children.dao.dto.ScoreAddDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -14,6 +14,6 @@ public interface ScoreMapper {
             "INNER JOIN child c ON tc.child_id = c.id " +
             "INNER JOIN task t ON tc.task_id = t.id " +
             "WHERE tc.is_corrected = 1 AND c.id = #{childId}")
-    List<ScoreDTO> getScoreTasks(@Param("childId") String childId);
+    List<ScoreAddDTO> getScoreTasks(@Param("childId") String childId);
 
 }
