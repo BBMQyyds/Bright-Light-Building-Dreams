@@ -19,5 +19,43 @@
     <sql id="Base_Column_List">
         vol_id, vol_username, vol_password, vol_name, vol_locate, vol_organization, vol_duty, vol_corrected_tasks, vol_tel
     </sql>
-
+    <update id="updateByVolId">
+        update volunteer
+        <set>
+            <if test="volPassword != null and volPassword != ''">
+                vol_password = #{volPassword},
+            </if>
+            <if test="volPassword != null and volPassword != ''">
+                vol_password = #{volPassword},
+            </if>
+            <if test="volName != null and volName!=''">
+                vol_name = #{volName},
+            </if>
+            <if test="volLocate != null and volLocate!=''">
+                vol_locate = #{volLocate},
+            </if>
+            <if test="volOrganization != null and volOrganization != ''">
+                vol_organization = #{volOrganization},
+            </if>
+            <if test="volDuty != null ">
+                vol_duty = #{volDuty},
+            </if>
+            <if test="volCorrectedTasks != null">
+                vol_corrected_tasks = #{volCorrectedTasks},
+            </if>
+            <if test="volTel != null and volTel != ''">
+                vol_tel = #{volTel},
+            </if>
+        </set>
+        where vol_id = #{volId}
+    </update>
+    <delete id="deleteByVolId">
+        delete from volunteer
+        where vol_id=#{volId};
+    </delete>
+    <select id="selectByVolId" resultType="com.neu.administrator.model.po.Volunteer">
+        select  *
+        from volunteer
+        where vol_id=#{id};
+    </select>
 </mapper>

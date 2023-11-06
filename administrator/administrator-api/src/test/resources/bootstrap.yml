@@ -12,6 +12,12 @@ spring:
     url: jdbc:mysql://8.140.242.177:3310/mgzm?serverTimezone=UTC&userUnicode=true&useSSL=false&
     username: mgzm_user
     password: mgzm123456
+  rabbitmq:
+    host: 123.56.248.217 #主机ip
+    port: 5672 #端口
+    virtual-host: / #虚拟机
+    username: zzm
+    password: 123456
 #  cloud:
 #    nacos:
 #      server-addr: 192.168.101.65:8848
@@ -37,8 +43,8 @@ spring:
 #  profiles:
 #    active: dev #环境名,拼接配置文件用的
 # 日志文件配置路径
-logging:
-  config: classpath:log4j2-dev.xml
+#logging:
+#  config: classpath:log4j2-dev.xml
 
 swagger:
   title: "明光筑梦管理系统"
