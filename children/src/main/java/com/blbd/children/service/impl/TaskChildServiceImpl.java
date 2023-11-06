@@ -31,7 +31,7 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     private TaskMapper taskMapper;
 
     /**
-     * 查看当前孩子的已提交未批改任务--
+     * 查看当前孩子的已提交未批改任务
      */
     @Override
     public List<Task> getSubmittedUncorrectedTasksByChildId(String childId) {
