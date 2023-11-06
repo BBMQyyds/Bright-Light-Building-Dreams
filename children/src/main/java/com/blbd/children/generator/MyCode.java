@@ -29,7 +29,7 @@
 //        gc.setOpen(false);  //是否打开资源管理器（文件夹）
 //        gc.setFileOverride(false);  //是否覆盖已有文件
 //        gc.setServiceName("%sService"); //获取当前目录,%s自动替换为绑定的实体类名
-//        gc.setIdType(IdType.UUID); //主键生成策略
+//        gc.setIdType(IdType.ASSIGN_UUID); //主键生成策略
 //        gc.setDateType(DateType.ONLY_DATE); //仅仅只是时间，普通的类型
 //        gc.setSwagger2(true);   //开启swagger文档   ，swagger-ui.html
 //
@@ -60,7 +60,7 @@
 //        //4、策略配置
 //        StrategyConfig strategy = new StrategyConfig();
 //        //设置表名映射，重点要改的地方
-//        strategy.setInclude("order");
+//        strategy.setInclude("score_history");
 //        //设置包的命名规则，下划线转驼峰命名
 //        strategy.setNaming(NamingStrategy.underline_to_camel);
 //        //列,数据库字段
