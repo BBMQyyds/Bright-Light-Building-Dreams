@@ -51,6 +51,10 @@ public class MqConstants {
 
     //以下是任务的
     /**
+     * 交换机
+     */
+    public final static String TASK_EXCHANGE = "task.topic";
+    /**
      * 布置任务的队列
      */
     public final static String TASK_VOL_ALLOCATE_QUEUE="task.vol.allocate.queue";
