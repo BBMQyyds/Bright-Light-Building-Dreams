@@ -1,0 +1,19 @@
+package com.blbd.children.mapper;
+import com.blbd.children.dao.dto.ScoreDTO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+@Mapper
+public interface ScoreMapper {
+
+
+    @Select("SELECT tc.score as num, tc.task_finish_time as date, t.name as taskName " +
+            "FROM task_child tc " +
+            "INNER JOIN child c ON tc.child_id = c.id " +
+            "INNER JOIN task t ON tc.task_id = t.id " +
+            "WHERE tc.is_corrected = 1 AND c.id = #{childId}")
+    List<ScoreDTO> getScoreTasks(@Param("childId") String childId);
+
+}

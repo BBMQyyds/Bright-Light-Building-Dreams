@@ -3,11 +3,15 @@ package com.blbd.children;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
+import com.blbd.children.dao.dto.ScoreDTO;
 import com.blbd.children.dao.entity.Task;
+import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
+import com.blbd.children.mapper.ScoreMapper;
 import com.blbd.children.mapper.TaskChildMapper;
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.service.ChildService;
 import com.blbd.children.service.TaskChildService;
 import com.blbd.children.service.TaskService;
 import org.junit.jupiter.api.Test;
@@ -16,10 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootTest
 class ChildrenApplicationTests {
@@ -32,8 +33,14 @@ class ChildrenApplicationTests {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private TaskChildMapper taskChildMapper;
+    @Autowired
+    private TaskChildService taskChildService;
+    @Autowired
+    private ScoreMapper scoreMapper;
 
-
+    private ChildService childService;
 
     @Test
     void contextLoads() {
@@ -106,4 +113,13 @@ class ChildrenApplicationTests {
         );
         System.out.println(tasks);
     }
+    @Test
+    void viewScore() {
+        String childId = "2"; // 替换为实际的 childId
+        List<ScoreDTO> scoreTasks = scoreMapper.getScoreTasks(childId);
+
+        System.out.println(scoreTasks);
+    }
+
 }
+
