@@ -18,27 +18,27 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class VolMqConfig {
     @Bean
-    public TopicExchange topicExchange(){
+    public TopicExchange volTopicExchange(){
         return new TopicExchange(MqConstants.VOL_EXCHANGE, true, false);
     }
 
     @Bean
-    public Queue insertQueue(){
+    public Queue volInsertQueue(){
         return new Queue(MqConstants.VOL_INSERT_QUEUE, true);
     }
 
     @Bean
-    public Queue deleteQueue(){
+    public Queue volDeleteQueue(){
         return new Queue(MqConstants.VOL_DELETE_QUEUE, true);
     }
 
     @Bean
-    public Binding insertQueueBinding(){
-        return BindingBuilder.bind(insertQueue()).to(topicExchange()).with(MqConstants.VOL_INSERT_KEY);
+    public Binding volInsertQueueBinding(){
+        return BindingBuilder.bind(volInsertQueue()).to(volTopicExchange()).with(MqConstants.VOL_INSERT_KEY);
     }
 
     @Bean
-    public Binding deleteQueueBinding(){
-        return BindingBuilder.bind(deleteQueue()).to(topicExchange()).with(MqConstants.VOL_DELETE_KEY);
+    public Binding volDeleteQueueBinding(){
+        return BindingBuilder.bind(volDeleteQueue()).to(volTopicExchange()).with(MqConstants.VOL_DELETE_KEY);
     }
 }

@@ -43,8 +43,8 @@ spring:
 #  profiles:
 #    active: dev #环境名,拼接配置文件用的
 # 日志文件配置路径
-logging:
-  config: classpath:log4j2-dev.xml
+#logging:
+#  config: classpath:log4j2-dev.xml
 
 swagger:
   title: "明光筑梦管理系统"
