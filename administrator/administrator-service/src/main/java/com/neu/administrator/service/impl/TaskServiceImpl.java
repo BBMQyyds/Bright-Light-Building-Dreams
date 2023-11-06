@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            throw new BlbdException("分配任务失败");
+            throw new BlbdException("分配任务失败");//
         }
 
         // 处理查询结果
