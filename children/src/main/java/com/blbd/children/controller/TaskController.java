@@ -7,10 +7,8 @@ import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +18,7 @@ import java.util.List;
  * @author zxr
  * @since 2023-11-02
  */
+
 @RestController
 @RequestMapping("children/task")
 public class TaskController {
@@ -54,8 +53,8 @@ public class TaskController {
      * @param child
      * @return
      */
-    @RequestMapping("/verifyGradeTask")
-    public HttpResponseEntity viewTaskInfo(@RequestParam Child child){
+    @GetMapping("/verifyGradeTask/{hasChild}")
+    public HttpResponseEntity viewTaskInfo(@PathVariable("hasChild") Child child) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
 //        必做任务(本年级)
         List<Task> mustDoTasks = taskMapper.selectList(

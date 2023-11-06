@@ -14,8 +14,8 @@ public class ScoreController {
     @Autowired
     ScoreMapper scoreMapper;
 
-    @RequestMapping("/viewScore")
-    public HttpResponseEntity viewScore(@RequestParam String childId) {
+    @GetMapping("/viewScore/{childId}")
+    public HttpResponseEntity viewScore(@PathVariable("childId") String childId) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         List<ScoreAddDTO> scoreAddDTOList = scoreMapper.getScoreTasks(childId);
         if(scoreAddDTOList.isEmpty()){

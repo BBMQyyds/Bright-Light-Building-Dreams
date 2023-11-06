@@ -18,6 +18,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("child")
+@AllArgsConstructor
 //@ApiModel(value="Child对象", description="")
 public class Child {
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
@@ -36,7 +37,10 @@ public class Child {
     private String locate;
     @TableField("duty")
     private Integer duty;
-
+    @TableField("completed_tasks")
+    private Integer completedTasks;
+    @TableField("volunteer_id")
+    private String volunteerId;
     public Child(String id, String username, Integer score) {
         this.id = id;
         this.username = username;

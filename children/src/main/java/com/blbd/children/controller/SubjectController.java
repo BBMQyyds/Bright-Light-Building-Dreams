@@ -8,10 +8,7 @@ import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Subject;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.SubjectMapper;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -46,8 +43,8 @@ public class SubjectController {
         }
         return httpResponseEntity;
     }
-    @RequestMapping("/QueryOneSubject")
-    public HttpResponseEntity QueryOneSubject(@RequestParam("id") String id){
+    @GetMapping("/QueryOneSubject/{id}")
+    public HttpResponseEntity QueryOneSubject(@PathVariable("id") String id){
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         Subject subjects = subjectMapper.selectOne(Wrappers.<Subject>lambdaQuery().eq(Subject::getId, id));
         if (subjects == null){
