@@ -5,4 +5,5 @@ import com.neu.administrator.model.po.Child;
 
 public interface ChildService extends IService<Child>{
 
+    void passQualificationApply(String childId);
 }

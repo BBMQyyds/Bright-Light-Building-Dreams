@@ -37,5 +37,9 @@ public class Volunteer implements Serializable {
 
     private String volTel;
 
+    private String volSfz;
+
+    private Boolean pass;
+
 
 }

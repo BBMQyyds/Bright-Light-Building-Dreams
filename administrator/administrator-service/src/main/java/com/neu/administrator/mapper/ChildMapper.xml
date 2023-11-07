@@ -19,5 +19,37 @@
     <sql id="Base_Column_List">
         id, username, score, password, name, grade, locate, duty, completed_tasks
     </sql>
+    <update id="updateByChildId">
+        update child
+        <set>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name!=''">
+                name = #{name},
+            </if>
+            <if test="grade != null and grade!=''">
+                grade = #{grade},
+            </if>
+            <if test="locate != null and locate != ''">
+                locate = #{locate},
+            </if>
+            <if test="duty != null ">
+                duty = #{duty},
+            </if>
+            <if test="completedTasks != null">
+                completed_tasks = #{completedTasks},
+            </if>
+            <if test="pass != null">
+                if_pass = #{pass},
+            </if>
+
+
+        </set>
+        where id = #{id}
+    </update>
 
 </mapper>
