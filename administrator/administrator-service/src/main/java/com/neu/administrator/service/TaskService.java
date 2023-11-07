@@ -1,5 +1,7 @@
 package com.neu.administrator.service;
 
+import com.neu.base.model.message.AllocateTaskVolMessage;
+
 /**
  * @ClassName TaskService
  * @Description TODO
@@ -8,5 +10,5 @@ package com.neu.administrator.service;
  * @Version 1.0
  */
 public interface TaskService {
-    void allocateTaskToVol(String childId, String taskId);
+    void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage);
 }

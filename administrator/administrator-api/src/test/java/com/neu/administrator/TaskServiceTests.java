@@ -1,10 +1,12 @@
 package com.neu.administrator;
 
 import com.neu.administrator.service.TaskService;
+import com.neu.base.model.message.AllocateTaskVolMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @ClassName AllocateTaskServiceTests
@@ -19,7 +21,12 @@ public class TaskServiceTests {
     TaskService taskService;
 
     @Test
+    @Transactional
     void allocateTaskToVolTest(){
-        taskService.allocateTaskToVol("1","2");
+        AllocateTaskVolMessage allocateTaskVolMessage=new AllocateTaskVolMessage();
+        allocateTaskVolMessage.setTaskId("4");
+        allocateTaskVolMessage.setChildId("4");
+
+        taskService.allocateTaskToVol(allocateTaskVolMessage);
     }
 }

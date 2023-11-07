@@ -19,5 +19,15 @@
     <sql id="Base_Column_List">
         child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage
     </sql>
+    <update id="updateAssignmentStage">
+        update task_child
+        set assignment_stage=#{assignmentStage}
+        where child_id=#{childId} and task_id=#{taskId};
+    </update>
+    <select id="selectByChildId" resultType="com.neu.administrator.model.po.TaskChild">
+        select *
+        from task_child
+        where child_id=#{childId} and task_id=#{taskId};
+    </select>
 
 </mapper>

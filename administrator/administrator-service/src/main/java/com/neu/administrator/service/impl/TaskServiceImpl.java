@@ -1,7 +1,15 @@
 package com.neu.administrator.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.neu.administrator.mapper.ChildMapper;
+import com.neu.administrator.mapper.TaskChildMapper;
+import com.neu.administrator.mapper.TaskMapper;
+import com.neu.administrator.mapper.TaskVolunteerMapper;
+import com.neu.administrator.model.po.*;
 import com.neu.administrator.service.TaskService;
 import com.neu.base.exception.BlbdException;
+import com.neu.base.model.message.AllocateTaskVolMessage;
+import org.apache.commons.lang.ObjectUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -15,7 +23,9 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,10 +40,21 @@ import java.io.IOException;
 @Service
 public class TaskServiceImpl implements TaskService {
     @Autowired
-    RestHighLevelClient client;
+    private RestHighLevelClient client;
+    @Autowired
+    private TaskChildMapper taskChildMapper;
+
+    @Autowired
+    private TaskVolunteerMapper taskVolunteerMapper;
+
+    @Autowired
+    private ChildMapper childMapper;
+
+    @Autowired
+    private TaskMapper taskMapper;
 
     @Override
-    public void allocateTaskToVol(String childId, String taskId) {
+    public void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage) {
         // 创建RestHighLevelClient
 
 
@@ -64,8 +85,47 @@ public class TaskServiceImpl implements TaskService {
 
         // 处理查询结果
         SearchHit[] searchHits = searchResponse.getHits().getHits();
+
         String volunteerJson = searchHits[0].getSourceAsString();
-        System.out.println(volunteerJson);
+
+        //分配到的志愿者
+        Volunteer volunteer = JSON.parseObject(volunteerJson, Volunteer.class);
+
+        //将分配阶段设为1
+        taskChildMapper.updateAssignmentStage(allocateTaskVolMessage.getChildId(), allocateTaskVolMessage.getTaskId(), "1");
+
+        //查出task_child
+        TaskChild taskChild = taskChildMapper.selectByChildId(allocateTaskVolMessage.getChildId(), allocateTaskVolMessage.getTaskId());
+        //在task_vol增加一条数据
+        TaskVolunteer taskVolunteer=new TaskVolunteer();
+
+        //三个时间+儿童id+任务id
+        BeanUtils.copyProperties(allocateTaskVolMessage,taskVolunteer);
+
+        //志愿者id
+        taskVolunteer.setVolunteerId(volunteer.getVolId());
+        //完成情况
+        taskVolunteer.setCompletedApproval(false);
+
+        //评论为空
+
+        //作业照片
+        taskVolunteer.setHomeworkPhoto(taskChild.getHomeworkPhoto());
+
+        //儿童姓名
+        Child child = childMapper.selectById(taskChild.getChildId());
+        taskVolunteer.setChildName(child.getName());
+
+        //任务名字
+        Task task = taskMapper.selectById(taskChild.getTaskId());
+        taskVolunteer.setTaskId(task.getId());
+
+        System.out.println(taskVolunteer);
+
+        //存入数据库
+        taskVolunteerMapper.insert(taskVolunteer);
+
+
     }
 }
 
