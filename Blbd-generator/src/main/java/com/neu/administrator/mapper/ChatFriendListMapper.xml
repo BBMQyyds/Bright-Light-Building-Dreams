@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.ChatFriendListMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.ChatFriendList">
+        <id column="list_id" property="listId" />
+        <result column="link_id" property="linkId" />
+        <result column="sender_id" property="senderId" />
+        <result column="receiver_id" property="receiverId" />
+        <result column="receiver_picture" property="receiverPicture" />
+        <result column="sender_is_online" property="senderIsOnline" />
+        <result column="receiver_is_online" property="receiverIsOnline" />
+        <result column="unread" property="unread" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        list_id, link_id, sender_id, receiver_id, receiver_picture, sender_is_online, receiver_is_online, unread, status
+    </sql>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.PurchaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Purchase">
+        <result column="id" property="id" />
+        <result column="child_id" property="childId" />
+        <result column="value" property="value" />
+        <result column="date" property="date" />
+        <result column="status" property="status" />
+        <result column="sub_id" property="subId" />
+        <result column="sub_num" property="subNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, child_id, value, date, status, sub_id, sub_num
+    </sql>
+
+</mapper>
