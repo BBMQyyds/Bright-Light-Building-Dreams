@@ -12,4 +12,5 @@ import com.neu.administrator.model.po.Organization;
  */
 public interface OrganizationMapper extends BaseMapper<Organization> {
 
+    int updateByOrgId(Organization organization);
 }

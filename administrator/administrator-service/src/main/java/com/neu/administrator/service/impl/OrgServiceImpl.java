@@ -25,7 +25,7 @@ public class OrgServiceImpl implements OrgService {
         Organization organization=new Organization();
         organization.setOrgId(orgId);
         organization.setOrgPassIf("0");
-        int count = organizationMapper.updateById(organization);
+        int count = organizationMapper.updateByOrgId(organization);
         if(count<1){
             throw new BlbdException("审核失败！！！");
         }

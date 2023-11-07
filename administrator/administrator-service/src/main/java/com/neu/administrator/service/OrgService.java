@@ -8,4 +8,5 @@ package com.neu.administrator.service;
  * @Version 1.0
  */
 public interface OrgService {
+    void passQualificationApply(String orgId);
 }

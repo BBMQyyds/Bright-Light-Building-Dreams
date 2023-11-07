@@ -44,7 +44,7 @@
                 completed_tasks = #{completedTasks},
             </if>
             <if test="pass != null">
-                if_pass = #{pass},
+                is_pass = #{pass},
             </if>
 
 
