@@ -1,8 +1,10 @@
 package com.neu.administrator.api;
 
 
+import com.neu.administrator.model.dto.SuppliesDto;
 import com.neu.administrator.model.po.Funding;
-import com.neu.administrator.service.FundingService;
+import com.neu.administrator.model.po.Supplies;
+import com.neu.administrator.service.SuppliesService;
 import com.neu.base.model.PageParams;
 import com.neu.base.model.PageResult;
 import com.neu.base.model.RestResponse;
@@ -15,44 +17,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
-@Api(value="资金与物资管理接口")
-@RequestMapping("/fund")
-public class FundController {
+@Slf4j
+@Api(value = "物资管理接口")
+@RequestMapping("/supplies")
+public class SuppliesController {
 
     @Autowired
-    private FundingService fundingService;
+    private SuppliesService suppliesService;
 
-    @ApiOperation("查看资金分页")
+    @ApiOperation("查看物资分页")
     @PostMapping("/search")
-    public RestResponse<PageResult> searchFund(@RequestBody Funding fund, PageParams params){
-        PageResult<Funding> result=fundingService.searchFund(params,fund);
+    public RestResponse<PageResult> searchFund(@RequestBody Supplies supplies, PageParams params){
+        PageResult<SuppliesDto> result=suppliesService.searchSupplies(params,supplies);
         return RestResponse.success(result);
     }
 
 
-    @ApiOperation("删除资金")
+    @ApiOperation("删除物资")
     @PostMapping("/delete")
-    public RestResponse<String> deleteFund(@RequestBody Funding fund){
-        boolean flag=fundingService.deleteFund(fund);
+    public RestResponse<String> deleteFund(@RequestBody Supplies supplies){
+        boolean flag=suppliesService.deleteSupplies(supplies);
         if(flag){
             return RestResponse.success("删除成功");
         }
-        return RestResponse.validfail("删除失败");
+            return RestResponse.validfail("删除失败");
     }
 
-    @ApiOperation("新增或修改资金")
+    @ApiOperation("新增或修改物资")
     @PostMapping("/save")
-    public RestResponse<String> saveFund(@RequestBody Funding fund){
-        fundingService.saveFund(fund);
+    public RestResponse<String> saveFund(@RequestBody Supplies supplies){
+        suppliesService.saveSupplies(supplies);
         return RestResponse.success("保存成功");
     }
-
-
-
-
-
 
 
 }

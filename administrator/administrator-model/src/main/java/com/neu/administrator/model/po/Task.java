@@ -28,6 +28,8 @@ public class Task implements Serializable {
 
     private LocalDateTime finishTime;
 
+    private LocalDateTime endTime;
+
     private String video;
 
     private String subject;

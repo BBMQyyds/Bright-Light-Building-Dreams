@@ -13,11 +13,13 @@
         <result column="vol_duty" property="volDuty" />
         <result column="vol_corrected_tasks" property="volCorrectedTasks" />
         <result column="vol_tel" property="volTel" />
+        <result column="vol_sfz" property="volSfz" />
+        <result column="if_pass" property="ifPass" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        vol_id, vol_username, vol_password, vol_name, vol_locate, vol_organization, vol_duty, vol_corrected_tasks, vol_tel
+        vol_id, vol_username, vol_password, vol_name, vol_locate, vol_organization, vol_duty, vol_corrected_tasks, vol_tel, vol_sfz, if_pass
     </sql>
 
 </mapper>

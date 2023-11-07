@@ -11,13 +11,14 @@
         <result column="task_finish_time" property="taskFinishTime" />
         <result column="task_end_time" property="taskEndTime" />
         <result column="is_completed" property="completed" />
-        <result column="is_corrected" property="corrected" />
+        <result column="is_corrected" property="isCorrected" />
         <result column="assignment_stage" property="assignmentStage" />
+        <result column="homework_photo" property="homeworkPhoto" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage
+        child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage, homework_photo
     </sql>
 
 </mapper>

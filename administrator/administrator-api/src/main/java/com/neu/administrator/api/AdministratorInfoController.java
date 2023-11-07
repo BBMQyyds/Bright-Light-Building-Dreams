@@ -85,7 +85,7 @@ public class AdministratorInfoController {
 
 
     @ApiOperation("删除孩子数据")
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public RestResponse<String> deleteChildById(@RequestBody Child child){
 //        administratorInfoService.deleteById(child.getId());
         administratorInfoService.deleteByIdEs(child.getId());
@@ -96,7 +96,7 @@ public class AdministratorInfoController {
     }
 
     @ApiOperation("新增或修改孩子数据")
-    @PutMapping("/save")
+    @PostMapping("/save")
     public RestResponse<String> saveChildById(@RequestBody Child child ){
         administratorInfoService.saveByIdEs(child);
         //发送mq同步数据
@@ -106,7 +106,7 @@ public class AdministratorInfoController {
     }
 
     @ApiOperation("es分页搜索")
-    @GetMapping("/search")
+    @PostMapping("/search")
     public RestResponse<PageResult> search(@RequestBody RequestParams params){
         return RestResponse.success(administratorInfoService.search(params));
     }
@@ -115,7 +115,7 @@ public class AdministratorInfoController {
 
 
     @ApiOperation("删除志愿者数据")
-    @DeleteMapping("/volunteer/delete")
+    @PostMapping("/volunteer/delete")
     public RestResponse<String> deleteVolunteerById(String id){
         administratorInfoService.deleteVolunteerById(id);
         rabbitTemplate.convertAndSend(MqConstants.VOL_EXCHANGE,MqConstants.VOL_DELETE_KEY,id);
@@ -123,7 +123,7 @@ public class AdministratorInfoController {
     }
 
     @ApiOperation("新增或修改es志愿者数据")
-    @PutMapping("/volunteer/save")
+    @PostMapping("/volunteer/save")
     public RestResponse<String> saveVolunteerById(@RequestBody Volunteer volunteer ){
         administratorInfoService.saveVolunteerById(volunteer);
         rabbitTemplate.convertAndSend(MqConstants.VOL_EXCHANGE,MqConstants.VOL_INSERT_KEY,volunteer);
@@ -131,7 +131,7 @@ public class AdministratorInfoController {
     }
 
     @ApiOperation("es分页搜索志愿者")
-    @GetMapping("/volunteer/search")
+    @PostMapping("/volunteer/search")
     public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
         return RestResponse.success(administratorInfoService.searchVol(params));
     }

@@ -40,6 +40,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,8 +53,6 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
-
-
 
     @Autowired
     private ChildMapper childMapper;
