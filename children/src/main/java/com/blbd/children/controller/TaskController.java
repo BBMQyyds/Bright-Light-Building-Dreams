@@ -1,6 +1,8 @@
 package com.blbd.children.controller;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Task;
@@ -112,6 +114,36 @@ public class TaskController {
             httpResponseEntity.setCode("666");
             httpResponseEntity.setData(tasks);
             httpResponseEntity.setMessage("查看模糊查询的结果");
+        }
+        return httpResponseEntity;
+    }
+//      @GetMapping("/QueryOneSubject/{id}")
+//    public HttpResponseEntity QueryOneSubject(@PathVariable("id") String id){
+//        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+//        Subject subjects = subjectMapper.selectOne(Wrappers.<Subject>lambdaQuery().eq(Subject::getId, id));
+//        if (subjects == null){
+//            httpResponseEntity.setCode("0");
+//            httpResponseEntity.setData(null);
+//            httpResponseEntity.setMessage("查询物品详细信息失败");
+//        }else {
+//            httpResponseEntity.setCode("666");
+//            httpResponseEntity.setData(subjects);
+//            httpResponseEntity.setMessage("查询物品的详细信息成功");
+//        }
+//        return httpResponseEntity;
+//    }
+    @GetMapping("/QueryOneTask/{id}")
+    public HttpResponseEntity QueryOneTask(@PathVariable("id") String id) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        Task task = taskMapper.selectOne(Wrappers.<Task>lambdaQuery().eq(Task ::getId, id));
+        if (task.equals("")){
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(null);
+            httpResponseEntity.setMessage("查询课程详细信息失败");
+        }else {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(task);
+            httpResponseEntity.setMessage("查询课程的详细信息成功");
         }
         return httpResponseEntity;
     }
