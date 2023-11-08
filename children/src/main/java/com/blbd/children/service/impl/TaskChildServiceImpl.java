@@ -1,6 +1,7 @@
 package com.blbd.children.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.TaskChildMapper;
@@ -10,9 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +28,8 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     @Autowired
     private TaskMapper taskMapper;
 
+    private TaskChildService taskChildService;
+
     /**
      * 查看当前孩子的已提交未批改任务
      */
@@ -37,9 +38,9 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
         HashMap<String, Object> map = new HashMap<>();
 
         //自定义要查询的
-        map.put("child_id",childId);
-        map.put("is_completed",1);
-        map.put("is_corrected",0);
+        map.put("child_id", childId);
+        map.put("is_completed", 1);
+        map.put("is_corrected", 0);
 
         //查询 TaskChild 表中符合条件的记录
         List<TaskChild> taskChildList = taskChildMapper.selectByMap(map);
@@ -53,13 +54,13 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
          */
         List<String> taskIds = taskChildList.stream().map(TaskChild::getTaskId).collect(Collectors.toList());
 
-        if (taskIds.isEmpty()){
+        if (taskIds.isEmpty()) {
             return new ArrayList<>();   // 如果 taskIds 为空，直接返回空列表
         }
 
         //使用获取的 taskId 列表查询 Task 表中的任务
         QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
-        taskQueryWrapper.in("id",taskIds);
+        taskQueryWrapper.in("id", taskIds);
         List<Task> tasks = taskMapper.selectList(taskQueryWrapper);
 
         return tasks;
@@ -73,19 +74,19 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
         HashMap<String, Object> map = new HashMap<>();
 
         //自定义要查询的
-        map.put("child_id",childId);
-        map.put("is_corrected",1);
+        map.put("child_id", childId);
+        map.put("is_corrected", 1);
 
         List<TaskChild> taskChildList = taskChildMapper.selectByMap(map);
 
         List<String> taskIds = taskChildList.stream().map(TaskChild::getTaskId).collect(Collectors.toList());
 
-        if (taskIds.isEmpty()){
+        if (taskIds.isEmpty()) {
             return new ArrayList<>();
         }
 
         QueryWrapper<Task> taskQW = new QueryWrapper<>();
-        taskQW.in("id",taskIds);
+        taskQW.in("id", taskIds);
         List<Task> tasks = taskMapper.selectList(taskQW);
 
         return tasks;

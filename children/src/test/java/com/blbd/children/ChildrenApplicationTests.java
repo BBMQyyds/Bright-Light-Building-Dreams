@@ -2,24 +2,31 @@ package com.blbd.children;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.blbd.children.beans.HttpResponseEntity;
+
+import com.blbd.children.dao.dto.ScoreAddDTO;
+
+import com.blbd.children.dao.entity.Subject;
+
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
+
+import com.blbd.children.mapper.ScoreMapper;
+
+import com.blbd.children.mapper.SubjectMapper;
+
+
 import com.blbd.children.mapper.TaskChildMapper;
+
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.service.ChildService;
 import com.blbd.children.service.TaskChildService;
 import com.blbd.children.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootTest
 class ChildrenApplicationTests {
@@ -32,8 +39,17 @@ class ChildrenApplicationTests {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private TaskChildMapper taskChildMapper;
+    @Autowired
+    private TaskChildService taskChildService;
+    @Autowired
+    private ScoreMapper scoreMapper;
+    @Autowired
+    private ChildService childService;
 
-
+    @Autowired
+    private SubjectMapper subjectMapper;
 
     @Test
     void contextLoads() {
@@ -43,16 +59,22 @@ class ChildrenApplicationTests {
     }
 
     @Test
+    void testSelectAllTasks() {
+        taskMapper.selectList(null).forEach(System.out::println);
+    }
+    @Test
+    void QueryOneSubject() {
+        Subject subjects = subjectMapper.selectOne(Wrappers.<Subject>lambdaQuery().eq(Subject::getId, "1"));
+        System.out.println(subjects);
+    }
+    @Test
     void loginChild(){
         //将输入的数据与数据库进行匹配，看是否存在
         Child child1 = childMapper.selectOne(Wrappers.<Child>lambdaQuery().eq(Child::getUsername, "user1").eq(Child::getPassword, "password1"));
         System.out.println(child1);
     }
 
-    @Test
-    void testSelectAllTasks() {
-        taskMapper.selectList(null).forEach(System.out::println);
-    }
+
 
     @Test
     void insert() {
@@ -106,4 +128,23 @@ class ChildrenApplicationTests {
         );
         System.out.println(tasks);
     }
+    @Test
+    void viewScore() {
+        String childId = "2"; // 替换为实际的 childId
+        List<ScoreAddDTO> scoreTasks = scoreMapper.getScoreTasks(childId);
+
+        System.out.println(scoreTasks);
+    }
+    @Test
+    void testAdemo(){
+        Child child = new Child("id","user1",100,"password1","Child 1","A","location 1",1,0,"f869538ae91948b9ad8359f1c0663775");
+        List<Task> mustDoTasks = taskMapper.selectList(
+                new QueryWrapper<Task>()
+                        .ge("finish_time", new Date())
+                        .eq("grade", child.getGrade())
+                        .eq("is_must_do", 1)
+        );
+        System.out.println(mustDoTasks);
+    }
 }
+

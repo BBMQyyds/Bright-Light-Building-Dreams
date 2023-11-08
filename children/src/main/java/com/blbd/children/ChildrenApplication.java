@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@MapperScan("com.blbd.children.mapper")
 @SpringBootApplication
 public class ChildrenApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ChildrenApplication.class, args);
+
     }
 
 }

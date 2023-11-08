@@ -18,11 +18,11 @@ import lombok.experimental.Accessors;
  * @author sq
  * @since 2023-11-01
  */
-@Data
+
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("task_child")
-//@ApiModel(value="TaskChild对象", description="任务与孩子关联信息")
+@Data
 public class TaskChild implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,7 +67,7 @@ public class TaskChild implements Serializable {
     /**
      * 是否已批改
      */
-    private Boolean isCorrected;
+    private Integer isCorrected;
 
     /**
      * 指派阶段
