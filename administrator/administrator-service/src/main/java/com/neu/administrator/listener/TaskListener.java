@@ -2,6 +2,7 @@ package com.neu.administrator.listener;
 
 import com.neu.administrator.constants.MqConstants;
 import com.neu.administrator.service.TaskService;
+import com.neu.base.model.message.AllocateTaskVolMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,8 @@ public class TaskListener {
 
 
     @RabbitListener(queues = MqConstants.TASK_VOL_ALLOCATE_QUEUE)
-    void listenTaskVolunteerAllocate(String childId,String taskId){
-            taskService.allocateTaskToVol(childId,taskId);
+    void listenTaskVolunteerAllocate(AllocateTaskVolMessage allocateTaskVolMessage){
+            taskService.allocateTaskToVol(allocateTaskVolMessage);
     }
 
 

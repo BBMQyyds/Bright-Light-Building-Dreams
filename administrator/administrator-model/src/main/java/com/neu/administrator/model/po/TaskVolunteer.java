@@ -37,5 +37,12 @@ public class TaskVolunteer implements Serializable {
 
     private String approvalComments;
 
+    private String homeworkPhoto;
+
+    private String taskPhoto;
+
+    private String childName;
+
+    private String taskName;
 
 }

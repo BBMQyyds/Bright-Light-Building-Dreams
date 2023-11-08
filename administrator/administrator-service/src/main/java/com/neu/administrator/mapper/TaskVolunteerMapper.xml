@@ -18,5 +18,8 @@
     <sql id="Base_Column_List">
         volunteer_id, child_id, task_id, approval_start_time, approval_finish_time, approval_end_time, is_completed_approval, approval_comments
     </sql>
+    <insert id="insertTaskVol">
+        insert into task_volunteer
+    </insert>
 
 </mapper>

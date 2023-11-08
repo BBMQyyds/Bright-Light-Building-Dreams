@@ -13,6 +13,8 @@
         <result column="vol_duty" property="volDuty" />
         <result column="vol_corrected_tasks" property="volCorrectedTasks" />
         <result column="vol_tel" property="volTel" />
+        <result column="vol_sfz" property="volSfz" />
+        <result column="if_pass" property="pass" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -46,6 +48,17 @@
             <if test="volTel != null and volTel != ''">
                 vol_tel = #{volTel},
             </if>
+            <if test="volTel != null and volTel != ''">
+                vol_tel = #{volTel},
+            </if>
+
+            <if test="volSfz !=null and volSfz !=''">
+                vol_sfz = #{volSfz}
+            </if>
+            <if test="pass != null">
+                if_pass=#{pass}
+            </if>
+
         </set>
         where vol_id = #{volId}
     </update>

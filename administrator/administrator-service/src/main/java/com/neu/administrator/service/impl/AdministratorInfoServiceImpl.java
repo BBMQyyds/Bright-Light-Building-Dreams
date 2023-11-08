@@ -277,7 +277,7 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         String name=params.getVolName();
         if(StringUtils.isNoneBlank(name)){
             //不为空，根据关键字查询
-            boolQuery.must(QueryBuilders.matchQuery("name",name));
+            boolQuery.must(QueryBuilders.matchQuery("volName",name));
         }else {
             //为空，查询全部
             boolQuery.must(QueryBuilders.matchAllQuery());
@@ -286,7 +286,7 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         String location =params.getVolLocate();
         if(location!=null){
             //不为空，根据关键字查询
-            boolQuery.must(QueryBuilders.matchQuery("location",location));
+            boolQuery.must(QueryBuilders.matchQuery("volLocate",location));
         }else {
             //为空，查询全部
             boolQuery.must(QueryBuilders.matchAllQuery());
@@ -294,7 +294,7 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
 
         String tel=params.getVolTel();
         if(StringUtils.isNoneBlank((tel))){
-            boolQuery.must(QueryBuilders.matchQuery("vol_tel",tel));
+            boolQuery.must(QueryBuilders.matchQuery("volTel",tel));
         }else {
             //为空，查询全部
             boolQuery.must(QueryBuilders.matchAllQuery());

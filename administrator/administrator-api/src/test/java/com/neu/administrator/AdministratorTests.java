@@ -3,10 +3,7 @@ package com.neu.administrator;
 import com.alibaba.fastjson.JSON;
 import com.neu.administrator.mapper.ChildMapper;
 import com.neu.administrator.mapper.VolunteerMapper;
-import com.neu.administrator.model.es.ChildConstants;
-import com.neu.administrator.model.es.PageResult;
-import com.neu.administrator.model.es.SearchVolParams;
-import com.neu.administrator.model.es.VolunteerConstants;
+import com.neu.administrator.model.es.*;
 import com.neu.administrator.model.es.VolunteerConstants.*;
 import com.neu.administrator.model.po.Child;
 import com.neu.administrator.model.po.Volunteer;
@@ -218,9 +215,9 @@ public class AdministratorTests {
     @Test
     public void searchVolTest(){
         SearchVolParams params=new SearchVolParams();
-        params.setVolName("吴昊");
+
         params.setPage(1);
-        params.setSize(3);
+        params.setSize(10);
 
         PageResult pageResult = administratorInfoService.searchVol(params);
 
@@ -258,6 +255,17 @@ public class AdministratorTests {
 
     }
 
+
+
+    //儿童测试
+    @Test
+    public void searchTest(){
+        RequestParams requestParams = new RequestParams();
+        requestParams.setPage(1);
+        requestParams.setSize(5);
+        PageResult search = administratorInfoService.search(requestParams);
+        System.out.println(search);
+    }
 
 
 

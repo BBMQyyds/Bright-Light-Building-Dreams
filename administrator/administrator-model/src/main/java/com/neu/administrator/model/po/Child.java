@@ -38,5 +38,8 @@ public class Child implements Serializable {
 
     private Integer completedTasks;
 
+    private String volId;
+
+    private Boolean pass;
 
 }

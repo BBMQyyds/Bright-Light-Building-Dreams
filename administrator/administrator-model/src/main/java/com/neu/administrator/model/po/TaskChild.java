@@ -40,5 +40,7 @@ public class TaskChild implements Serializable {
 
     private String assignmentStage;
 
+    private String homeworkPhoto;
+
 
 }
