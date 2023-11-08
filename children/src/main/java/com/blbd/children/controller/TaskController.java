@@ -50,31 +50,31 @@ public class TaskController {
 
     /**
      * 显示必做任务和选做任务
-     * @param child
-     * @return
+     * @param grade
+     * @return HttpResponseEntity
      */
-    @GetMapping("/verifyGradeTask/{hasChild}")
-    public HttpResponseEntity viewTaskInfo(@PathVariable("hasChild") Child child) {
+    @GetMapping("/verifyGradeTask/{grade}")
+    public HttpResponseEntity viewTaskInfo(@PathVariable String grade) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
 //        必做任务(本年级)
         List<Task> mustDoTasks = taskMapper.selectList(
                 new QueryWrapper<Task>()
                         .ge("finish_time", new Date())
-                        .eq("grade", child.getGrade())
+                        .eq("grade", grade)
                         .eq("is_must_do", 1)
         );
 //        选做任务(本年级)
         List<Task> optionalTasks = taskMapper.selectList(
                 new QueryWrapper<Task>()
                         .ge("finish_time", new Date())
-                        .eq("grade", child.getGrade())
+                        .eq("grade", grade)
                         .eq("is_must_do", 0)
         );
 //        选做任务(非本年级的所有任务)
         List<Task> differentGradeTasks = taskMapper.selectList(
                 new QueryWrapper<Task>()
                         .ge("finish_time", new Date())
-                        .ne("grade", child.getGrade())
+                        .ne("grade", grade)
         );
 
 //  合并任务列表
