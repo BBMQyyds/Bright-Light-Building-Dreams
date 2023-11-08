@@ -217,7 +217,7 @@ public class AdministratorTests {
         SearchVolParams params=new SearchVolParams();
 
         params.setPage(1);
-        params.setSize(3);
+        params.setSize(10);
 
         PageResult pageResult = administratorInfoService.searchVol(params);
 
@@ -256,6 +256,8 @@ public class AdministratorTests {
     }
 
 
+
+    //儿童测试
     @Test
     public void searchTest(){
         RequestParams requestParams = new RequestParams();
