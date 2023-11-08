@@ -1,0 +1,56 @@
+2023-11-06 17:22:16,270 ERROR [main][LoggingFailureAnalysisReporter.java:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The bean 'topicExchange', defined in class path resource [com/neu/administrator/config/TaskMqConfig.class], could not be registered. A bean with that name has already been defined in class path resource [com/neu/administrator/config/MqConfig.class] and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+
+2023-11-06 17:24:19,977 ERROR [main][LoggingFailureAnalysisReporter.java:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The bean 'topicExchange', defined in class path resource [com/neu/administrator/config/TaskMqConfig.class], could not be registered. A bean with that name has already been defined in class path resource [com/neu/administrator/config/MqConfig.class] and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+
+2023-11-06 17:25:20,677 ERROR [main][LoggingFailureAnalysisReporter.java:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The bean 'topicExchange', defined in class path resource [com/neu/administrator/config/VolMqConfig.class], could not be registered. A bean with that name has already been defined in class path resource [com/neu/administrator/config/MqConfig.class] and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+
+2023-11-06 17:26:19,037 ERROR [main][LoggingFailureAnalysisReporter.java:40] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The bean 'insertQueueBinding', defined in class path resource [com/neu/administrator/config/VolMqConfig.class], could not be registered. A bean with that name has already been defined in class path resource [com/neu/administrator/config/MqConfig.class] and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+

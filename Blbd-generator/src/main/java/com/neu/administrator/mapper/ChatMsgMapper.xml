@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.administrator.mapper.ChatMsgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.ChatMsg">
+        <id column="message_id" property="messageId" />
+        <result column="link_id" property="linkId" />
+        <result column="msg_type" property="msgType" />
+        <result column="sender_id" property="senderId" />
+        <result column="receiver_id" property="receiverId" />
+        <result column="msg_body" property="msgBody" />
+        <result column="send_time" property="sendTime" />
+        <result column="is_latest" property="isLatest" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        message_id, link_id, msg_type, sender_id, receiver_id, msg_body, send_time, is_latest
+    </sql>
+
+</mapper>

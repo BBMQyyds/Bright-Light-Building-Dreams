@@ -10,13 +10,28 @@ import com.neu.administrator.service.TaskService;
 import com.neu.base.exception.BlbdException;
 import com.neu.base.model.message.AllocateTaskVolMessage;
 import org.apache.commons.lang.ObjectUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neu.administrator.mapper.ChildMapper;
+import com.neu.administrator.mapper.TaskChildMapper;
+import com.neu.administrator.mapper.TaskMapper;
+import com.neu.administrator.model.dto.TaskDto;
+import com.neu.administrator.model.dto.VolunteerDto;
+import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Task;
+import com.neu.administrator.model.po.TaskChild;
+import com.neu.administrator.service.ChildService;
+import com.neu.administrator.service.TaskService;
+import com.neu.base.exception.BlbdException;
+import com.neu.base.model.PageParams;
+import com.neu.base.model.PageResult;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.index.query.functionscore.ScriptScoreFunctionBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
@@ -29,6 +44,8 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @ClassName TaskServiceImpl
@@ -38,7 +55,7 @@ import java.io.IOException;
  * @Version 1.0
  */
 @Service
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements TaskService {
     @Autowired
     private RestHighLevelClient client;
     @Autowired
@@ -53,6 +70,16 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
 
+    @Autowired
+    private TaskMapper taskMapper;
+
+    @Autowired
+    private ChildService childService;
+
+    @Autowired
+    private TaskChildMapper taskChildMapper;
+
+    //儿童完成任务，分配给志愿者批改
     @Override
     public void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage) {
         // 创建RestHighLevelClient
@@ -127,5 +154,91 @@ public class TaskServiceImpl implements TaskService {
 
 
     }
+
+    //新增和修改任务
+    @Override
+    public boolean saveTask(Task task){
+        String id=task.getId();
+        LambdaQueryWrapper<Task> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(Task::getId,id);
+        Task temp=taskMapper.selectOne(queryWrapper);
+        //如果存在
+        if(temp!=null){
+            taskMapper.updateById(task);
+            return true;
+        }else {
+            taskMapper.insert(task);
+            return false;
+        }
+    }
+
+    //查询分页
+    @Override
+    public PageResult<Task> searchTasks(PageParams pageParams, Task task){
+        LambdaQueryWrapper<Task> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(Task::getName,task.getName());
+        queryWrapper.like(Task::getContent,task.getContent());
+        //分页参数
+        Page<Task> page=new Page<>(pageParams.getPageNo(),pageParams.getPageSize());
+        Page<Task> result =taskMapper.selectPage(page,queryWrapper);
+        //数据
+        List<Task> items=result.getRecords();
+        //总记录数
+        long total=result.getTotal();
+        //准备返回数据
+        PageResult<Task> taskPageResult =new PageResult<>(items,total,pageParams.getPageNo(),pageParams.getPageSize());
+
+        return taskPageResult;
+    }
+
+
+    //发布任务
+    public boolean publishTask(Task task){
+        String status=task.getStatus();
+
+        if(!status.equals("Not Started")){
+            return false;
+        }else {
+            task.setStatus("In Progress");
+            taskMapper.updateById(task);
+            return true;
+        }
+
+    }
+
+    //给孩子分配任务
+    public void allocateTaskToChild(TaskDto taskDto){
+        //前端提供一个孩子的id列表和一个任务id。
+        // 你要把这个任务分配给这些孩子。
+        List<Child> children= taskDto.getChildren();
+        String taskId= taskDto.getTaskId();
+        TaskChild taskChild=new TaskChild();
+        for (Child child : children) {
+            Task temp=taskMapper.selectById(taskId);
+            // 你要把这个任务分配给这些孩子。
+            taskChild.setChildId(child.getId());
+            taskChild.setTaskId(taskId);
+            LocalDateTime startTime=temp.getStartTime();
+            LocalDateTime endTime=temp.getEndTime();
+            taskChild.setTaskStartTime(startTime);
+            taskChild.setTaskEndTime(endTime);
+            taskChildMapper.updateById(taskChild);
+        }
+
+    }
+
+    //给志愿者分配任务
+    public void allocateHelpTaskToVol(VolunteerDto volunteerDto){
+        //前端提供一个志愿者id和一个孩子id
+        String volId=volunteerDto.getVolId();
+        String childId=volunteerDto.getChild().getId();
+        //给孩子插一个志愿者id
+        LambdaQueryWrapper<Child> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(Child::getId,childId);
+        Child temp=childService.getOne(queryWrapper);
+        temp.setVolunteerId(volId);
+    }
+
+
 }
 

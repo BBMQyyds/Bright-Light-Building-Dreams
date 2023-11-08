@@ -24,7 +24,7 @@ Content-Type: application/json
 {
   "page": "1",
   "size": "5",
-  "name": "chenyucy"
+  "name": "cycy"
 }
 
 ###新增小孩
@@ -50,8 +50,7 @@ Content-Type: application/json
 {
   "id": "4",
   "name": "chenyucy",
-  "grade": "D"
-
+  "grade": "A"
 }
 
 
