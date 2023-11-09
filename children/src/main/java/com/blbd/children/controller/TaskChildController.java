@@ -88,7 +88,11 @@ public class TaskChildController {
         }
     }
 
-
+    /**
+     * 待批改的任务数量/已批改但未通过的任务数量/
+     * @param childId
+     * @return
+     */
 
     @GetMapping("/count/{childId}")
     public ResponseEntity<Map<String, Object>> getTaskStats(@PathVariable String childId) {
@@ -141,6 +145,38 @@ public class TaskChildController {
      * @param childId
      * @return
      */
+//    @GetMapping("/viewRemainingTasks/{childId}")
+//    public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
+//        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+//        taskChildQueryWrapper.eq("child_id", childId)
+//                .eq("is_completed", 1); // 过滤未完成的任务
+//        int completedTaskCount = (int) taskChildService.count(taskChildQueryWrapper);
+//
+//        QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
+//        int totalTaskCount = (int) taskService.count(taskQueryWrapper);
+//
+//        int remainingTasks = totalTaskCount - completedTaskCount;
+//
+//        HashMap<String, Object> response = new HashMap<>();
+//
+//        if (remainingTasks != 0) {
+//            response.put("success", true);
+//            response.put("message", "统计待完成任务成功");
+//            response.put("data", remainingTasks);
+//
+//            // 获取完整的remainingTasks任务列表
+//            List<Task> tasks = taskService.list();
+//            response.put("tasks", tasks);
+//
+//            return ResponseEntity.ok(response);
+//        } else {
+//            response.put("success", false);
+//            response.put("message", "无待完成任务");
+//            response.put("data", null);
+//
+//            return ResponseEntity.ok(response);
+//        }
+//    }
     @GetMapping("/viewRemainingTasks/{childId}")
     public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
         QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
@@ -160,9 +196,11 @@ public class TaskChildController {
             response.put("message", "统计待完成任务成功");
             response.put("data", remainingTasks);
 
-            // 获取完整的remainingTasks任务列表
-            List<Task> tasks = taskService.list();
-            response.put("tasks", tasks);
+            // 获取符合条件的remainingTasks任务列表
+            QueryWrapper<Task> remainingTasksQueryWrapper = new QueryWrapper<>();
+            remainingTasksQueryWrapper.notIn("id", taskChildService.listObjs(taskChildQueryWrapper));
+            List<Task> remainingTasksList = taskService.list(remainingTasksQueryWrapper);
+            response.put("tasks", remainingTasksList);
 
             return ResponseEntity.ok(response);
         } else {
