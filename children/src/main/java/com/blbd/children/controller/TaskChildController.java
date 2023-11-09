@@ -85,6 +85,8 @@ public class TaskChildController {
         }
     }
 
+
+
     @GetMapping("/count/{childId}")
     public ResponseEntity<Map<String, Object>> getTaskStats(String childId) {
         LambdaQueryWrapper<TaskChild> queryWrapper = new LambdaQueryWrapper<>();
@@ -106,13 +108,13 @@ public class TaskChildController {
 
         if (counts!= null && !counts.isEmpty()){
             response.put("success",true);
-            response.put("message","无法统计：待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量");
+            response.put("message","待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量统计成功");
             response.put("data",counts);
 
             return ResponseEntity.ok(response);
         } else {
             response.put("success",false);
-            response.put("message", "待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量统计成功");
+            response.put("message", "无法统计：待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
