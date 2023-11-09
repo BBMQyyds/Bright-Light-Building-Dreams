@@ -27,7 +27,7 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
 
     @Autowired
     private TaskMapper taskMapper;
-
+    @Autowired
     private TaskChildService taskChildService;
 
     /**
@@ -91,5 +91,4 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
 
         return tasks;
     }
-
 }
