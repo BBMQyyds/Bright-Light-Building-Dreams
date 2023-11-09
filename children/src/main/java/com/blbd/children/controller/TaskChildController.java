@@ -7,7 +7,9 @@ import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.TaskChildMapper;
+import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskChildService;
+import com.blbd.children.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +36,8 @@ import java.util.Map;
 public class TaskChildController {
     @Autowired
     private TaskChildService taskChildService;
-
+    @Autowired
+    private TaskService taskService;
 
     //获取孩子的已提交未批改任务
     @GetMapping("/submitted-uncorrected/{childId}")
@@ -133,21 +136,19 @@ public class TaskChildController {
 
     }
 
-    @GetMapping("/uncompleted/{childId}")
-    public ResponseEntity<Map<String, Object>> getUncompletedTasks(@PathVariable String childId) {
+    @GetMapping("/viewRemainingTasks/{childId}")
+    public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
 
-// 查询所有的学习任务数量
-        int totalTasks = Math.toIntExact(taskChildService.lambdaQuery()
-                .count());
 
-// 查询已完成的学习任务数量
-        int completedTasks = Math.toIntExact(taskChildService.lambdaQuery()
-                .eq(TaskChild::getChildId, childId)
-                .eq(TaskChild::getIsCompleted, 1)
-                .count());
+        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+        taskChildQueryWrapper.eq("child_id", childId)
+                .eq("is_completed", 1); // 过滤未完成的任务
+        int completedTaskCount = (int) taskChildService.count(taskChildQueryWrapper);
 
-// 计算剩余学习任务数量
-        int remainingTasks = totalTasks - completedTasks;
+        QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
+        int totalTaskCount = (int) taskService.count(taskQueryWrapper);
+
+        int remainingTasks = totalTaskCount - completedTaskCount;
 
         HashMap<String, Object> response = new HashMap<>();
 
@@ -159,7 +160,7 @@ public class TaskChildController {
             return ResponseEntity.ok(response);
         } else {
             response.put("success",false);
-            response.put("message", "无法统计待完成任务");
+            response.put("message", "无待完成任务");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
