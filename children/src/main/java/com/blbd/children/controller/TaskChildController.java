@@ -90,8 +90,6 @@ public class TaskChildController {
     @GetMapping("/count/{childId}")
     public ResponseEntity<Map<String, Object>> getTaskStats(@PathVariable String childId) {
 
-//        LambdaQueryWrapper<TaskChild> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(TaskChild::getChildId, childId);
 
 // 待批改的任务数量
         int pendingTasks = Math.toIntExact(taskChildService.lambdaQuery()
@@ -128,6 +126,40 @@ public class TaskChildController {
         } else {
             response.put("success",false);
             response.put("message", "无法统计：待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+
+    }
+
+    @GetMapping("/uncompleted/{childId}")
+    public ResponseEntity<Map<String, Object>> getUncompletedTasks(@PathVariable String childId) {
+
+// 查询所有的学习任务数量
+        int totalTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .count());
+
+// 查询已完成的学习任务数量
+        int completedTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCompleted, 1)
+                .count());
+
+// 计算剩余学习任务数量
+        int remainingTasks = totalTasks - completedTasks;
+
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (remainingTasks != 0 ){
+            response.put("success",true);
+            response.put("message","统计待完成任务成功");
+            response.put("data",remainingTasks);
+
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success",false);
+            response.put("message", "无法统计待完成任务");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
