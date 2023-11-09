@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,8 +153,12 @@ public class TaskChildController {
 //                .eq("is_completed", 1); // 过滤未完成的任务
 //        int completedTaskCount = (int) taskChildService.count(taskChildQueryWrapper);
 //
+//        List<TaskChild> listTaskChild = taskChildService.list(taskChildQueryWrapper);
+//
 //        QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
 //        int totalTaskCount = (int) taskService.count(taskQueryWrapper);
+//
+//        List<Task> listTask = taskService.list(taskQueryWrapper);
 //
 //        int remainingTasks = totalTaskCount - completedTaskCount;
 //
@@ -181,31 +186,31 @@ public class TaskChildController {
     public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
         QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
         taskChildQueryWrapper.eq("child_id", childId)
-                .eq("is_completed", 1); // 过滤未完成的任务
-        int completedTaskCount = (int) taskChildService.count(taskChildQueryWrapper);
+                .eq("is_completed", 1); // 过滤已完成的任务
+        List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
 
         QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
-        int totalTaskCount = (int) taskService.count(taskQueryWrapper);
+        List<Task> allTasksList = taskService.list(taskQueryWrapper);
 
-        int remainingTasks = totalTaskCount - completedTaskCount;
+        List<Task> remainingTasksList = new ArrayList<>(allTasksList);
+        for (TaskChild completedTask : completedTasksList) {
+            remainingTasksList.removeIf(task -> task.getId().equals(completedTask.getTaskId()));
+        }
+
+        int remainingTasks = remainingTasksList.size();
 
         HashMap<String, Object> response = new HashMap<>();
 
-        if (remainingTasks != 0) {
+        if (remainingTasks > 0) {
             response.put("success", true);
-            response.put("message", "统计待完成任务成功");
+            response.put("message", "获取剩余任务成功");
             response.put("data", remainingTasks);
-
-            // 获取符合条件的remainingTasks任务列表
-            QueryWrapper<Task> remainingTasksQueryWrapper = new QueryWrapper<>();
-            remainingTasksQueryWrapper.notIn("id", taskChildService.listObjs(taskChildQueryWrapper));
-            List<Task> remainingTasksList = taskService.list(remainingTasksQueryWrapper);
             response.put("tasks", remainingTasksList);
 
             return ResponseEntity.ok(response);
         } else {
             response.put("success", false);
-            response.put("message", "无待完成任务");
+            response.put("message", "无剩余任务");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
