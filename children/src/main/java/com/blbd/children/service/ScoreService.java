@@ -8,16 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ScoreService {
+public interface ScoreService {
 
-    private final ScoreMapper scoreMapper;
+//
+//    List<ScoreAddDTO> getScoreTasks(String childId);
 
-    @Autowired
-    public ScoreService(ScoreMapper scoreMapper) {
-        this.scoreMapper = scoreMapper;
-    }
-
-    public List<ScoreAddDTO> getScoreTasks(String childId) {
-        return scoreMapper.getScoreTasks(childId);
-    }
 }
