@@ -1,4 +1,4 @@
-package com.blbd.children.config;
+package com.blbd.children.utils;
 
 import java.util.UUID;
 
