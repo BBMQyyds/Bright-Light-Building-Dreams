@@ -22,5 +22,4 @@
         id, name, username, password, phone, sex, id_number, create_time, update_time, create_user, update_user
     </sql>
 
-
 </mapper>

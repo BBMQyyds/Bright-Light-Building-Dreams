@@ -1,15 +1,5 @@
 package com.neu.administrator.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.neu.administrator.mapper.ChildMapper;
-import com.neu.administrator.mapper.TaskChildMapper;
-import com.neu.administrator.mapper.TaskMapper;
-import com.neu.administrator.mapper.TaskVolunteerMapper;
-import com.neu.administrator.model.po.*;
-import com.neu.administrator.service.TaskService;
-import com.neu.base.exception.BlbdException;
-import com.neu.base.model.message.AllocateTaskVolMessage;
-import org.apache.commons.lang.ObjectUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,9 +28,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -57,18 +45,7 @@ import java.util.List;
 @Service
 public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements TaskService {
     @Autowired
-    private RestHighLevelClient client;
-    @Autowired
-    private TaskChildMapper taskChildMapper;
-
-    @Autowired
-    private TaskVolunteerMapper taskVolunteerMapper;
-
-    @Autowired
-    private ChildMapper childMapper;
-
-    @Autowired
-    private TaskMapper taskMapper;
+    RestHighLevelClient client;
 
     @Autowired
     private TaskMapper taskMapper;
@@ -81,7 +58,7 @@ public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements T
 
     //儿童完成任务，分配给志愿者批改
     @Override
-    public void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage) {
+    public void allocateTaskToVol(String childId, String taskId) {
         // 创建RestHighLevelClient
 
 
@@ -107,52 +84,13 @@ public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements T
         try {
             searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            throw new BlbdException("分配任务失败");//、、、
+            throw new BlbdException("分配任务失败");
         }
 
         // 处理查询结果
         SearchHit[] searchHits = searchResponse.getHits().getHits();
-
         String volunteerJson = searchHits[0].getSourceAsString();
-
-        //分配到的志愿者
-        Volunteer volunteer = JSON.parseObject(volunteerJson, Volunteer.class);
-
-        //将分配阶段设为1
-        taskChildMapper.updateAssignmentStage(allocateTaskVolMessage.getChildId(), allocateTaskVolMessage.getTaskId(), "1");
-
-        //查出task_child
-        TaskChild taskChild = taskChildMapper.selectByChildId(allocateTaskVolMessage.getChildId(), allocateTaskVolMessage.getTaskId());
-        //在task_vol增加一条数据
-        TaskVolunteer taskVolunteer=new TaskVolunteer();
-
-        //三个时间+儿童id+任务id
-        BeanUtils.copyProperties(allocateTaskVolMessage,taskVolunteer);
-
-        //志愿者id
-        taskVolunteer.setVolunteerId(volunteer.getVolId());
-        //完成情况
-        taskVolunteer.setCompletedApproval(false);
-
-        //评论为空
-
-        //作业照片
-        taskVolunteer.setHomeworkPhoto(taskChild.getHomeworkPhoto());
-
-        //儿童姓名
-        Child child = childMapper.selectById(taskChild.getChildId());
-        taskVolunteer.setChildName(child.getName());
-
-        //任务名字
-        Task task = taskMapper.selectById(taskChild.getTaskId());
-        taskVolunteer.setTaskId(task.getId());
-
-        System.out.println(taskVolunteer);
-
-        //存入数据库
-        taskVolunteerMapper.insert(taskVolunteer);
-
-
+        System.out.println(volunteerJson);
     }
 
     //新增和修改任务
@@ -219,7 +157,7 @@ public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements T
             taskChild.setChildId(child.getId());
             taskChild.setTaskId(taskId);
             LocalDateTime startTime=temp.getStartTime();
-            LocalDateTime endTime=temp.getEndTime();
+            LocalDateTime endTime=temp.getFinishTime();
             taskChild.setTaskStartTime(startTime);
             taskChild.setTaskEndTime(endTime);
             taskChildMapper.updateById(taskChild);

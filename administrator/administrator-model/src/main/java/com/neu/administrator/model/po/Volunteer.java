@@ -1,6 +1,5 @@
 package com.neu.administrator.model.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -18,7 +17,6 @@ import java.io.Serializable;
 public class Volunteer implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
 
     private String volId;
 
@@ -40,8 +38,7 @@ public class Volunteer implements Serializable {
 
     private String volSfz;
 
-    @TableField("if_pass")
-    private Boolean pass;
+    private String ifPass;
 
 
 }

@@ -13,7 +13,6 @@ import org.apache.ibatis.annotations.Select;
  * @author zzm
  */
 public interface SuppliesMapper extends BaseMapper<Supplies> {
-
     @Select("select item_name from supplies_type where item_type = #{itemType}")
     String selectNameByType(@Param("itemType") String itemType);
 

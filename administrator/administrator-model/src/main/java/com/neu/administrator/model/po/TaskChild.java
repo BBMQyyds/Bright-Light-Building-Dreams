@@ -35,12 +35,15 @@ public class TaskChild implements Serializable {
     @TableField("is_completed")
     private Boolean completed;
 
-    @TableField("is_corrected")
-    private Boolean corrected;
+    private Integer isCorrected;
 
     private String assignmentStage;
 
     private String homeworkPhoto;
+
+    private LocalDateTime taskApproveTime;
+
+    private String comment;
 
 
 }

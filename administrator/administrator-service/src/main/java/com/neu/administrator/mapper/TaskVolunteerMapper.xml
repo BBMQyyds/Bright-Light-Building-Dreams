@@ -12,14 +12,15 @@
         <result column="approval_end_time" property="approvalEndTime" />
         <result column="is_completed_approval" property="completedApproval" />
         <result column="approval_comments" property="approvalComments" />
+        <result column="homework_photo" property="homeworkPhoto" />
+        <result column="task_photo" property="taskPhoto" />
+        <result column="child_name" property="childName" />
+        <result column="task_name" property="taskName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        volunteer_id, child_id, task_id, approval_start_time, approval_finish_time, approval_end_time, is_completed_approval, approval_comments
+        volunteer_id, child_id, task_id, approval_start_time, approval_finish_time, approval_end_time, is_completed_approval, approval_comments, homework_photo, task_photo, child_name, task_name
     </sql>
-    <insert id="insertTaskVol">
-        insert into task_volunteer
-    </insert>
 
 </mapper>

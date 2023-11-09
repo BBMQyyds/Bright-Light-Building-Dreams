@@ -5,15 +5,14 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.neu.administrator.model.po.Funding">
         <id column="id" property="id" />
-        <result column="donor" property="donor" />
         <result column="amount" property="amount" />
         <result column="descriptions" property="descriptions" />
-        <result column="donation_date" property="donationDate" />
+        <result column="funding_type" property="fundingType" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, donor, amount, descriptions, donation_date
+        id, amount, descriptions, funding_type
     </sql>
 
 </mapper>

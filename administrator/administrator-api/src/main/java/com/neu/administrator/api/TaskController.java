@@ -1,18 +1,27 @@
 package com.neu.administrator.api;
 
+import com.neu.administrator.model.dto.MediaFilesDto;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.dto.VolunteerDto;
 import com.neu.administrator.model.po.Child;
 import com.neu.administrator.model.po.Task;
+import com.neu.administrator.service.FileService;
 import com.neu.administrator.service.TaskService;
 import com.neu.base.model.PageParams;
 import com.neu.base.model.PageResult;
 import com.neu.base.model.RestResponse;
+import io.minio.MinioClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @Api(value = "任务管理接口")
 @Slf4j
@@ -22,6 +31,14 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+
+    @Autowired
+    FileService fileService;
+
+    //照片文件桶
+    @Value("${minio.bucket.photofiles}")
+    private String bucket_Files;
 
     @ApiOperation("发布学习任务")
     @PostMapping("/publish")
@@ -78,6 +95,29 @@ public class TaskController {
         taskService.allocateHelpTaskToVol(volunteerDto);
         return RestResponse.success("分配成功");
     }
+
+    @ApiOperation("上传文件")
+    @RequestMapping(value = "/upload/files/{taskId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public RestResponse<String> upload(@RequestPart("filedata") MultipartFile fileData,@PathVariable("taskId") String taskId ) throws IOException {
+
+        String fileName= fileData.getOriginalFilename();
+        MediaFilesDto mediaFilesDto=new MediaFilesDto();
+        mediaFilesDto.setFilename(fileName);
+        File tempFile= File.createTempFile("minio",".temp");
+        //上传的文件放入到临时本地
+        fileData.transferTo(tempFile);
+        //文件的路径
+        String filePath=tempFile.getAbsolutePath();
+        //把文件上传到minio，并把文件的路径信息写入task
+        boolean flag=fileService.uploadFile(mediaFilesDto,filePath,taskId);
+        if(flag){
+            return RestResponse.success("上传成功");
+        }else {
+            return RestResponse.validfail("上传失败");
+        }
+    }
+
+
 
 
 

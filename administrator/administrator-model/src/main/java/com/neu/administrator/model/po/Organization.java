@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *志愿者所属于的组织
+ *
  * </p>
  *
  * @author zzm

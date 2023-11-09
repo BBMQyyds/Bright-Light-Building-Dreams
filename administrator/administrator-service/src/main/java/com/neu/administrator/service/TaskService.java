@@ -1,6 +1,5 @@
 package com.neu.administrator.service;
 
-import com.neu.base.model.message.AllocateTaskVolMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.dto.VolunteerDto;
@@ -16,8 +15,7 @@ import com.neu.base.model.PageResult;
  * @Version 1.0
  */
 public interface TaskService extends IService<Task> {
-  
-    void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage);
+    void allocateTaskToVol(String childId, String taskId);
 
     PageResult<Task> searchTasks(PageParams pageParams,Task task);
 

@@ -1,16 +1,15 @@
 package com.neu.administrator.api;
 
 
-import com.neu.administrator.service.ChildService;
-import com.neu.administrator.service.OrgService;
-import com.neu.administrator.service.VolService;
-import com.neu.administrator.service.impl.VolServiceImpl;
+import com.neu.administrator.model.dto.QualificationsDto;
 import com.neu.base.model.RestResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Api(value = "资质审核管理接口")
@@ -18,39 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/qualifications")
 public class QualificationsController {
 
-    @Autowired
-    private VolService volService;
-
-    @Autowired
-    private ChildService childService;
-
-    @Autowired
-    private OrgService orgService;
-
-
-    @ApiOperation("通过儿童资质申请")
-    @PostMapping("/passChild/{childId}")
-    public RestResponse<String> passChildQualifications(@PathVariable String childId){
-        childService.passQualificationApply(childId);
-
-        return RestResponse.success("审核成功！！！");
+    @ApiOperation("通过资质申请")
+    @PostMapping("/check")
+    public RestResponse<String> checkQualifications(@RequestBody QualificationsDto qualificationsDto){
+        //通过资质里面的属性进行判断
+        //todo 成功失败逻辑
+        return RestResponse.success("通过资质申请成功");
     }
 
-
-    @ApiOperation("通过志愿者资质申请")
-    @PostMapping(value = "/passVol/{volId}")
-    public RestResponse<String> passVolQualificationApply(@PathVariable String volId){
-        volService.passQualificationApply(volId);
-
-        return RestResponse.success("审核成功！！！");
-    }
-
-    @ApiOperation("通过组织资质申请")
-    @PostMapping(value = "/passOrg/{orgId}")
-    public RestResponse<String> passOrgQualificationApply(@PathVariable String orgId){
-        volService.passQualificationApply(orgId);
-
-        return RestResponse.success("审核成功！！！");
-    }
 
 }

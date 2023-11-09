@@ -20,8 +20,6 @@ public class Child implements Serializable {
 
     private String id;
 
-    private String volunteerId;
-
     private String username;
 
     private Integer score;
@@ -38,8 +36,9 @@ public class Child implements Serializable {
 
     private Integer completedTasks;
 
-    private String volId;
+    private String volunteerId;
 
-    private Boolean pass;
+    private Integer isPass;
+
 
 }

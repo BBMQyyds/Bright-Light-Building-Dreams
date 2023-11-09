@@ -11,5 +11,5 @@ import com.neu.administrator.model.po.TaskVolunteer;
  * @author zzm
  */
 public interface TaskVolunteerMapper extends BaseMapper<TaskVolunteer> {
-    int insertTaskVol(TaskVolunteer taskVolunteer);
+
 }

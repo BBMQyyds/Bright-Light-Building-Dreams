@@ -12,5 +12,4 @@ import com.neu.administrator.model.po.Child;
  */
 public interface ChildMapper extends BaseMapper<Child> {
 
-    int updateByChildId(Child child);
 }

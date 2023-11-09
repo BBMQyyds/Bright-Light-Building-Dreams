@@ -49,7 +49,7 @@ public class FundingServiceImpl extends ServiceImpl<FundingMapper, Funding> impl
     //查询资金
     public PageResult<Funding> searchFund(PageParams pageParams, Funding funding){
         LambdaQueryWrapper<Funding> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(Funding::getDonor,funding.getDonor());
+        queryWrapper.like(Funding::getDescriptions,funding.getDescriptions());
         //分页参数
         Page page=new Page<>(pageParams.getPageNo(),pageParams.getPageSize());
         Page<Funding> result=fundingMapper.selectPage(page,queryWrapper);

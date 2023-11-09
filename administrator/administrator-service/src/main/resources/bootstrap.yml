@@ -1,6 +1,15 @@
 spring:
   application:
     name: administrator-service
+
+minio:
+  endpoint: http://123.56.248.217:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucket:
+    photofiles: photos
+    videofiles: videos
+
 #  cloud:
 #    nacos:
 #      server-addr: 192.168.101.65:8848

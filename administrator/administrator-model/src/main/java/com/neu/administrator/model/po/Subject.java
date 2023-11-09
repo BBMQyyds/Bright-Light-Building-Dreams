@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *捐赠物品
+ *
  * </p>
  *
  * @author zzm

@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class VolMqConfig {
+    /*
+    *   @Select("select item_name from supplies_type where item_type = #{itemType}")
+    String selectNameByType(@Param("itemType") String itemType);*/
     @Bean
     public TopicExchange volTopicExchange(){
         return new TopicExchange(MqConstants.VOL_EXCHANGE, true, false);

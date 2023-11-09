@@ -2,8 +2,6 @@ package com.neu.administrator.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neu.administrator.model.po.Administrator;
-import com.neu.administrator.model.po.Volunteer;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,9 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  *
  * @author zzm
  */
-
 public interface AdministratorMapper extends BaseMapper<Administrator> {
-
-
 
 }

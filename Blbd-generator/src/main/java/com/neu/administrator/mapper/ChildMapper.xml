@@ -14,11 +14,12 @@
         <result column="duty" property="duty" />
         <result column="completed_tasks" property="completedTasks" />
         <result column="volunteer_id" property="volunteerId" />
+        <result column="is_pass" property="isPass" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, score, password, name, grade, locate, duty, completed_tasks, volunteer_id
+        id, username, score, password, name, grade, locate, duty, completed_tasks, volunteer_id, is_pass
     </sql>
 
 </mapper>

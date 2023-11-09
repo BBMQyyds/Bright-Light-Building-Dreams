@@ -25,24 +25,19 @@ public class Funding implements Serializable {
     private String id;
 
     /**
-     * 捐赠人或组织
-     */
-    private String donor;
-
-    /**
-     * 捐赠金额
+     * 资金目前的金额
      */
     private Long amount;
 
     /**
-     * 资金用途的描述
+     * 资金的描述
      */
     private String descriptions;
 
     /**
-     * 捐赠日期
+     * 资金的类别
      */
-    private LocalDateTime donationDate;
+    private LocalDateTime fundingType;
 
 
 }

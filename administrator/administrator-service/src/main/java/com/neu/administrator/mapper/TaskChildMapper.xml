@@ -11,23 +11,16 @@
         <result column="task_finish_time" property="taskFinishTime" />
         <result column="task_end_time" property="taskEndTime" />
         <result column="is_completed" property="completed" />
-        <result column="is_corrected" property="corrected" />
+        <result column="is_corrected" property="isCorrected" />
         <result column="assignment_stage" property="assignmentStage" />
+        <result column="homework_photo" property="homeworkPhoto" />
+        <result column="task_approve_time" property="taskApproveTime" />
+        <result column="comment" property="comment" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage
+        child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage, homework_photo, task_approve_time, comment
     </sql>
-    <update id="updateAssignmentStage">
-        update task_child
-        set assignment_stage=#{assignmentStage}
-        where child_id=#{childId} and task_id=#{taskId};
-    </update>
-    <select id="selectByChildId" resultType="com.neu.administrator.model.po.TaskChild">
-        select *
-        from task_child
-        where child_id=#{childId} and task_id=#{taskId};
-    </select>
 
 </mapper>
