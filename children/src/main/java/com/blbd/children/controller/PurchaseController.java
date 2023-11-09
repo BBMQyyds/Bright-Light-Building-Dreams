@@ -2,8 +2,10 @@ package com.blbd.children.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.dao.dto.PurchaseDTO;
 import com.blbd.children.dao.entity.Purchase;
+import com.blbd.children.mapper.PurchaseMapper;
 import com.blbd.children.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,8 @@ import java.util.Map;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
-
+    @Autowired
+    private PurchaseMapper purchaseMapper;
     //只是用于检索信息而不需要传递数据，GET请求更合适。
     //查看当前孩子的订单列表
     @GetMapping("/list/{childId}")
@@ -72,34 +75,33 @@ public class PurchaseController {
 
     }
 
-//    @GetMapping("/purchaseSubjectRecode/{childId}")
-//    public ResponseEntity<Map<String, Object>> purchaseSubjectRecode(@PathVariable String childId) {
-//
-//        Map<String, Object> response = new HashMap<>();
-//
-//        LambdaQueryWrapper<Purchase> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(Purchase::getChildId, childId)
-//                .eq(Purchase::getStatus, 1);
-//
-//        Integer totalNum = purchaseService.lambdaQuery().select(Purchase::getSubNum)
-//                .apply(String.valueOf(queryWrapper))
-//                .list()
-//                .stream()
-//                .mapToInt(Integer::intValue)
-//                .sum();
-//
-//        if (totalNum != 0) {
-//            response.put("success", true);
-//            response.put("data", totalNum);
-//            response.put("message", "订单添加成功");
-//            return ResponseEntity.ok(response);
-//        } else {
-//            response.put("success", false);
-//            response.put("message", "订单添加失败");
-//
-//            //返回 400 Bad Request 表示请求不合法.(待推敲哪个状态码更合适)
-//            return ResponseEntity.badRequest().body(response);
-//        }
-//
-//    }
+    @GetMapping("/purchaseSubjectRecode/{childId}")
+    public ResponseEntity<Map<String, Object>> purchaseSubjectRecode(@PathVariable String childId) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        LambdaQueryWrapper<Purchase> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Purchase::getChildId, childId)
+                .eq(Purchase::getStatus, 1)
+                .select(Purchase::getSubNum);
+
+        Integer total = purchaseMapper.selectList(queryWrapper)
+                .stream()
+                .map(Purchase::getSubNum)
+                .reduce(0, Integer::sum);
+
+        if (total != 0) {
+            response.put("success", true);
+            response.put("data", total);
+            response.put("message", "查询孩子的兑换记录成功");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "暂无兑换记录");
+
+            //返回 400 Bad Request 表示请求不合法.(待推敲哪个状态码更合适)
+            return ResponseEntity.badRequest().body(response);
+        }
+
+    }
 }

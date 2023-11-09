@@ -117,21 +117,7 @@ public class TaskController {
         }
         return httpResponseEntity;
     }
-//      @GetMapping("/QueryOneSubject/{id}")
-//    public HttpResponseEntity QueryOneSubject(@PathVariable("id") String id){
-//        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-//        Subject subjects = subjectMapper.selectOne(Wrappers.<Subject>lambdaQuery().eq(Subject::getId, id));
-//        if (subjects == null){
-//            httpResponseEntity.setCode("0");
-//            httpResponseEntity.setData(null);
-//            httpResponseEntity.setMessage("查询物品详细信息失败");
-//        }else {
-//            httpResponseEntity.setCode("666");
-//            httpResponseEntity.setData(subjects);
-//            httpResponseEntity.setMessage("查询物品的详细信息成功");
-//        }
-//        return httpResponseEntity;
-//    }
+
     @GetMapping("/QueryOneTask/{id}")
     public HttpResponseEntity QueryOneTask(@PathVariable("id") String id) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
