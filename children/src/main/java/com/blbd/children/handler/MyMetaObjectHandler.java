@@ -22,10 +22,24 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
         this.setFieldValByName("date",new Date(),metaObject);
         this.setFieldValByName("status",false,metaObject);
+        this.setFieldValByName("taskFinishTime",new Date(),metaObject);
+        this.setFieldValByName("isCompleted",true,metaObject);
+        this.setFieldValByName("isCorrected",0,metaObject);
+        this.setFieldValByName("assignmentStage","1",metaObject);
+        this.setFieldValByName("comment",null,metaObject);
+        this.setFieldValByName("taskApproveTime",null,metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("==start update ······==");
+
+        //即作业重新提交时需要重置
+        this.setFieldValByName("taskFinishTime",new Date(),metaObject);
+        this.setFieldValByName("isCompleted",true,metaObject);
+        this.setFieldValByName("isCorrected",0,metaObject);
+        this.setFieldValByName("assignmentStage","1",metaObject);
+        this.setFieldValByName("comment",null,metaObject);
+        this.setFieldValByName("taskApproveTime",null,metaObject);
     }
 }

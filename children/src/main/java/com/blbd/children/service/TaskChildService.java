@@ -24,11 +24,21 @@ public interface TaskChildService extends IService<TaskChild> {
      */
     List<Task> getSubmittedUncorrectedTasksByChildId(String childId);
 
-
     /**
      * 查看已批改（已完成）任务--已完成任务
      */
     List<Task> getCorrectedTasks(String childId);
+
+    /**
+     * 获得当前孩子当前任务的作业图片名称
+     */
+    String selectHomeworkPhoto(String childId,String taskId);
+
+    /**
+     * 上传当前孩子当前任务的作业图片
+     */
+    public int addTaskChild(TaskChild taskChild);
+
 
 
 }

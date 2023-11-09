@@ -22,7 +22,14 @@
     <packaging>pom</packaging>
 
     <dependencyManagement>
+        <!--minio-->
         <dependencies>
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>8.0.3</version>
+            </dependency>
+
             <!--提供了使用Swagger和OpenAPI规范创建API文档的支持。-->
             <!--<dependency>
                 <groupId>io.springfox</groupId>

@@ -1,3 +1,11 @@
+# minio配置
+minio:
+  endpoint: http://47.116.65.252:9000 #Minio服务所在地址
+  bucketName: taskchild   #存储桶名称/图片要存放的文件夹名称
+  accessKey: minioadmin   #访问的key/账号
+  secretKey: minioadmin   #访问的秘钥/密码
+
+
 # 数据库连接配置
 spring:
   datasource:
