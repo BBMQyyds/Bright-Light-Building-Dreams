@@ -88,21 +88,34 @@ public class TaskChildController {
 
 
     @GetMapping("/count/{childId}")
-    public ResponseEntity<Map<String, Object>> getTaskStats(String childId) {
-        LambdaQueryWrapper<TaskChild> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(TaskChild::getChildId, childId);
-//        已完成但是未批改
-        int pendingTasks = Math.toIntExact(taskChildService.lambdaQuery().eq(TaskChild::getIsCorrected, 0).count());
-//        已批改但未通过
-        int notPassedTasks = Math.toIntExact(taskChildService.lambdaQuery().eq(TaskChild::getIsCorrected, 1).count());
-//        已批改且已通过
-        int passedTasks = Math.toIntExact(taskChildService.lambdaQuery().eq(TaskChild::getIsCorrected, 2).count());
+    public ResponseEntity<Map<String, Object>> getTaskStats(@PathVariable String childId) {
+
+//        LambdaQueryWrapper<TaskChild> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(TaskChild::getChildId, childId);
+
+// 待批改的任务数量
+        int pendingTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 0)
+                .count());
+
+// 已批改但未通过的任务数量
+        int notPassedTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 1)
+                .count());
+
+// 已批改且已通过的任务数量
+        int passedTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 2)
+                .count());
 
 
         Map<String, Integer> counts = new HashMap<>();
-        counts.put("pendingCount", pendingTasks);
-        counts.put("notPassedCount", notPassedTasks);
-        counts.put("passedCount", passedTasks);
+        counts.put("pendingTasks", pendingTasks);
+        counts.put("notPassedTasks", notPassedTasks);
+        counts.put("passedTasks", passedTasks);
 
         HashMap<String, Object> response = new HashMap<>();
 

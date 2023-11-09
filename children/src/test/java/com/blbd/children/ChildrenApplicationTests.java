@@ -135,16 +135,6 @@ class ChildrenApplicationTests {
 
         System.out.println(scoreTasks);
     }
-    @Test
-    void testAdemo(){
-        Child child = new Child("id","user1",100,"password1","Child 1","A","location 1",1,0,"f869538ae91948b9ad8359f1c0663775");
-        List<Task> mustDoTasks = taskMapper.selectList(
-                new QueryWrapper<Task>()
-                        .ge("finish_time", new Date())
-                        .eq("grade", child.getGrade())
-                        .eq("is_must_do", 1)
-        );
-        System.out.println(mustDoTasks);
-    }
+
 }
 
