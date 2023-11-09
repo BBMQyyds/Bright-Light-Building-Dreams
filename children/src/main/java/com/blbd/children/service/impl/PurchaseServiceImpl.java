@@ -70,7 +70,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
     }
 
     /**
-     * 插入订单
+     * 插入订单,还要扣除孩子的对应积分【待干！】
      */
     @Override
     public int addPurchase(Purchase purchase) {

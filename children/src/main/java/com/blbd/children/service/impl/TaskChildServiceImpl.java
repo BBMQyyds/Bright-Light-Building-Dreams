@@ -28,7 +28,6 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
     @Autowired
     private TaskMapper taskMapper;
 
-    private TaskChildService taskChildService;
 
     /**
      * 查看当前孩子的已提交未批改任务
@@ -71,13 +70,21 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
      */
     @Override
     public List<Task> getCorrectedTasks(String childId) {
+        /*
         HashMap<String, Object> map = new HashMap<>();
 
         //自定义要查询的
         map.put("child_id", childId);
-        map.put("is_corrected", 1);
-
+        map.put("is_corrected", 2);
         List<TaskChild> taskChildList = taskChildMapper.selectByMap(map);
+        */
+
+        QueryWrapper<TaskChild> wrapper = new QueryWrapper<>();
+
+        wrapper.eq("child_id",childId);
+        wrapper.in("is_corrected",Arrays.asList(1, 2));
+
+        List<TaskChild> taskChildList = taskChildMapper.selectList(wrapper);
 
         List<String> taskIds = taskChildList.stream().map(TaskChild::getTaskId).collect(Collectors.toList());
 
@@ -91,5 +98,32 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
 
         return tasks;
     }
+
+    /**
+     * 获得当前孩子当前任务的作业图片名称
+     */
+    @Override
+    public String selectHomeworkPhoto(String childId, String taskId) {
+        QueryWrapper<TaskChild> wrapper = new QueryWrapper<>();
+
+        wrapper.eq("child_id",childId);
+        wrapper.eq("task_id",taskId);
+
+        TaskChild taskChild = taskChildMapper.selectOne(wrapper);
+
+        return taskChild.getHomeworkPhoto();
+    }
+
+    /**
+     * 上传当前孩子当前任务的作业图片,即提交作业
+     * 只需要传孩子ID,任务ID,作业图片名
+     */
+    @Override
+    public int addTaskChild(TaskChild taskChild) {
+        int result = taskChildMapper.insert(taskChild);
+
+        return result;
+    }
+
 
 }
