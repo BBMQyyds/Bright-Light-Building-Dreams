@@ -1,8 +1,12 @@
 package com.blbd.children.dao.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScoreDTO {
 
         //    每一条记录的唯一标识（taskChild）

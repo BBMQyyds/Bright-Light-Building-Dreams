@@ -14,7 +14,7 @@ public interface ScoreMapper {
             "FROM task_child tc " +
             "INNER JOIN child c ON tc.child_id = c.id " +
             "INNER JOIN task t ON tc.task_id = t.id " +
-            "WHERE tc.is_corrected = 1 AND c.id = #{childId}")
+            "WHERE tc.is_corrected = 2 AND c.id = #{childId}")
     List<ScoreAddDTO> getScoreTasks(@Param("childId") String childId);
 
 }
