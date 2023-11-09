@@ -1,6 +1,7 @@
 package com.blbd.children.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blbd.children.dao.dto.PurchaseDTO;
 import com.blbd.children.dao.entity.Purchase;
 import com.blbd.children.service.PurchaseService;
@@ -71,4 +72,34 @@ public class PurchaseController {
 
     }
 
+//    @GetMapping("/purchaseSubjectRecode/{childId}")
+//    public ResponseEntity<Map<String, Object>> purchaseSubjectRecode(@PathVariable String childId) {
+//
+//        Map<String, Object> response = new HashMap<>();
+//
+//        LambdaQueryWrapper<Purchase> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(Purchase::getChildId, childId)
+//                .eq(Purchase::getStatus, 1);
+//
+//        Integer totalNum = purchaseService.lambdaQuery().select(Purchase::getSubNum)
+//                .apply(String.valueOf(queryWrapper))
+//                .list()
+//                .stream()
+//                .mapToInt(Integer::intValue)
+//                .sum();
+//
+//        if (totalNum != 0) {
+//            response.put("success", true);
+//            response.put("data", totalNum);
+//            response.put("message", "订单添加成功");
+//            return ResponseEntity.ok(response);
+//        } else {
+//            response.put("success", false);
+//            response.put("message", "订单添加失败");
+//
+//            //返回 400 Bad Request 表示请求不合法.(待推敲哪个状态码更合适)
+//            return ResponseEntity.badRequest().body(response);
+//        }
+//
+//    }
 }

@@ -1,8 +1,15 @@
 package com.blbd.children.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Task;
+import com.blbd.children.dao.entity.TaskChild;
+import com.blbd.children.mapper.TaskChildMapper;
+import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskChildService;
+import com.blbd.children.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +30,14 @@ import java.util.Map;
  * @author sq
  * @since 2023-11-01
  */
-//@Api(tags = "控制器-任务")
+
 @RestController
 @RequestMapping("/children/task-child")
 public class TaskChildController {
     @Autowired
     private TaskChildService taskChildService;
+    @Autowired
+    private TaskService taskService;
 
     //获取孩子的已提交未批改任务
     @GetMapping("/submitted-uncorrected/{childId}")
@@ -80,5 +89,82 @@ public class TaskChildController {
     }
 
 
-}
 
+    @GetMapping("/count/{childId}")
+    public ResponseEntity<Map<String, Object>> getTaskStats(@PathVariable String childId) {
+
+
+// 待批改的任务数量
+        int pendingTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 0)
+                .count());
+
+// 已批改但未通过的任务数量
+        int notPassedTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 1)
+                .count());
+
+// 已批改且已通过的任务数量
+        int passedTasks = Math.toIntExact(taskChildService.lambdaQuery()
+                .eq(TaskChild::getChildId, childId)
+                .eq(TaskChild::getIsCorrected, 2)
+                .count());
+
+
+        Map<String, Integer> counts = new HashMap<>();
+        counts.put("pendingTasks", pendingTasks);
+        counts.put("notPassedTasks", notPassedTasks);
+        counts.put("passedTasks", passedTasks);
+
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (counts!= null && !counts.isEmpty()){
+            response.put("success",true);
+            response.put("message","待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量统计成功");
+            response.put("data",counts);
+
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success",false);
+            response.put("message", "无法统计：待批改的任务数量，已批改但未通过的任务数量，已批改并且通过的任务数量");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+
+    }
+
+    @GetMapping("/viewRemainingTasks/{childId}")
+    public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
+
+
+        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+        taskChildQueryWrapper.eq("child_id", childId)
+                .eq("is_completed", 1); // 过滤未完成的任务
+        int completedTaskCount = (int) taskChildService.count(taskChildQueryWrapper);
+
+        QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
+        int totalTaskCount = (int) taskService.count(taskQueryWrapper);
+
+        int remainingTasks = totalTaskCount - completedTaskCount;
+
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (remainingTasks != 0 ){
+            response.put("success",true);
+            response.put("message","统计待完成任务成功");
+            response.put("data",remainingTasks);
+
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success",false);
+            response.put("message", "无待完成任务");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+
+    }
+}
