@@ -136,10 +136,13 @@ public class TaskChildController {
 
     }
 
+    /**
+     * 显示待完成的所有任务
+     * @param childId
+     * @return
+     */
     @GetMapping("/viewRemainingTasks/{childId}")
     public ResponseEntity<Map<String, Object>> viewRemainingTasks(@PathVariable("childId") String childId) {
-
-
         QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
         taskChildQueryWrapper.eq("child_id", childId)
                 .eq("is_completed", 1); // 过滤未完成的任务
@@ -152,19 +155,22 @@ public class TaskChildController {
 
         HashMap<String, Object> response = new HashMap<>();
 
-        if (remainingTasks != 0 ){
-            response.put("success",true);
-            response.put("message","统计待完成任务成功");
-            response.put("data",remainingTasks);
+        if (remainingTasks != 0) {
+            response.put("success", true);
+            response.put("message", "统计待完成任务成功");
+            response.put("data", remainingTasks);
+
+            // 获取完整的remainingTasks任务列表
+            List<Task> tasks = taskService.list();
+            response.put("tasks", tasks);
 
             return ResponseEntity.ok(response);
         } else {
-            response.put("success",false);
+            response.put("success", false);
             response.put("message", "无待完成任务");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
         }
-
     }
 }
