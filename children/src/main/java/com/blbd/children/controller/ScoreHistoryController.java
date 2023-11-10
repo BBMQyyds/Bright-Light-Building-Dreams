@@ -50,4 +50,25 @@ public class ScoreHistoryController {
 
         return ResponseEntity.ok(response);
     }
+
+    //分页获取孩子的积分总表
+    @GetMapping("/total-list/{childId}/{current}/{size}")
+    public ResponseEntity<Map<String, Object>> PageScoreList(@PathVariable String childId,@PathVariable Integer current,@PathVariable Integer size) {
+        List<ScoreHistory> list = scoreHistoryService.getListByChildIdPage(childId,current,size);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (list!= null && !list.isEmpty()){
+            response.put("success",true);
+            response.put("message","该儿童的当前页积分收支记录已成功检索");
+            response.put("data",list);
+
+        } else {
+            response.put("success",false);
+            response.put("message", "该儿童当前页积分收支记录");
+            response.put("data", null);
+        }
+
+        return ResponseEntity.ok(response);
+    }
 }

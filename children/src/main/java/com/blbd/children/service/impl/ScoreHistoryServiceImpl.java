@@ -1,5 +1,7 @@
 package com.blbd.children.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blbd.children.dao.entity.ScoreHistory;
 import com.blbd.children.mapper.ScoreHistoryMapper;
 import com.blbd.children.service.ScoreHistoryService;
@@ -52,6 +54,27 @@ public class ScoreHistoryServiceImpl extends ServiceImpl<ScoreHistoryMapper, Sco
         return scoreHistories;
     }
 
+    /**
+     * 分页查看当前孩子的积分收支表
+     */
+    @Override
+    public List<ScoreHistory> getListByChildIdPage(String childId,Integer current,Integer size) {
+        Page<ScoreHistory> page = new Page<>(current, size);
 
+        QueryWrapper<ScoreHistory> wrapper = new QueryWrapper<>();
+        wrapper.eq("child_id",childId);
 
+        scoreHistoryMapper.selectPage(page,wrapper);
+
+        List<ScoreHistory> scoreHistoryList = page.getRecords();
+
+        //总共多少条记录total
+        //System.out.println(page.getTotal());
+
+        if (scoreHistoryList.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return scoreHistoryList;
+    }
 }
