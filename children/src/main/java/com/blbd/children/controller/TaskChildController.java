@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -182,5 +183,37 @@ public class TaskChildController {
             return ResponseEntity.ok(response);
         }
     }
+    /**
+     *
+     */
+    @GetMapping("/viewMyTasks/{childId}")
+    public ResponseEntity<Map<String, Object>> viewMyTasks(@PathVariable("childId") String childId) {
+        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+        taskChildQueryWrapper.eq("child_id", childId)
+                .eq("is_completed", 1); // 过滤已完成的任务
+        List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
 
+        // 假设你可以访问taskService对象
+
+        List<String> taskIds = completedTasksList.stream()
+                .map(TaskChild::getTaskId)
+                .collect(Collectors.toList());
+
+        List<Task> taskList = taskService.listByIds(taskIds);
+
+        HashMap<String, Object> response = new HashMap<>();
+        if (taskList.size() != 0) {
+            response.put("success", true);
+            response.put("message", "获取剩余任务成功");
+            response.put("data", taskList);
+            response.put("size", taskList.size());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "无剩余任务");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+    }
 }
