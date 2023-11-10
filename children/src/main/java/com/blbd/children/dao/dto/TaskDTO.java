@@ -17,5 +17,6 @@ import lombok.NoArgsConstructor;
 public class TaskDTO {
 
     private Integer highestScore;
+
     private Task task;
 }
