@@ -1,22 +1,34 @@
 package com.blbd.children.controller;
 
+import com.baomidou.mybatisplus.core.assist.ISqlRunner;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
+import com.blbd.children.dao.dto.VideoCallDTO;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
+import com.blbd.children.mapper.VideoCallMapper;
+import com.blbd.children.service.VideoCallService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/children/video")
 public class VideoCallController {
     @Autowired
     ChildMapper childMapper;
+    @Autowired
+    VideoCallService videoCallService;
     @RequestMapping("/videoCall/{childId}")
     public HttpResponseEntity videoCall(@PathVariable("childId") String childId) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -38,5 +50,26 @@ public class VideoCallController {
         return httpResponseEntity;
     }
 
+    @GetMapping("/getVideoCallNum/{childId}")
+    public ResponseEntity<Map<String, Object>> getVideoCallNum(@PathVariable String childId) {
+        HashMap<String, Object> response = new HashMap<>();
+        int VideoCallNum = Math.toIntExact(videoCallService.lambdaQuery()
+                .eq(VideoCallDTO::getSenderId, childId).or().eq(VideoCallDTO::getReceiverId, childId)
+                .count());
+
+        if(VideoCallNum != 0 ){
+            response.put("success",true);
+            response.put("message","统计视频通话次数成功");
+            response.put("data",VideoCallNum);
+
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success",false);
+            response.put("message", "无法统计视频通话次数");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+    }
 }
 
