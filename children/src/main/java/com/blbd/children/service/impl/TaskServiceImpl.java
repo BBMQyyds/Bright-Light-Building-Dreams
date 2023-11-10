@@ -1,7 +1,12 @@
 
 package com.blbd.children.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.dao.entity.Task;
+import com.blbd.children.dao.entity.TaskChild;
+import com.blbd.children.dao.entity.TaskVolunteer;
 import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Wrapper;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -61,5 +67,22 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     @Override
     public List<Task> list(Wrapper queryWrapper) {
         return null;
+    }
+
+    public List<Map<String, Object>> getMaxScoreForEachTask() {
+        QueryWrapper<TaskVolunteer> taskVolunteerWrapper = new QueryWrapper<>();
+        taskVolunteerWrapper.select("task_id, MAX(score) AS max_score")
+                .groupBy("task_id");
+
+        QueryWrapper<TaskChild> taskChildWrapper = new QueryWrapper<>();
+        taskChildWrapper.select("task_id, NULL AS max_score");
+
+        String combinedTasksSql = "(" + taskVolunteerWrapper.getSqlSelect() + ") UNION ALL " +
+                "(" + taskChildWrapper.getSqlSelect() + ")";
+
+        BaseMapper<Task> baseMapper = getBaseMapper();
+        List<Map<String, Object>> result = baseMapper.selectMaps(new QueryWrapper<Task>().select("task_id, MAX(max_score) AS max_score").inSql("task_id", combinedTasksSql).groupBy("task_id"));
+
+        return result;
     }
 }

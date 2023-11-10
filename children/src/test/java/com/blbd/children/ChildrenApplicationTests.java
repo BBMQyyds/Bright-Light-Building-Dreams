@@ -1,18 +1,16 @@
 package com.blbd.children;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blbd.children.dao.dto.ScoreAddDTO;
 
-import com.blbd.children.dao.entity.ScoreHistory;
-import com.blbd.children.dao.entity.Subject;
+import com.blbd.children.dao.entity.*;
 
-import com.blbd.children.dao.entity.Task;
-import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.ChildMapper;
-import com.blbd.children.dao.entity.Child;
 
 import com.blbd.children.mapper.ScoreMapper;
 
@@ -30,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
+
+import static com.baomidou.mybatisplus.core.toolkit.Wrappers.lambdaQuery;
 
 @SpringBootTest
 class ChildrenApplicationTests {
@@ -146,5 +146,7 @@ class ChildrenApplicationTests {
         List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
         System.out.println(completedTasksList);
     }
+
 }
+
 

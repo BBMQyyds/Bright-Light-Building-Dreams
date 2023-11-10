@@ -1,23 +1,27 @@
 package com.blbd.children.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
+import com.blbd.children.dao.dto.TaskDTO;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Task;
+import com.blbd.children.dao.entity.TaskChild;
+import com.blbd.children.dao.entity.TaskVolunteer;
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.mapper.TaskVolunteerMapper;
 import com.blbd.children.service.TaskService;
+import com.blbd.children.service.TaskVolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zxr
@@ -29,8 +33,10 @@ import java.util.Map;
 public class TaskController {
     @Resource
     TaskMapper taskMapper;
-
-
+    @Autowired
+    TaskVolunteerMapper taskVolunteerMapper;
+    @Autowired
+    TaskVolunteerService taskVolunteerService;
 
     /**
      * 显示必做任务和选做任务
@@ -44,6 +50,7 @@ public class TaskController {
 
         updateWrapper.setSql("complete_num = (SELECT COUNT(*) FROM task_child WHERE task_child.task_id = task.id AND task_child.is_completed = 1)");
         taskMapper.update(null, updateWrapper);
+
 
 //        必做任务(本年级)
         List<Task> mustDoTasks = taskMapper.selectList(
@@ -71,13 +78,42 @@ public class TaskController {
         tasks.addAll(mustDoTasks);
         tasks.addAll(optionalTasks);
         tasks.addAll(differentGradeTasks);
-        if (tasks == null){
+//        taskDTO:包含highestScore和task
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+
+        for (Task task : tasks) {
+
+            TaskDTO taskDTO = new TaskDTO();
+            taskDTO.setTask(task);
+
+            LambdaQueryWrapper<TaskVolunteer> volunteerWrapper = new LambdaQueryWrapper<>();
+            volunteerWrapper.select(TaskVolunteer::getGetScore);
+            volunteerWrapper.eq(TaskVolunteer::getTaskId, task.getId());
+            volunteerWrapper.orderByDesc(TaskVolunteer::getGetScore);
+            volunteerWrapper.last("LIMIT 1");
+
+            List<TaskVolunteer> taskVolunteers = taskVolunteerMapper.selectList(volunteerWrapper);
+            TaskVolunteer taskVolunteer = null;
+            if (!taskVolunteers.isEmpty()) {
+                taskVolunteer = taskVolunteers.get(0);
+            }
+
+            if (taskVolunteer != null) {
+                Integer maxScore = taskVolunteer.getGetScore();
+                taskDTO.setHighestScore(maxScore);
+            } else{
+                taskDTO.setHighestScore(0);
+            }
+            taskDTOS.add(taskDTO);
+        }
+
+        if (taskDTOS.isEmpty()){
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(null);
             httpResponseEntity.setMessage("没有正在进行的任务");
         } else {
             httpResponseEntity.setCode("666");
-            httpResponseEntity.setData(tasks);
+            httpResponseEntity.setData(taskDTOS);
             httpResponseEntity.setMessage("查看任务的必做和选做,包含已完成人数");
         }
         return httpResponseEntity;
@@ -135,4 +171,6 @@ public class TaskController {
         }
         return httpResponseEntity;
     }
+
+
 }

@@ -1,6 +1,8 @@
 package com.blbd.children.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blbd.children.dao.dto.CriticismDTO;
 import com.blbd.children.dao.entity.TaskVolunteer;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Repository
-public interface TaskVolunteerMapper {
+public interface TaskVolunteerMapper extends BaseMapper<TaskVolunteer> {
+
 
 }

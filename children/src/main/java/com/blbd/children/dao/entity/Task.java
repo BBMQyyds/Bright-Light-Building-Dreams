@@ -106,4 +106,5 @@ public class Task implements Serializable {
     @TableField("complete_num")
     private Integer completedNum;
 
+
 }
