@@ -99,5 +99,11 @@ public class Task implements Serializable {
     @TableField("task_photo")
     private String taskPhoto;
 
+    /**
+     * 已完成的人数
+     */
+
+    @TableField("complete_num")
+    private Integer completedNum;
 
 }

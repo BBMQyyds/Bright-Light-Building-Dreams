@@ -4,12 +4,14 @@ package com.blbd.children.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blbd.children.beans.HttpResponseEntity;
+import com.blbd.children.dao.dto.MyTaskDTO;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.TaskChildMapper;
 import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskChildService;
 import com.blbd.children.service.TaskService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -182,5 +185,62 @@ public class TaskChildController {
             return ResponseEntity.ok(response);
         }
     }
+    /**
+     *
+     */
+    @GetMapping("/viewMyTasks/{childId}")
+    public ResponseEntity<Map<String, Object>> viewMyTasks(@PathVariable("childId") String childId) {
 
+        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+        taskChildQueryWrapper.eq("child_id", childId)
+                .eq("is_completed", 1);
+
+        List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
+
+        List<String> taskIds = completedTasksList.stream()
+                .map(TaskChild::getTaskId)
+                .collect(Collectors.toList());
+
+        List<MyTaskDTO> taskList = new ArrayList<>();
+
+        if (!taskIds.isEmpty()) {
+            QueryWrapper<Task> taskQueryWrapper = new QueryWrapper<>();
+            taskQueryWrapper.in("id", taskIds);
+
+            List<Task> tasks = taskService.list(taskQueryWrapper);
+
+            Map<String, Task> taskMap = tasks.stream()
+                    .collect(Collectors.toMap(Task::getId, task -> task));
+
+            taskList = completedTasksList.stream()
+                    .map(taskChild -> {
+                        MyTaskDTO myTaskDTO = new MyTaskDTO();
+                        BeanUtils.copyProperties(taskChild, myTaskDTO);
+
+                        Task task = taskMap.get(taskChild.getTaskId());
+                        if (task != null) {
+                            myTaskDTO.setIs_corrected(taskChild.getIsCorrected());
+                            BeanUtils.copyProperties(task, myTaskDTO);
+                        }
+
+                        return myTaskDTO;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        HashMap<String, Object> response = new HashMap<>();
+        if (taskList.size() != 0) {
+            response.put("success", true);
+            response.put("message", "获取我的任务成功");
+            response.put("data", taskList);
+            response.put("size", taskList.size());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "无我的任务");
+            response.put("data", null);
+
+            return ResponseEntity.ok(response);
+        }
+    }
 }

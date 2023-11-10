@@ -36,12 +36,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/children/criticism")
 public class CriticismController {
     @Autowired
-   CriticismService criticismService;
-    @Autowired
-    TaskMapper taskMapper;
-    @Autowired
-    TaskChildMapper taskChildMapper;
-    @Autowired
     CriticismMapper criticismMapper;
     @GetMapping("/criticismDetails/{childId}/{taskId}")
     public ResponseEntity<Map<String,Object>> criticismDetails(@PathVariable String childId, @PathVariable String taskId) {
