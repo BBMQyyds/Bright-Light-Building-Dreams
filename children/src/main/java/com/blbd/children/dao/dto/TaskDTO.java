@@ -1,9 +1,14 @@
 package com.blbd.children.dao.dto;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.blbd.children.dao.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * @Author Zang Xinrui
@@ -18,5 +23,35 @@ public class TaskDTO {
 
     private Integer highestScore;
 
-    private Task task;
+    private String id;
+
+    private Integer score;
+
+    private Date startTime;
+
+
+    private Date finishTime;
+
+
+    private String video;
+
+    private String subject;
+
+
+    private String grade;
+
+
+    private String status;
+
+    private Boolean isMustDo;
+
+    private String content;
+
+    private String name;
+
+    private String taskPhoto;
+
+
+
+    private Integer completedNum;
 }
