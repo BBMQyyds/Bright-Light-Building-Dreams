@@ -52,7 +52,9 @@ public class FileController {
         }
     }
 
-
+    /**
+     * 提交作业图片/任务
+     */
     @PostMapping("/uploadTaskChildPhoto")
     public ResponseEntity<Map<String,Object>> addTaskChild(@RequestParam String childId, @RequestParam String taskId, @RequestParam("file") MultipartFile file){
         Map<String, Object> response = new HashMap<>();
@@ -88,4 +90,26 @@ public class FileController {
             return ResponseEntity.badRequest().body(response);
         }
     }*/
+
+    /**
+     * 审批未通过重新提交任务
+     * 修改task_child
+     */
+    @PostMapping("/uploadTaskChildPhotoAgain")
+    public ResponseEntity<Map<String,Object>> updateTaskChild(@RequestParam String childId, @RequestParam String taskId, @RequestParam("file") MultipartFile file){
+        Map<String, Object> response = new HashMap<>();
+        int result = fileService.uploadTaskChildPhotoAgain(childId, taskId, file);
+
+        if (result == 1) {
+            response.put("success", true);
+            response.put("message", "作业图片重新上传成功");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "作业图片重新上传失败");
+
+            //返回 400 Bad Request 表示请求不合法.(待推敲哪个状态码更合适)
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

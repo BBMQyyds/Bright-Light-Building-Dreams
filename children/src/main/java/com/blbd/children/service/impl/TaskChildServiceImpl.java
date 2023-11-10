@@ -125,4 +125,18 @@ public class TaskChildServiceImpl extends ServiceImpl<TaskChildMapper, TaskChild
         return result;
     }
 
+    /**
+     * 联合主键查询唯一TaskChild
+     */
+    @Override
+    public TaskChild selectTaskChild(String childId, String taskId) {
+        QueryWrapper<TaskChild> wrapper = new QueryWrapper<>();
+        wrapper.eq("child_id",childId)
+                .eq("task_id",taskId);
+
+        TaskChild taskChild = taskChildMapper.selectOne(wrapper);
+
+        return taskChild;
+    }
+
 }
