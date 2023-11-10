@@ -190,7 +190,7 @@ public class TaskChildController {
     public ResponseEntity<Map<String, Object>> viewMyTasks(@PathVariable("childId") String childId) {
         QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
         taskChildQueryWrapper.eq("child_id", childId)
-                .eq("is_completed", 1); // 过滤已完成的任务
+                .eq("is_completed", 1);
         List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
 
         // 假设你可以访问taskService对象
@@ -204,13 +204,13 @@ public class TaskChildController {
         HashMap<String, Object> response = new HashMap<>();
         if (taskList.size() != 0) {
             response.put("success", true);
-            response.put("message", "获取剩余任务成功");
+            response.put("message", "获取我的任务成功");
             response.put("data", taskList);
             response.put("size", taskList.size());
             return ResponseEntity.ok(response);
         } else {
             response.put("success", false);
-            response.put("message", "无剩余任务");
+            response.put("message", "无我的任务");
             response.put("data", null);
 
             return ResponseEntity.ok(response);
