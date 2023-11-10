@@ -30,12 +30,40 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * 显示任务图片
+     */
     @RequestMapping("/getTaskChildPhoto/{childId}/{taskId}")
     public ResponseEntity<Map<String,Object>> getTaskChildPhoto(@PathVariable String childId, @PathVariable String taskId,HttpServletResponse httpServletResponse){
         Map<String, Object> response = new HashMap<>();
 
         try {
             fileService.getTaskChildPhoto(childId, taskId, httpServletResponse);
+            Runtimelogger.info("FileController.getTaskChildPhoto:获取作业图片成功");
+
+            response.put("success", true);
+            response.put("message", "作业图片显示成功");
+            return ResponseEntity.ok(response);
+        }catch (Exception e){
+            Runtimelogger.error("FileController.getTaskChildPhoto:获取作业图片失败");
+
+            response.put("success", false);
+            response.put("message", "作业图片显示失败或没有该图片");
+
+            //返回 400 Bad Request 表示请求不合法.(待推敲哪个状态码更合适)
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    /**
+     * 下载任务图片
+     */
+    @RequestMapping("/downloadTaskChildPhoto/{childId}/{taskId}")
+    public ResponseEntity<Map<String,Object>> downloadTaskChildPhoto(@PathVariable String childId, @PathVariable String taskId,HttpServletResponse httpServletResponse){
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            fileService.downloadTaskChildPhoto(childId, taskId, httpServletResponse);
             Runtimelogger.info("FileController.getTaskChildPhoto:获取作业图片成功");
 
             response.put("success", true);
