@@ -22,36 +22,5 @@ import java.util.Date;
 public class TaskDTO {
 
     private Integer highestScore;
-
-    private String id;
-
-    private Integer score;
-
-    private Date startTime;
-
-
-    private Date finishTime;
-
-
-    private String video;
-
-    private String subject;
-
-
-    private String grade;
-
-
-    private String status;
-
-    private Boolean isMustDo;
-
-    private String content;
-
-    private String name;
-
-    private String taskPhoto;
-
-
-
-    private Integer completedNum;
+    private Task task;
 }

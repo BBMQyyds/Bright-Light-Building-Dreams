@@ -84,19 +84,8 @@ public class TaskController {
         for (Task task : tasks) {
 
             TaskDTO taskDTO = new TaskDTO();
-            taskDTO.setId(task.getId());
-            taskDTO.setTaskPhoto(task.getTaskPhoto());
-            taskDTO.setContent(task.getContent());
-            taskDTO.setGrade(task.getGrade());
-            taskDTO.setName(task.getName());
-            taskDTO.setStatus(task.getStatus());
-            taskDTO.setScore(task.getScore());
-            taskDTO.setSubject(task.getSubject());
-            taskDTO.setVideo(task.getVideo());
-            taskDTO.setCompletedNum(task.getCompletedNum());
-            taskDTO.setFinishTime(task.getFinishTime());
-            taskDTO.setIsMustDo(task.getIsMustDo());
-            taskDTO.setStartTime(task.getStartTime());
+
+            taskDTO.setTask(task);
 
             LambdaQueryWrapper<TaskVolunteer> volunteerWrapper = new LambdaQueryWrapper<>();
             volunteerWrapper.select(TaskVolunteer::getGetScore);
