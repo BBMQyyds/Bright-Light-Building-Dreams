@@ -82,7 +82,7 @@ public class PurchaseController {
 
         LambdaQueryWrapper<Purchase> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(Purchase::getChildId, childId)
-                .eq(Purchase::getStatus, 1)
+//                .eq(Purchase::getStatus, 1)
                 .select(Purchase::getSubNum);
 
         Integer total = purchaseMapper.selectList(queryWrapper)

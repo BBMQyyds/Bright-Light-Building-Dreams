@@ -10,16 +10,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChildServiceImpl extends ServiceImpl<ChildMapper, Child> implements ChildService {
-//    @Resource
-//    ChildMapper childMapper;
 
-//    @Override
-//    public Child loginChild(Child child) {
-//        Child child1 = childMapper.(child.getUsername());
-//        if(child1.getPassword().equals(child.getPassword())) {
-//            return child1;
-//        }else {
-//            return null;
-//        }
-//    }
 }

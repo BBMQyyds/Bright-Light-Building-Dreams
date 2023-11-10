@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface ScoreService {
 
-//
-//    List<ScoreAddDTO> getScoreTasks(String childId);
 
 }
