@@ -1,8 +1,11 @@
 package com.blbd.children.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blbd.children.dao.dto.PurchaseDTO;
 import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Purchase;
+import com.blbd.children.dao.entity.ScoreHistory;
 import com.blbd.children.dao.entity.Subject;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.mapper.PurchaseMapper;
@@ -100,5 +103,43 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
         } else {
             return -1;
         }
+    }
+
+    /**
+     * 分页查看当前孩子的订单列表：购买物品的图片，物品名称，物品花费的总积分值，订单的状态
+     */
+    @Override
+    public List<PurchaseDTO> getListByChildIdPage(String childId, Integer current, Integer size) {
+        ArrayList<PurchaseDTO> purchaseDtos = new ArrayList<>();
+        Page<Purchase> page = new Page<>(current, size);
+
+        QueryWrapper<Purchase> wrapper = new QueryWrapper<>();
+        wrapper.eq("child_id",childId);
+
+        purchaseMapper.selectPage(page,wrapper);
+
+        List<Purchase> purchases = page.getRecords();
+
+        if (purchases.isEmpty()){
+            return purchaseDtos;
+        }
+
+        for (Purchase purchase : purchases) {
+            PurchaseDTO dto = new PurchaseDTO();
+
+            String subId = purchase.getSubId();
+            Subject subject = subjectMapper.selectById(subId);
+
+            dto.setId(purchase.getId());
+            dto.setSubId(subId);
+            dto.setSubPhoto(subject.getSubPhoto());
+            dto.setName(subject.getName());
+            dto.setValue(purchase.getValue());     //订单里写的就是总积分了
+            dto.setStatus(purchase.getStatus());
+
+            purchaseDtos.add(dto);
+        }
+
+        return purchaseDtos;
     }
 }
