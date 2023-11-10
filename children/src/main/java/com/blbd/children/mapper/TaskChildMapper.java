@@ -16,9 +16,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TaskChildMapper extends BaseMapper<TaskChild> {
-//    @Select("SELECT COUNT(*) - SUM(t.is_completed) AS remaining_tasks " +
-//            "FROM task_child tc " +
-//            "LEFT JOIN task t ON tc.task_id = t.id " +
-//            "WHERE tc.child_id = #{childId}")
-//    int getRemainingTasks(@Param("childId") String childId);
+
 }

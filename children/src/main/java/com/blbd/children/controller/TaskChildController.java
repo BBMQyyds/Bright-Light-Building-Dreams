@@ -90,7 +90,9 @@ public class TaskChildController {
     }
 
     /**
-     * 待批改的任务数量/已批改但未通过的任务数量/
+     * 待批改的任务数量
+     * 已批改但未通过的任务数量
+     * 已批改且已通过的任务数量
      * @param childId
      * @return
      */
