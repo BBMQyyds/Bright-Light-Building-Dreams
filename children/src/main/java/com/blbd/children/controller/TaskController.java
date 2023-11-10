@@ -120,5 +120,19 @@ public class TaskController {
         }
         return httpResponseEntity;
     }
-
+    @PostMapping("/ViewCertainGradeTask")
+    public HttpResponseEntity ViewCertainGradeTask(@RequestParam("grade") String grade) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        List<Task> tasks = taskMapper.selectList(Wrappers.<Task>lambdaQuery().eq(Task::getGrade, grade));
+        if (tasks.isEmpty()){
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(null);
+            httpResponseEntity.setMessage("查询指定年级课程失败");
+        }else {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(tasks);
+            httpResponseEntity.setMessage("查询指定年级课程成功");
+        }
+        return httpResponseEntity;
+    }
 }
