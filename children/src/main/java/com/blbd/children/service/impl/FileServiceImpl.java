@@ -45,11 +45,37 @@ public class FileServiceImpl implements FileService {
     @Override
     public void getTaskChildPhoto(String childId,String taskId, HttpServletResponse httpServletResponse) {
         String objectName = taskChildService.selectHomeworkPhoto(childId, taskId);
+        objectName = objectName.substring(36, objectName.length());
+        System.out.println(objectName);
 
         if (objectName == null || objectName.equals("")){
             Runtimelogger.error("FileServiceImpl.getTaskChildPhoto:获取作业图片失败");
         } else {
             try {
+                minioUtil.download(objectName,httpServletResponse);
+            } catch (Exception e){
+                Runtimelogger.error("FileServiceImpl.getTaskChildPhoto:获取作业图片失败");
+            }
+        }
+    }
+
+    /**
+     * 下载当前孩子当前任务（作业）的图片
+     */
+    @Override
+    public void downloadTaskChildPhoto(String childId, String taskId, HttpServletResponse httpServletResponse) {
+        String objectName = taskChildService.selectHomeworkPhoto(childId, taskId);
+        objectName = objectName.substring(36, objectName.length());
+        System.out.println(objectName);
+
+        if (objectName == null || objectName.equals("")){
+            Runtimelogger.error("FileServiceImpl.getTaskChildPhoto:获取作业图片失败");
+        } else {
+            try {
+                // 设置响应头，告诉浏览器该文件需要下载
+//                httpServletResponse.setHeader("Content-Disposition", "attachment; filename=" + objectName);
+
+                // 使用 minioUtil.download 下载图片
                 minioUtil.download(objectName,httpServletResponse);
             } catch (Exception e){
                 Runtimelogger.error("FileServiceImpl.getTaskChildPhoto:获取作业图片失败");
