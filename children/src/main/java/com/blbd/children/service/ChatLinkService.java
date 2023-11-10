@@ -1,7 +1,7 @@
 package com.blbd.children.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.blbd.children.dao.dto.VideoCallDTO;
+import com.blbd.children.dao.entity.ChatLink;
 
 /**
  * @Author Zang Xinrui
@@ -9,6 +9,6 @@ import com.blbd.children.dao.dto.VideoCallDTO;
  * @Date 2023/11/10 9:34
  * @Version 1.0
  */
-public interface VideoCallService extends IService<VideoCallDTO> {
+public interface ChatLinkService extends IService<ChatLink> {
 //     IService<TaskChild>
 }

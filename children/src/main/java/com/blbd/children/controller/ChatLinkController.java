@@ -1,17 +1,11 @@
 package com.blbd.children.controller;
 
-import com.baomidou.mybatisplus.core.assist.ISqlRunner;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
-import com.blbd.children.dao.dto.VideoCallDTO;
+import com.blbd.children.dao.entity.ChatLink;
 import com.blbd.children.dao.entity.Child;
-import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.ChildMapper;
-import com.blbd.children.mapper.VideoCallMapper;
-import com.blbd.children.service.VideoCallService;
+import com.blbd.children.service.ChatLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,11 +18,11 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/children/video")
-public class VideoCallController {
+public class ChatLinkController {
     @Autowired
     ChildMapper childMapper;
     @Autowired
-    VideoCallService videoCallService;
+    ChatLinkService chatLinkService;
     @RequestMapping("/videoCall/{childId}")
     public HttpResponseEntity videoCall(@PathVariable("childId") String childId) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -53,8 +47,8 @@ public class VideoCallController {
     @GetMapping("/getVideoCallNum/{childId}")
     public ResponseEntity<Map<String, Object>> getVideoCallNum(@PathVariable String childId) {
         HashMap<String, Object> response = new HashMap<>();
-        int VideoCallNum = Math.toIntExact(videoCallService.lambdaQuery()
-                .eq(VideoCallDTO::getSenderId, childId).or().eq(VideoCallDTO::getReceiverId, childId)
+        int VideoCallNum = Math.toIntExact(chatLinkService.lambdaQuery()
+                .eq(ChatLink::getSenderId, childId).or().eq(ChatLink::getReceiverId, childId)
                 .count());
 
         if(VideoCallNum != 0 ){

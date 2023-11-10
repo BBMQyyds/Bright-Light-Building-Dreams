@@ -1,7 +1,7 @@
 package com.blbd.children.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blbd.children.dao.dto.VideoCallDTO;
+import com.blbd.children.dao.entity.ChatLink;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @Version 1.0
  */
 @Repository
-public interface VideoCallMapper extends BaseMapper<VideoCallDTO> {
+public interface ChatLinkMapper extends BaseMapper<ChatLink> {
 }

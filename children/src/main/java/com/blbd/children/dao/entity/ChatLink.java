@@ -1,4 +1,4 @@
-package com.blbd.children.dao.dto;
+package com.blbd.children.dao.entity;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
-public class ChatLinkDTO {
+public class ChatLink {
     private String linkId;
     private String senderId;
     private String receiverId;
