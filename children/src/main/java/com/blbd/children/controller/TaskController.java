@@ -2,6 +2,7 @@ package com.blbd.children.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.entity.Child;
@@ -9,12 +10,14 @@ import com.blbd.children.dao.entity.Task;
 import com.blbd.children.mapper.TaskMapper;
 import com.blbd.children.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zxr
@@ -27,28 +30,7 @@ public class TaskController {
     @Resource
     TaskMapper taskMapper;
 
-    /**
-     * 展示所有任务
-     * @return
-     */
-//    @RequestMapping("/showAll")
-//    public HttpResponseEntity showAll(){
-//        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-//        List<Task> tasks = taskMapper.selectList(
-//                new QueryWrapper<Task>()
-//                        .ge("finish_time", new Date())
-//        );
-//        if (tasks.size() == 0){
-//            httpResponseEntity.setCode("0");
-//            httpResponseEntity.setData(null);
-//            httpResponseEntity.setMessage("没有正在进行的任务");
-//        } else {
-//            httpResponseEntity.setCode("666");
-//            httpResponseEntity.setData(tasks);
-//            httpResponseEntity.setMessage("查看所有时效的任务");
-//        }
-//        return httpResponseEntity;
-//    }
+
 
     /**
      * 显示必做任务和选做任务
@@ -58,6 +40,11 @@ public class TaskController {
     @GetMapping("/verifyGradeTask/{grade}")
     public HttpResponseEntity viewTaskInfo(@PathVariable String grade) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        LambdaUpdateWrapper<Task> updateWrapper = new LambdaUpdateWrapper<>();
+
+        updateWrapper.setSql("complete_num = (SELECT COUNT(*) FROM task_child WHERE task_child.task_id = task.id AND task_child.is_completed = 1)");
+        taskMapper.update(null, updateWrapper);
+
 //        必做任务(本年级)
         List<Task> mustDoTasks = taskMapper.selectList(
                 new QueryWrapper<Task>()
@@ -91,7 +78,7 @@ public class TaskController {
         } else {
             httpResponseEntity.setCode("666");
             httpResponseEntity.setData(tasks);
-            httpResponseEntity.setMessage("查看任务的必做和选做");
+            httpResponseEntity.setMessage("查看任务的必做和选做,包含已完成人数");
         }
         return httpResponseEntity;
     }
@@ -133,4 +120,5 @@ public class TaskController {
         }
         return httpResponseEntity;
     }
+
 }
