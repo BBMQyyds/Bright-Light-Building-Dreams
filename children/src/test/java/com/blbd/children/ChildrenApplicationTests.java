@@ -8,6 +8,7 @@ import com.blbd.children.dao.dto.ScoreAddDTO;
 import com.blbd.children.dao.entity.Subject;
 
 import com.blbd.children.dao.entity.Task;
+import com.blbd.children.dao.entity.TaskChild;
 import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.dao.entity.Child;
 
@@ -135,6 +136,13 @@ class ChildrenApplicationTests {
 
         System.out.println(scoreTasks);
     }
-
+    @Test
+    void viewMyTask() {
+        QueryWrapper<TaskChild> taskChildQueryWrapper = new QueryWrapper<>();
+        taskChildQueryWrapper.eq("child_id", 1)
+                .eq("is_completed", 1); // 过滤已完成的任务
+        List<TaskChild> completedTasksList = taskChildService.list(taskChildQueryWrapper);
+        System.out.println(completedTasksList);
+    }
 }
 
