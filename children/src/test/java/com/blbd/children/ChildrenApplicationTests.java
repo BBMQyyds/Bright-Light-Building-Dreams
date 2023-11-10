@@ -3,8 +3,10 @@ package com.blbd.children;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blbd.children.dao.dto.ScoreAddDTO;
 
+import com.blbd.children.dao.entity.ScoreHistory;
 import com.blbd.children.dao.entity.Subject;
 
 import com.blbd.children.dao.entity.Task;

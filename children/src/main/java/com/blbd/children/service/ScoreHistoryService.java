@@ -15,5 +15,6 @@ import java.util.List;
  */
 public interface ScoreHistoryService extends IService<ScoreHistory> {
     List<ScoreHistory> getListByChildId(String childId);
+    List<ScoreHistory> getListByChildIdPage(String childId,Integer current,Integer size);
 
 }
