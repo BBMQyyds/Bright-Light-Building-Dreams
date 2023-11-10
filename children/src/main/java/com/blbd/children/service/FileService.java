@@ -15,6 +15,11 @@ public interface FileService {
     public void getTaskChildPhoto(String childId, String taskId,HttpServletResponse httpServletResponse);
 
     /**
+     * 下载当前孩子的作业图片
+     */
+    public void downloadTaskChildPhoto(String childId, String taskId, HttpServletResponse httpServletResponse);
+
+    /**
      * 上传当前孩子的作业图片
      */
     public int uploadTaskChildPhoto(String childId,String taskId, MultipartFile file);

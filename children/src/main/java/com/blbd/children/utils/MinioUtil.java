@@ -157,7 +157,8 @@ public class MinioUtil {
                 byte[] bytes = os.toByteArray();
                 res.setCharacterEncoding("utf-8");
                 // 设置强制下载不打开
-                // res.setContentType("application/force-download");
+                res.setContentType("application/force-download");
+
                 res.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
                 try (ServletOutputStream stream = res.getOutputStream()){
                     stream.write(bytes);

@@ -198,6 +198,46 @@ public class TaskChildController {
             taskDTOS.add(taskDTO);
         }
 
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+
+        for (Task task : remainingTasksList) {
+
+            TaskDTO taskDTO = new TaskDTO();
+            taskDTO.setId(task.getId());
+            taskDTO.setTaskPhoto(task.getTaskPhoto());
+            taskDTO.setContent(task.getContent());
+            taskDTO.setGrade(task.getGrade());
+            taskDTO.setName(task.getName());
+            taskDTO.setStatus(task.getStatus());
+            taskDTO.setScore(task.getScore());
+            taskDTO.setSubject(task.getSubject());
+            taskDTO.setVideo(task.getVideo());
+            taskDTO.setCompletedNum(task.getCompletedNum());
+            taskDTO.setFinishTime(task.getFinishTime());
+            taskDTO.setIsMustDo(task.getIsMustDo());
+            taskDTO.setStartTime(task.getStartTime());
+
+            LambdaQueryWrapper<TaskVolunteer> volunteerWrapper = new LambdaQueryWrapper<>();
+            volunteerWrapper.select(TaskVolunteer::getGetScore);
+            volunteerWrapper.eq(TaskVolunteer::getTaskId, task.getId());
+            volunteerWrapper.orderByDesc(TaskVolunteer::getGetScore);
+            volunteerWrapper.last("LIMIT 1");
+
+            List<TaskVolunteer> taskVolunteers = taskVolunteerMapper.selectList(volunteerWrapper);
+            TaskVolunteer taskVolunteer = null;
+            if (!taskVolunteers.isEmpty()) {
+                taskVolunteer = taskVolunteers.get(0);
+            }
+
+            if (taskVolunteer != null) {
+                Integer maxScore = taskVolunteer.getGetScore();
+                taskDTO.setHighestScore(maxScore);
+            } else{
+                taskDTO.setHighestScore(0);
+            }
+            taskDTOS.add(taskDTO);
+        }
+
         int remainingTasks = remainingTasksList.size();
 
         HashMap<String, Object> response = new HashMap<>();
