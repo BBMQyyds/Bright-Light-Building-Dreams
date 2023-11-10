@@ -31,6 +31,7 @@ public class PurchaseController {
     private PurchaseService purchaseService;
     @Autowired
     private PurchaseMapper purchaseMapper;
+
     //只是用于检索信息而不需要传递数据，GET请求更合适。
     //查看当前孩子的订单列表
     @GetMapping("/list/{childId}")
@@ -103,5 +104,25 @@ public class PurchaseController {
             return ResponseEntity.badRequest().body(response);
         }
 
+    }
+
+    //查看当前孩子的订单列表
+    @GetMapping("/list/{childId}/{current}/{size}")
+    public ResponseEntity<Map<String, Object>> purchaseListPage(@PathVariable String childId,@PathVariable Integer current,@PathVariable Integer size) {
+        List<PurchaseDTO> dtoList = purchaseService.getListByChildIdPage(childId,current,size);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (dtoList != null && !dtoList.isEmpty()) {
+            response.put("success", true);
+            response.put("message", "分页订单列表已成功检索");
+            response.put("data", dtoList);
+        } else {
+            response.put("success", false);
+            response.put("message", "该儿童分页没有任何订单");
+            response.put("data", null);
+        }
+
+        return ResponseEntity.ok(response);
     }
 }

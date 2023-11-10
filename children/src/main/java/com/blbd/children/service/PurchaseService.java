@@ -24,4 +24,10 @@ public interface PurchaseService extends IService<Purchase> {
      * 插入订单
      */
     public int addPurchase(Purchase purchase);
+
+    /**
+     * 分页查看当前孩子的订单列表
+     */
+    public List<PurchaseDTO> getListByChildIdPage(String childId, Integer current, Integer size);
+
 }
