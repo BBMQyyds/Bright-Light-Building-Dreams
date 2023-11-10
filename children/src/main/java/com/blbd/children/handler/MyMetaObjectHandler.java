@@ -26,7 +26,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.setFieldValByName("isCompleted",true,metaObject);
         this.setFieldValByName("isCorrected",0,metaObject);
         this.setFieldValByName("assignmentStage","1",metaObject);
-        this.setFieldValByName("comment",null,metaObject);
+        this.setFieldValByName("comments",null,metaObject);
         this.setFieldValByName("taskApproveTime",null,metaObject);
     }
 
@@ -39,7 +39,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.setFieldValByName("isCompleted",true,metaObject);
         this.setFieldValByName("isCorrected",0,metaObject);
         this.setFieldValByName("assignmentStage","1",metaObject);
-        this.setFieldValByName("comment",null,metaObject);
+        this.setFieldValByName("comments",null,metaObject);
         this.setFieldValByName("taskApproveTime",null,metaObject);
     }
 }

@@ -18,4 +18,9 @@ public interface FileService {
      * 上传当前孩子的作业图片
      */
     public int uploadTaskChildPhoto(String childId,String taskId, MultipartFile file);
+
+    /**
+     * 重新上传当前孩子的作业图片
+     */
+    public int uploadTaskChildPhotoAgain(String childId, String taskId, MultipartFile file);
 }

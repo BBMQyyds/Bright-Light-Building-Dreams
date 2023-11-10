@@ -8,5 +8,5 @@ public class TaskDTO {
     private Integer isCorrected;
     private String content;
     private String homeworkPhoto;
-    private String comment;
+    private String comments;
 }

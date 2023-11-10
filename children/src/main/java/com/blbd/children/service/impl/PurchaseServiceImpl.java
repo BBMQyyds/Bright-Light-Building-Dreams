@@ -1,12 +1,15 @@
 package com.blbd.children.service.impl;
 
 import com.blbd.children.dao.dto.PurchaseDTO;
+import com.blbd.children.dao.entity.Child;
 import com.blbd.children.dao.entity.Purchase;
 import com.blbd.children.dao.entity.Subject;
+import com.blbd.children.mapper.ChildMapper;
 import com.blbd.children.mapper.PurchaseMapper;
 import com.blbd.children.mapper.SubjectMapper;
 import com.blbd.children.service.PurchaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +31,16 @@ import java.util.List;
  * @since 2023-11-04
  */
 @Service
+@Accessors(chain = true)    //支持链式写法
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> implements PurchaseService {
     @Autowired
     private PurchaseMapper purchaseMapper;
 
     @Autowired
     private SubjectMapper subjectMapper;
+
+    @Autowired
+    private ChildMapper childMapper;
 
     /**
      * 查看当前孩子的订单列表：购买物品的图片，物品名称，物品花费的总积分值，订单的状态
@@ -70,15 +77,28 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
     }
 
     /**
-     * 插入订单,还要扣除孩子的对应积分【待干！】
+     * 插入订单,消耗积分
      */
     @Override
     public int addPurchase(Purchase purchase) {
         //返回值通常是插入操作的影响行数，通常是一个整数，表示成功插入的记录数。
         //如果插入成功，它会返回 1，表示一行记录已插入。如果插入失败则返回 0
         //purchase.setStatus(false);
-        int result = purchaseMapper.insert(purchase);
+        int result1 = purchaseMapper.insert(purchase);
 
-        return result;
+        String childId = purchase.getChildId();
+
+        Child child = childMapper.selectById(childId);
+
+        int newScore = child.getScore() - purchase.getValue();
+        child.setScore(newScore);
+
+        int result2 = childMapper.updateById(child);
+
+        if (result1 == 1 && result2 == 1){
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }

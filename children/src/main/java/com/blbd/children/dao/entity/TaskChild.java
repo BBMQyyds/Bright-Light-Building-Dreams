@@ -87,7 +87,7 @@ public class TaskChild implements Serializable {
      * 志愿者对作业的评价，插入和更新时初始为null
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String comment;
+    private String comments;
 
     /**
      * 作业审批通过时间，插入和更新时初始为null
