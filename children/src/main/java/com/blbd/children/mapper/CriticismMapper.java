@@ -18,6 +18,7 @@ public interface CriticismMapper {
     @Select("SELECT" +
             "    tc.is_corrected as isCorrected ," +
             "    tc.homework_photo as homeworkPhoto ," +
+            "    t.task_photo as taskPhoto ,"+
             "    t.name as name ," +
             "    t.content as content ," +
             "    tv.approval_comments as comment" +

@@ -12,6 +12,8 @@ public class CriticismDTO {
     private Integer isCorrected;
 //    任务的名字
     private String name;
+//    任务的图片地址
+    private String taskPhoto;
 //    任务的描述
     private String content;
 //    提交的图片
@@ -19,9 +21,10 @@ public class CriticismDTO {
 //    批改的评语
     private String comment;
 
-    public CriticismDTO(Integer isCorrected, String name, String content, String homeworkPhoto) {
+    public CriticismDTO(Integer isCorrected, String name, String taskPhoto,String content, String homeworkPhoto) {
         this.isCorrected = isCorrected;
         this.name = name;
+        this.taskPhoto = taskPhoto;
         this.content = content;
         this.homeworkPhoto = homeworkPhoto;
     }
