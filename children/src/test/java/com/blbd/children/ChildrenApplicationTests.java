@@ -56,9 +56,9 @@ class ChildrenApplicationTests {
 
     @Test
     void contextLoads() {
-        List<Child> childrenList = childMapper.selectList(null);
-
-        childrenList.forEach(System.out::println);
+        String objectName = "http://47.116.65.252:9000/taskchild/2023-11/09/baf6d49c24924300ba94df408dbeb95b.webp";
+        objectName = objectName.substring(36, objectName.length());
+        System.out.println(objectName);
     }
 
     @Test
