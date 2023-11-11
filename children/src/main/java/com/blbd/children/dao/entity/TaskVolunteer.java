@@ -1,10 +1,15 @@
 package com.blbd.children.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
-
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @Data
+@TableName("task_volunteer")
 public class TaskVolunteer {
     private String volunteerId;
     private String childId;
@@ -19,4 +24,5 @@ public class TaskVolunteer {
     private String childName;
     private String taskName;
     private String taskVideo;
+    private Integer getScore;
 }

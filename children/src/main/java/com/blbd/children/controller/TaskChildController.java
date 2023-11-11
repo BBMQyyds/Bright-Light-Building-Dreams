@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blbd.children.beans.HttpResponseEntity;
 import com.blbd.children.dao.dto.MyTaskDTO;
+import com.blbd.children.dao.dto.TaskDTO;
 import com.blbd.children.dao.entity.Task;
 import com.blbd.children.dao.entity.TaskChild;
+import com.blbd.children.dao.entity.TaskVolunteer;
 import com.blbd.children.mapper.TaskChildMapper;
 import com.blbd.children.mapper.TaskMapper;
+import com.blbd.children.mapper.TaskVolunteerMapper;
 import com.blbd.children.service.TaskChildService;
 import com.blbd.children.service.TaskService;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +45,8 @@ public class TaskChildController {
     private TaskChildService taskChildService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private TaskVolunteerMapper taskVolunteerMapper;
 
     //获取孩子的已提交未批改任务
     @GetMapping("/submitted-uncorrected/{childId}")
@@ -165,6 +170,62 @@ public class TaskChildController {
         for (TaskChild completedTask : completedTasksList) {
             remainingTasksList.removeIf(task -> task.getId().equals(completedTask.getTaskId()));
         }
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+
+        for (Task task : remainingTasksList) {
+
+            TaskDTO taskDTO = new TaskDTO();
+            taskDTO.setTask(task);
+
+            LambdaQueryWrapper<TaskVolunteer> volunteerWrapper = new LambdaQueryWrapper<>();
+            volunteerWrapper.select(TaskVolunteer::getGetScore);
+            volunteerWrapper.eq(TaskVolunteer::getTaskId, task.getId());
+            volunteerWrapper.orderByDesc(TaskVolunteer::getGetScore);
+            volunteerWrapper.last("LIMIT 1");
+
+            List<TaskVolunteer> taskVolunteers = taskVolunteerMapper.selectList(volunteerWrapper);
+            TaskVolunteer taskVolunteer = null;
+            if (!taskVolunteers.isEmpty()) {
+                taskVolunteer = taskVolunteers.get(0);
+            }
+
+            if (taskVolunteer != null) {
+                Integer maxScore = taskVolunteer.getGetScore();
+                taskDTO.setHighestScore(maxScore);
+            } else{
+                taskDTO.setHighestScore(0);
+            }
+            taskDTOS.add(taskDTO);
+        }
+
+
+
+        for (Task task : remainingTasksList) {
+
+            TaskDTO taskDTO = new TaskDTO();
+
+            taskDTO.setTask(task);
+
+            LambdaQueryWrapper<TaskVolunteer> volunteerWrapper = new LambdaQueryWrapper<>();
+            volunteerWrapper.select(TaskVolunteer::getGetScore);
+            volunteerWrapper.eq(TaskVolunteer::getTaskId, task.getId());
+            volunteerWrapper.orderByDesc(TaskVolunteer::getGetScore);
+            volunteerWrapper.last("LIMIT 1");
+
+            List<TaskVolunteer> taskVolunteers = taskVolunteerMapper.selectList(volunteerWrapper);
+            TaskVolunteer taskVolunteer = null;
+            if (!taskVolunteers.isEmpty()) {
+                taskVolunteer = taskVolunteers.get(0);
+            }
+
+            if (taskVolunteer != null) {
+                Integer maxScore = taskVolunteer.getGetScore();
+                taskDTO.setHighestScore(maxScore);
+            } else{
+                taskDTO.setHighestScore(0);
+            }
+            taskDTOS.add(taskDTO);
+        }
 
         int remainingTasks = remainingTasksList.size();
 
@@ -173,7 +234,7 @@ public class TaskChildController {
         if (remainingTasks > 0) {
             response.put("success", true);
             response.put("message", "获取剩余任务成功");
-            response.put("data", remainingTasks);
+            response.put("data", taskDTOS);
             response.put("tasks", remainingTasksList);
 
             return ResponseEntity.ok(response);
@@ -186,7 +247,7 @@ public class TaskChildController {
         }
     }
     /**
-     *
+     *看我的任务
      */
     @GetMapping("/viewMyTasks/{childId}")
     public ResponseEntity<Map<String, Object>> viewMyTasks(@PathVariable("childId") String childId) {

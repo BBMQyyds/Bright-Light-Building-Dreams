@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class MyTaskDTO extends Task {
     private Integer is_corrected;
-
+    private Task task;
 }
