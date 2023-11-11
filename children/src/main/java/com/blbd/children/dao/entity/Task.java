@@ -102,9 +102,13 @@ public class Task implements Serializable {
     /**
      * 已完成的人数
      */
-
     @TableField("complete_num")
     private Integer completedNum;
 
+    /**
+     * 该任务的学生最高获得分数
+     */
+    @TableField("max_score")
+    private Integer maxScore;
 
 }

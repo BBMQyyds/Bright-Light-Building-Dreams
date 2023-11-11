@@ -69,8 +69,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         return null;
     }
 
+    /**
+     * 查询所有任务的最高得分
+     */
+    @Override
     public List<Map<String, Object>> getMaxScoreForEachTask() {
-        QueryWrapper<TaskVolunteer> taskVolunteerWrapper = new QueryWrapper<>();
+        /*QueryWrapper<TaskVolunteer> taskVolunteerWrapper = new QueryWrapper<>();
         taskVolunteerWrapper.select("task_id, MAX(score) AS max_score")
                 .groupBy("task_id");
 
@@ -83,6 +87,9 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         BaseMapper<Task> baseMapper = getBaseMapper();
         List<Map<String, Object>> result = baseMapper.selectMaps(new QueryWrapper<Task>().select("task_id, MAX(max_score) AS max_score").inSql("task_id", combinedTasksSql).groupBy("task_id"));
 
-        return result;
+        return result;*/
+        return null;
     }
+
+
 }
