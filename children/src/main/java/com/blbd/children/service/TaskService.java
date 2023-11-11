@@ -5,6 +5,7 @@ import com.blbd.children.dao.entity.Task;
 
 import java.sql.Wrapper;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,4 +42,11 @@ public interface TaskService extends IService<Task> {
      * 查询满足条件的任务列表
      */
     public List<Task> list(Wrapper queryWrapper);
+
+
+    /**
+     * 查询所有任务的最高得分
+     */
+    public List<Map<String, Object>> getMaxScoreForEachTask();
+
 }

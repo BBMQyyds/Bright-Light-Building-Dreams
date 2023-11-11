@@ -40,7 +40,7 @@ public class TaskChild implements Serializable {
     private String taskId;
 
     /**
-     * 任务得分，由任务ID查出来
+     * 任务对应的积分，由任务ID查出来
      */
     private Integer score;
 
