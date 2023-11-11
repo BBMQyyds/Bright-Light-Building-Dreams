@@ -236,6 +236,7 @@ public class TaskChildController {
             response.put("message", "获取剩余任务成功");
             response.put("data", taskDTOS);
             response.put("tasks", remainingTasksList);
+            response.put("num",remainingTasks);
 
             return ResponseEntity.ok(response);
         } else {
