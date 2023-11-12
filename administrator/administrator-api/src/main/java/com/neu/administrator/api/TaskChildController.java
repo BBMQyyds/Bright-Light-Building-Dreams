@@ -1,10 +1,12 @@
 package com.neu.administrator.api;
 
 import com.neu.administrator.mapper.TaskChildMapper;
+import com.neu.administrator.model.dto.TaskChildDto;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.po.Task;
 import com.neu.administrator.model.po.TaskChild;
 import com.neu.administrator.model.po.TaskVolunteer;
+import com.neu.administrator.model.po.Volunteer;
 import com.neu.administrator.service.TaskChildService;
 import com.neu.administrator.service.TaskVolunteerService;
 import com.neu.base.model.PageParams;
@@ -41,7 +43,7 @@ public class TaskChildController {
     @ApiOperation("查询儿童任务（以完成，未批改）")
     @PostMapping("/search")
     public RestResponse<PageResult> searchTasks(@RequestBody TaskDto taskDto, PageParams params) {
-        PageResult<TaskChild> pageResult = taskChildService.searchTasks(taskDto, params);
+        PageResult<TaskChildDto> pageResult = taskChildService.searchTasks(taskDto, params);
         return RestResponse.success(pageResult);
     }
 
@@ -53,6 +55,13 @@ public class TaskChildController {
             return RestResponse.success("重新分配任务成功");
         }
         return RestResponse.validfail("重新分配任务失败");
+    }
+
+    @ApiOperation("查询未被分配的志愿者")
+    @PostMapping("/searchVol")
+    public RestResponse<PageResult> searchVolunteers(@RequestBody TaskVolunteer taskVolunteer){
+        PageResult<Volunteer> pageResult = taskVolunteerService.searchVolunteersNotAssign(taskVolunteer);
+        return RestResponse.success(pageResult);
     }
 
 

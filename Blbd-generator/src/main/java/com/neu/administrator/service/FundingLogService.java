@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zzm
- * @since 2023-11-09
+ * @since 2023-11-12
  */
 public interface FundingLogService extends IService<FundingLog> {
 

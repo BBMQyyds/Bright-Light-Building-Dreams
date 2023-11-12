@@ -1,56 +1,43 @@
 package com.neu.administrator.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.neu.administrator.mapper.AdministratorMapper;
-import com.neu.administrator.mapper.ChildMapper;
-import com.neu.administrator.mapper.TaskMapper;
-import com.neu.administrator.mapper.VolunteerMapper;
+import com.neu.administrator.mapper.*;
+import com.neu.administrator.model.dto.SearchOrgRequest;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
 import com.neu.administrator.model.es.SearchVolParams;
-import com.neu.administrator.model.es.VolunteerConstants;
 import com.neu.administrator.model.po.Administrator;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.Organization;
 import com.neu.administrator.model.po.Volunteer;
 import com.neu.administrator.service.AdministratorInfoService;
-import com.neu.administrator.service.ChildService;
 import com.neu.base.exception.BlbdException;
-import com.neu.base.model.RestResponse;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.Index;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.ExistsQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMapper, Administrator> implements AdministratorInfoService {
@@ -66,6 +53,9 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
 
     @Autowired
     private TaskMapper taskMapper;
+
+    @Autowired
+    private OrganizationMapper organizationMapper;
 
 
     public PageResult search(RequestParams params) {
@@ -123,6 +113,28 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
 
         return new PageResult((long) children.size(),children);
     }
+
+    @Override
+    public PageResult searchOrg(SearchOrgRequest params) {
+        Integer size = params.getSize();
+        Integer page = params.getPage();
+
+        Organization organization=new Organization();
+        if(!"".equals(params.getOrgName())&&null!=params.getOrgName()){
+            organization.setOrgName("%"+params.getOrgName()+"%");
+        }
+
+        organization.setOrgPassIf(params.getPassed());
+
+
+        System.out.println(organization);
+
+
+        List<Organization> organizations=organizationMapper.selectOrgByPage(organization,(page-1)*size,size);
+        int total=organizationMapper.countOrg(organization);
+        return new PageResult((long) total,organizations);
+    }
+
 
     private void buildChildInNeedQuery(RequestParams params, SearchRequest request) {
         //1.准备Boolean查询
@@ -333,6 +345,7 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
         //1.1关键字搜索，match查询，放到must里
         //name
         String name = params.getVolName();
+        String passed=params.getPassed();
         if (StringUtils.isNoneBlank(name)) {
             //不为空，根据关键字查询
             boolQuery.must(QueryBuilders.matchQuery("volName", name));
@@ -341,6 +354,13 @@ public class AdministratorInfoServiceImpl extends ServiceImpl<AdministratorMappe
             boolQuery.must(QueryBuilders.matchAllQuery());
         }
 
+        if (StringUtils.isNoneBlank(passed)) {
+            //不为空，根据关键字查询
+            boolQuery.must(QueryBuilders.matchQuery("ifPass", passed));
+        } else {
+            //为空，查询全部
+            boolQuery.must(QueryBuilders.matchAllQuery());
+        }
         //设置查询条件
         request.source().query(boolQuery);
 

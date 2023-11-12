@@ -62,5 +62,7 @@ public class FundingLog implements Serializable {
      */
     private String notes;
 
+    private String organizationName;
+
 
 }

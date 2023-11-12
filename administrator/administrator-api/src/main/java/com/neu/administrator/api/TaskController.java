@@ -64,6 +64,7 @@ public class TaskController {
     @ApiOperation("分配学习任务给儿童")
     @PostMapping("/assignChild")
     public RestResponse<String> assignTasksForChild(@RequestBody TaskDto taskDto) {
+        System.out.println("assignTasksForChild:"+taskDto.toString());
         taskService.allocateTaskToChild(taskDto);
         return RestResponse.success("分配学习任务成功");
     }

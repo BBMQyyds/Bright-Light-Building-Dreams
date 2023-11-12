@@ -2,6 +2,8 @@ package com.neu.administrator.service;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.io.IOException;
+
 /**
  * @ClassName Qualification
  * @Description TODO
@@ -15,5 +17,9 @@ public interface QualificationService {
     Boolean passOrgQualification(String orgId);
     Boolean rejectVolQualification(String volId);
     Boolean rejectOrgQualification(String orgId);
+
+    void rejectVolQualificationES(String volId) throws IOException;
+
+    void passVolQualificationES(String volId) throws IOException;
 
 }

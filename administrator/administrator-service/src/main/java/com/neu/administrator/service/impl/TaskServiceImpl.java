@@ -202,10 +202,13 @@ public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements T
         //前端提供一个孩子的id列表和一个任务id。
         // 你要把这个任务分配给这些孩子。
         List<Child> children= taskDto.getChildren();
+        System.out.println("allocateTaskToChild-service:"+children);
         String taskId= taskDto.getTaskId();
+        System.out.println("allocateTaskToChild-service:"+taskId);
         TaskChild taskChild=new TaskChild();
         for (Child child : children) {
             Task temp=taskMapper.selectById(taskId);
+            System.out.println("allocateTaskToChild-service:"+temp);
             // 你要把这个任务分配给这些孩子。
             taskChild.setChildId(child.getId());
             taskChild.setTaskId(taskId);
@@ -213,7 +216,7 @@ public class TaskServiceImpl  extends ServiceImpl<TaskMapper, Task> implements T
             LocalDateTime endTime=temp.getFinishTime();
             taskChild.setTaskStartTime(startTime);
             taskChild.setTaskEndTime(endTime);
-            taskChildMapper.updateById(taskChild);
+            taskChildMapper.insertTaskChild(taskChild);
         }
 
     }

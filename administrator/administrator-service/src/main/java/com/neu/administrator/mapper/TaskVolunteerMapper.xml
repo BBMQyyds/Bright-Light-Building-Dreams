@@ -31,9 +31,20 @@
         values
         (#{volunteerId}, #{childId}, #{taskId}, #{approvalStartTime}, #{approvalFinishTime}, #{approvalEndTime}, #{completedApproval}, #{approvalComments}, #{homeworkPhoto}, #{taskPhoto}, #{childName}, #{taskName})
     </insert>
+
     <update id="updateTaskVolunteer">
         update task_volunteer
         set volunteer_id=#{volunteerId}
         where  child_id=#{childId} and task_id=#{taskId};
     </update>
+    <select id="selectTaskVolunteer" resultType="java.lang.Integer">
+        select count(*) from task_volunteer where  child_id = #{childId} and task_id = #{taskId}
+    </select>
+    <select id="selectTaskVolunteerNotAssign" resultType="com.neu.administrator.model.po.Volunteer">
+        select *
+        from volunteer
+        where vol_id not in (select volunteer_id from task_volunteer where task_id = #{taskId} and child_id = #{childId})
+    </select>
+
+
 </mapper>

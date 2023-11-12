@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @Slf4j
 @Api(value = "资质审核管理接口")
 @RestController
@@ -24,7 +26,7 @@ public class QualificationsController {
 
     @ApiOperation("通过志愿者资质申请")
     @PostMapping("/vol/pass")
-    public RestResponse<String> passVolQualifications(@RequestBody QualificationsDto qualificationsDto){
+    public RestResponse<String> passVolQualifications(@RequestBody QualificationsDto qualificationsDto) throws IOException {
         //通过资质里面的属性进行判断
         //todo 成功失败逻辑
         String volId=qualificationsDto.getVolId();
@@ -32,6 +34,7 @@ public class QualificationsController {
         Boolean passed = qualificationService.passVolQualification(volId);
 
         if (passed){
+            qualificationService.passVolQualificationES(volId);
             return RestResponse.success("通过资质申请成功");
         }else {
             return RestResponse.success("通过资质申请失败");
@@ -63,7 +66,7 @@ public class QualificationsController {
 
     @ApiOperation("拒绝志愿者资质申请")
     @PostMapping("/vol/reject")
-    public RestResponse<String> rejectVolQualifications(@RequestBody QualificationsDto qualificationsDto){
+    public RestResponse<String> rejectVolQualifications(@RequestBody QualificationsDto qualificationsDto) throws IOException {
         //通过资质里面的属性进行判断
         //todo 成功失败逻辑
         String volId=qualificationsDto.getVolId();
@@ -71,6 +74,7 @@ public class QualificationsController {
         Boolean passed = qualificationService.rejectVolQualification(volId);
 
         if (passed){
+            qualificationService.rejectVolQualificationES(volId);
             return RestResponse.success("通过资质申请成功");
         }else {
             return RestResponse.success("通过资质申请失败");

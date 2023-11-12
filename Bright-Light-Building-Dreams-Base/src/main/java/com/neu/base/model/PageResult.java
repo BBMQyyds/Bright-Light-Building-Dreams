@@ -28,4 +28,13 @@ public class PageResult<T> implements Serializable {
         this.pageSize = pageSize;
     }
 
+    public PageResult(List<T> items, long counts) {
+        this.items = items;
+        this.counts = counts;
+    }
+
+    public PageResult(List<T> items) {
+        this.items = items;
+    }
+
 }

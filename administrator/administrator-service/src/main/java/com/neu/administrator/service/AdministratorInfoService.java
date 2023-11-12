@@ -1,6 +1,7 @@
 package com.neu.administrator.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.neu.administrator.model.dto.SearchOrgRequest;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
@@ -45,4 +46,10 @@ public interface AdministratorInfoService extends IService<Administrator> {
     PageResult searchChildInNeed(RequestParams params);
 
     PageResult searchChildNotAssign(TaskDto params);
+
+
+
+
+    PageResult searchOrg(SearchOrgRequest params);
+
 }

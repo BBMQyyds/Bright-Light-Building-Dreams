@@ -2,6 +2,8 @@ package com.neu.administrator.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.neu.administrator.constants.MqConstants;
+import com.neu.administrator.model.dto.QualificationsDto;
+import com.neu.administrator.model.dto.SearchOrgRequest;
 import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
@@ -14,6 +16,7 @@ import com.neu.base.model.RestResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.search.SearchRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,17 +145,19 @@ public class AdministratorInfoController {
         return RestResponse.success("操作成功");
     }
 
-//    @ApiOperation("es分页搜索志愿者")
-//    @PostMapping("/volunteer/search")
-//    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
-//        return RestResponse.success(administratorInfoService.searchVol(params));
-//    }
-//
-//    @ApiOperation("es分页搜索志愿者")
-//    @PostMapping("/volunteer/search")
-//    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
-//        return RestResponse.success(administratorInfoService.searchVol(params));
-//    }
+    @ApiOperation("es查询志愿者")
+    @PostMapping("/volunteer/search")
+    public RestResponse<PageResult> searchVol(@RequestBody SearchVolParams params){
+
+        return RestResponse.success(administratorInfoService.searchVol(params));
+    }
+
+    @ApiOperation("分页搜索组织")
+    @PostMapping("/organization/search")
+    public RestResponse<PageResult> searchOrg(@RequestBody SearchOrgRequest params){
+
+        return RestResponse.success(administratorInfoService.searchOrg(params));
+    }
 
 
 

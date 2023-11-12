@@ -11,9 +11,46 @@
         <result column="log_child_id" property="logChildId" />
     </resultMap>
 
+    <resultMap id="FundingResultMap" type="com.neu.administrator.model.po.FundingLog">
+        <id column="id" property="id" />
+        <result column="organization_id" property="organizationId" />
+        <result column="user_id" property="userId" />
+        <result column="create_date" property="createDate" />
+        <result column="change_amonut" property="changeAmonut" />
+        <result column="change_type" property="changeType" />
+        <result column="descriptions" property="descriptions" />
+        <result column="notes" property="notes" />
+    </resultMap>
+
+    <resultMap id="SuppliesUsageResultMap" type="com.neu.administrator.model.po.SuppliesUsage">
+        <id column="id" property="id" />
+        <result column="supplies_id" property="suppliesId" />
+        <result column="use_date" property="useDate" />
+        <result column="use_quantity" property="useQuantity" />
+        <result column="recipient" property="recipient" />
+        <result column="descriptions" property="descriptions" />
+        <result column="notes" property="notes" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         log_id, log_date, log_content, log_volunteer_id, log_child_id
     </sql>
+    <select id="selectSuppliesLog" resultMap="SuppliesUsageResultMap">
+        select * from supplies_usage
+        limit #{start}, #{limit} ;
+    </select>
+    <select id="selectFundingLog" resultMap="FundingResultMap">
+        select funding_log.*,organization.org_name as organizationName
+        from funding_log
+            join organization on organization.org_id = funding_log.organization_id
+        limit #{start}, #{limit} ;
+    </select>
+    <select id="countFundingLog" resultType="java.lang.Integer">
+        select count(*) from funding_log;
+    </select>
+    <select id="countSuppliesLog" resultType="java.lang.Integer">
+        select count(*) from supplies_usage;
+    </select>
 
 </mapper>
