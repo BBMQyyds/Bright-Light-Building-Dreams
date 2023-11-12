@@ -17,5 +17,61 @@
     <sql id="Base_Column_List">
         org_id, org_name, org_introduction, org_number, org_address, org_volunteer_id, org_pass_if
     </sql>
+    <update id="updateByOrgId">
+        update organization
+        <set>
+            <if test="orgName != null and orgName != ''">
+                org_name = #{orgName},
+            </if>
+            <if test="orgIntroduction != null and orgIntroduction != ''">
+                org_introduction = #{orgIntroduction},
+            </if>
+            <if test="orgNumber != null">
+                org_number = #{orgNumber},
+            </if>
+            <if test="orgAddress != null and orgAddress!=''">
+                org_address = #{orgAddress},
+            </if>
+            <if test="orgVolunteerId != null and orgVolunteerId != ''">
+                org_volunteer_id = #{orgVolunteerId},
+            </if>
+            <if test="orgPassIf != null and orgPassIf != ''">
+                org_pass_if = #{orgPassIf},
+            </if>
+        </set>
+        where org_id = #{orgId}
+    </update>
+    <select id="selectByOrgId" resultType="com.neu.administrator.model.po.Organization">
+        select *
+        from organization
+        where  org_pass_if = #{orgPassIf}
+    </select>
+    <select id="countByOrgId" resultType="java.lang.Integer">
+        select count(*)
+        from organization
+        where  org_pass_if = #{orgPassIf}
+    </select>
+    <select id="selectOrgByPage" resultMap="BaseResultMap">
+        select *
+        from organization
+        <where>
+            org_pass_if = #{org.orgPassIf}
+            <if test="org.orgName!=null and org.orgName!=''">
+                and org_name like #{org.orgName}
+            </if>
+        </where>
+        limit #{start}, #{size}
+    </select>
+    <select id="countOrg" resultType="java.lang.Integer">
+        select count(*)
+        from organization
+        <where>
+            org_pass_if = #{orgPassIf}
+            <if test="orgName!=null and orgName!=''">
+                and org_name like #{orgName}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

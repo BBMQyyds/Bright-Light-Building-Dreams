@@ -24,25 +24,7 @@ public class AdministratorCodeGenerator {
 	private static final String DATA_SOURCE_PASSWORD  = "mgzm123456";
 	//生成的表
 	private static final String[] TABLE_NAMES = new String[]{
-			"administrator",
-			"child",
-			"log",
-			"organization",
-			"subject",
-			"task",
-			"task_child",
-			"task_volunteer",
-			"volunteer",
-			"chat_friend_list",
-			"chat_link",
-			"chat_msg",
-			"purchase",
-			"funding",
-			"funding_usage",
-			"supplies_usage",
-			"supplies",
-			"supplies_type"
-
+		"funding_log"
 	};
 
 	// TODO 默认生成entity，需要生成DTO修改此变量

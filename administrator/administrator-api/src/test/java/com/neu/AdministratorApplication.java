@@ -18,7 +18,7 @@ public class AdministratorApplication {
     @Bean
     public RestHighLevelClient restHighLevelClient(){
         return new RestHighLevelClient(RestClient.builder(
-                HttpHost.create("http://123.56.248.217:9200")
+                HttpHost.create("http://39.106.136.250:9200")
         ));
     }
 

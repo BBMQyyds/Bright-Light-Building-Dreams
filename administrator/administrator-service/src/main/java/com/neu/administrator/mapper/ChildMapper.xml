@@ -14,12 +14,15 @@
         <result column="duty" property="duty" />
         <result column="completed_tasks" property="completedTasks" />
         <result column="volunteer_id" property="volunteerId" />
-        <result column="is_pass" property="isPass" />
+        <result column="is_pass" property="pass" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, username, score, password, name, grade, locate, duty, completed_tasks, volunteer_id, is_pass
     </sql>
+    <select id="selectNotAssignChildren" resultType="com.neu.administrator.model.po.Child">
+        select * from child where id not in (select child_id from task_child where task_id = #{taskId})
+    </select>
 
 </mapper>

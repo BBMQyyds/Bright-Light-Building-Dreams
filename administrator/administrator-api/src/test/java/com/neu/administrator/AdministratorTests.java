@@ -2,12 +2,20 @@ package com.neu.administrator;
 
 import com.alibaba.fastjson.JSON;
 import com.neu.administrator.mapper.ChildMapper;
+import com.neu.administrator.mapper.OrganizationMapper;
+import com.neu.administrator.mapper.TaskChildMapper;
 import com.neu.administrator.mapper.VolunteerMapper;
+import com.neu.administrator.model.dto.SearchOrgRequest;
+import com.neu.administrator.model.dto.TaskChildDto;
+import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.es.*;
 import com.neu.administrator.model.es.VolunteerConstants.*;
 import com.neu.administrator.model.po.Child;
+import com.neu.administrator.model.po.FundingLog;
+import com.neu.administrator.model.po.TaskVolunteer;
 import com.neu.administrator.model.po.Volunteer;
-import com.neu.administrator.service.AdministratorInfoService;
+import com.neu.administrator.service.*;
+import com.neu.base.model.PageParams;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.statement.create.index.CreateIndex;
 import org.apache.http.HttpHost;
@@ -29,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.HandlerChain;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,9 +49,15 @@ public class AdministratorTests {
 
 
     @Autowired
+    private QualificationService qualificationService;
+
+    @Autowired
     private  AdministratorInfoService administratorInfoService;
 
-    private RestHighLevelClient client;
+    @Autowired
+    TaskChildService taskChildService;
+
+
 
     @Autowired
     private ChildMapper childMapper;
@@ -51,6 +66,22 @@ public class AdministratorTests {
     private VolunteerMapper volunteerMapper;
 
 
+    @Autowired
+    private RestHighLevelClient client;
+
+    @Autowired
+    private OrganizationMapper organizationMapper;
+
+
+    @Autowired
+    private TaskChildMapper taskChildMapper;
+
+
+    @Autowired
+    private LogService logService;
+
+    @Autowired
+    private TaskVolunteerService taskVolunteerService;
 
 
 
@@ -63,16 +94,7 @@ public class AdministratorTests {
 
     }
 
-    @BeforeEach
-    public void setUp(){
-        this.client=new RestHighLevelClient(RestClient.builder(
-                HttpHost.create("http://123.56.248.217:9200")
-        ));
-    }
-    @AfterEach
-    public void tearDown() throws IOException {
-        this.client.close();
-    }
+
 
     //创建索引库
     @Test
@@ -215,7 +237,7 @@ public class AdministratorTests {
     @Test
     public void searchVolTest(){
         SearchVolParams params=new SearchVolParams();
-
+        params.setVolName("周");
         params.setPage(1);
         params.setSize(10);
 
@@ -225,6 +247,19 @@ public class AdministratorTests {
     }
 
 
+    //测试志愿者CRUD
+    @Test
+    public void searchChildTest(){
+        RequestParams params=new RequestParams();
+
+        params.setName("Child");
+        params.setPage(1);
+        params.setSize(10);
+
+        PageResult pageResult = administratorInfoService.search(params);
+
+        log.info(pageResult.toString());
+    }
 
     @Test
     @Transactional
@@ -237,7 +272,7 @@ public class AdministratorTests {
     public void saveVolunteerByIdTest(){
         Volunteer volunteer=new Volunteer();
 
-        volunteer.setVolId("001");
+        volunteer.setVolId("00252251");
         administratorInfoService.saveVolunteerById(volunteer);
     }
 
@@ -269,5 +304,74 @@ public class AdministratorTests {
 
 
 
+    //资质审核
+    @Test
+    public void passVolTest(){
+        //qualificationService.passVolQualification("c3623d557a88410c94c6425144eaa441");
+        //qualificationService.rejectVolQualification("c3623d557a88410c94c6425144eaa441");
+
+        //qualificationService.passOrgQualification("805c35b81b3c41e5911256614780c228");
+        qualificationService.rejectOrgQualification("805c35b81b3c41e5911256614780c228");
+    }
+
+
+    @Test
+    public void testSearchOrg(){
+        SearchOrgRequest searchOrgRequest = new SearchOrgRequest();
+
+        searchOrgRequest.setOrgName("件");
+
+        searchOrgRequest.setPassed("0");
+
+        searchOrgRequest.setPage(1);
+        searchOrgRequest.setSize(10);
+        PageResult pageResult = administratorInfoService.searchOrg(searchOrgRequest);
+
+
+        System.out.println(pageResult);
+    }
+
+    @Test
+    public void rejectVolQualificationESTest(){
+        try {
+            qualificationService.rejectVolQualificationES("26");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void searchTasksTest(){
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTaskId("1");
+        PageParams pageParams = new PageParams(1L, 10L);
+        com.neu.base.model.PageResult<TaskChildDto> taskChildDtoPageResult = taskChildService.searchTasks(taskDto, pageParams);
+        System.out.println(taskChildDtoPageResult);
+
+    }
+
+    @Test
+    public void searchFundinglogTest(){
+        com.neu.base.model.PageResult<FundingLog> result= logService.searchFundingLog(new PageParams(1L,10L));
+        System.out.println(result);
+    }
+    @Test
+    void assignTaskTest(){
+        TaskVolunteer taskVolunteer = new TaskVolunteer();
+        taskVolunteer.setTaskId("3");
+        taskVolunteer.setVolunteerId("999");
+        taskVolunteer.setChildId("1");
+        taskVolunteerService.assignTask(taskVolunteer);
+    }
+
+    @Test
+    void searchVolunteersNotAssignTest(){
+        TaskVolunteer taskVolunteer = new TaskVolunteer();
+        taskVolunteer.setTaskId("2");
+        taskVolunteer.setChildId("1");
+
+        com.neu.base.model.PageResult<Volunteer> result = taskVolunteerService.searchVolunteersNotAssign(taskVolunteer);
+        System.out.println(result);
+    }
 
 }

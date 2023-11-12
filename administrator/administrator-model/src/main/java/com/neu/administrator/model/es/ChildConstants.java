@@ -21,7 +21,7 @@ public class ChildConstants {
             "        \"index\": false\n" +
             "      },\n" +
             "      \"name\":{\n" +
-            "        \"type\": \"keyword\",\n" +
+            "        \"type\": \"text\",\n" +
             "        \"index\": true\n" +
             "      },\n" +
             "      \"grade\":{\n" +
@@ -40,6 +40,10 @@ public class ChildConstants {
             "      \"completed_tasks\":{\n" +
             "        \"type\": \"integer\",\n" +
             "        \"index\": true\n" +
+            "      },\n" +
+            "      \"is_pass\":{\n" +
+            "        \"type\": \"boolean\",\n" +
+            "        \"index\": false\n" +
             "      }\n" +
             "    }\n" +
             "   }\n" +

@@ -13,4 +13,6 @@ public class TaskDto extends Child {
     private List<Volunteer> volunteers;
     private String taskId;
 
+    private String name;
+
 }

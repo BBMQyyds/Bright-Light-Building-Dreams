@@ -31,4 +31,5 @@ public class SearchVolParams {
 
 
     private String volTel;
+    private String passed;
 }

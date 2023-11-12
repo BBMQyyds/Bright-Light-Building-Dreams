@@ -15,12 +15,61 @@
         <result column="assignment_stage" property="assignmentStage" />
         <result column="homework_photo" property="homeworkPhoto" />
         <result column="task_approve_time" property="taskApproveTime" />
-        <result column="comment" property="comment" />
+        <result column="comments" property="comment" />
     </resultMap>
 
+
+    <resultMap id="TaskChildDtotMap" type="com.neu.administrator.model.dto.TaskChildDto">
+        <result column="child_id" property="childId" />
+        <result column="task_id" property="taskId" />
+        <result column="score" property="score" />
+        <result column="task_start_time" property="taskStartTime" />
+        <result column="task_finish_time" property="taskFinishTime" />
+        <result column="task_end_time" property="taskEndTime" />
+        <result column="is_completed" property="completed" />
+        <result column="is_corrected" property="isCorrected" />
+        <result column="assignment_stage" property="assignmentStage" />
+        <result column="homework_photo" property="homeworkPhoto" />
+        <result column="task_approve_time" property="taskApproveTime" />
+        <result column="comments" property="comment" />
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage, homework_photo, task_approve_time, comment
     </sql>
+    <insert id="insertTaskChild">
+        insert into task_child
+        values(#{childId},#{taskId},#{score},#{taskStartTime},#{taskFinishTime},#{taskEndTime},#{completed},#{isCorrected},#{assignmentStage},#{homeworkPhoto},#{taskApproveTime},#{comment});
+    </insert>
 
+    <update id="updateAssignmentStage">
+        update task_child
+        set assignment_stage=#{assignmentStage}
+        where child_id=#{childId} and task_id=#{taskId};
+    </update>
+    <update id="updateVolIdTaskChild">
+        update task_child
+        set volunteer_id=#{volunteerId}
+        where child_id=#{childId} and task_id=#{taskId};
+    </update>
+    <select id="selectByChildId" resultType="com.neu.administrator.model.po.TaskChild">
+        select *
+        from task_child
+        where child_id=#{childId} and task_id=#{taskId};
+    </select>
+    <select id="searchTasks" resultMap="TaskChildDtotMap">
+        select tc.*,t.name as taskName,c.name as childName,t.content as content
+        from task_child tc
+        join task t on tc.task_id=t.id
+        join child c on tc.child_id=c.id
+        where tc.task_id=#{taskId} and tc.is_completed=#{isCompleted} and tc.is_corrected=#{isCorrected}
+        limit #{pageNo},#{pageSize};
+    </select>
+    <select id="searchTasksCount" resultType="java.lang.Long">
+        select count(*)
+        from task_child tc
+                 join task t on tc.task_id=t.id
+                 join child c on tc.child_id=c.id
+        where tc.task_id=#{taskId} and tc.is_completed=#{isCompleted} and tc.is_corrected=#{isCorrected}
+    </select>
 </mapper>
