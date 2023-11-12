@@ -22,9 +22,9 @@ public class ChildListener {
     }
 
     @RabbitListener(queues=MqConstants.CHILD_DELETE_QUEUE)
-    public void listenChildDelete(Child child){
+    public void listenChildDelete(String  childId){
         //delete
-        administratorInfoService.removeById(child.getId());
+        administratorInfoService.removeById(childId);
     }
 
 

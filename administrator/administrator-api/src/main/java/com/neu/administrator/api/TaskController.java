@@ -42,8 +42,8 @@ public class TaskController {
 
     @ApiOperation("发布学习任务")
     @PostMapping("/publish")
-    public RestResponse<String> publishTasks(@RequestBody Task task){
-        if(taskService.publishTask(task)){
+    public RestResponse<String> publishTasks(@RequestBody Task task) {
+        if (taskService.publishTask(task)) {
             return RestResponse.success("发布学习任务成功");
         }
         //todo 成功失败逻辑
@@ -52,27 +52,27 @@ public class TaskController {
 
     @ApiOperation("创建学习任务与编辑学习任务")
     @PostMapping("/create")
-    public RestResponse<String> updateTasks(@RequestBody Task task){
-       boolean flag=taskService.saveTask(task);
-       if(flag){
-           return RestResponse.success("操作成功");
-       }
-           return RestResponse.validfail("操作失败");
+    public RestResponse<String> updateTasks(@RequestBody Task task) {
+        boolean flag = taskService.saveTask(task);
+        if (flag) {
+            return RestResponse.success("操作成功");
+        }
+        return RestResponse.validfail("操作失败");
     }
 
 
     @ApiOperation("分配学习任务给儿童")
     @PostMapping("/assignChild")
-    public RestResponse<String> assignTasksForChild(@RequestBody TaskDto taskDto ){
+    public RestResponse<String> assignTasksForChild(@RequestBody TaskDto taskDto) {
         taskService.allocateTaskToChild(taskDto);
         return RestResponse.success("分配学习任务成功");
     }
 
     @ApiOperation("删除学习任务")
-    @PostMapping ("/delete")
-    public RestResponse<String> deleteTask(@RequestBody Task task){
-        boolean flag=taskService.removeById(task.getId());
-        if (flag==true){
+    @PostMapping("/delete")
+    public RestResponse<String> deleteTask(@RequestBody Task task) {
+        boolean flag = taskService.removeById(task.getId());
+        if (flag == true) {
             return RestResponse.success("删除学习任务成功");
         }
         return RestResponse.validfail("删除学习任务失败");
@@ -81,45 +81,40 @@ public class TaskController {
 
     @ApiOperation("查询学习任务")
     @PostMapping("/search")
-    public RestResponse<PageResult> searchTasks(@RequestBody Task task , PageParams params){
-        PageResult<Task> pageResult=taskService.searchTasks(params,task);
+    public RestResponse<PageResult> searchTasks(@RequestBody Task task, PageParams params) {
+        PageResult<Task> pageResult = taskService.searchTasks(params, task);
         return RestResponse.success(pageResult);
     }
 
 
-
     @ApiOperation("分配任务给志愿者")
     @PostMapping("/assignVol")
-    public RestResponse<String> assignTasksForVolunteer(@RequestBody VolunteerDto volunteerDto){
+    public RestResponse<String> assignTasksForVolunteer(@RequestBody VolunteerDto volunteerDto) {
         //todo 给儿童插一个志愿者id
         taskService.allocateHelpTaskToVol(volunteerDto);
         return RestResponse.success("分配成功");
     }
 
     @ApiOperation("上传文件")
-    @RequestMapping(value = "/upload/files/{taskId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public RestResponse<String> upload(@RequestPart("filedata") MultipartFile fileData,@PathVariable("taskId") String taskId ) throws IOException {
-
-        String fileName= fileData.getOriginalFilename();
-        MediaFilesDto mediaFilesDto=new MediaFilesDto();
+    @RequestMapping(value = "/upload/files")
+    public RestResponse<String> upload(@RequestParam(required = false) MultipartFile file,
+                                       @RequestParam("taskId") String taskId) throws Exception {
+        String fileName = file.getOriginalFilename();
+        MediaFilesDto mediaFilesDto = new MediaFilesDto();
         mediaFilesDto.setFilename(fileName);
-        File tempFile= File.createTempFile("minio",".temp");
+        File tempFile = File.createTempFile("minio", ".temp");
         //上传的文件放入到临时本地
-        fileData.transferTo(tempFile);
+        file.transferTo(tempFile);
         //文件的路径
-        String filePath=tempFile.getAbsolutePath();
+        String filePath = tempFile.getAbsolutePath();
         //把文件上传到minio，并把文件的路径信息写入task
-        boolean flag=fileService.uploadFile(mediaFilesDto,filePath,taskId);
-        if(flag){
+        boolean flag = fileService.uploadFile(mediaFilesDto, filePath, taskId);
+        if (flag) {
             return RestResponse.success("上传成功");
-        }else {
+        } else {
             return RestResponse.validfail("上传失败");
         }
     }
-
-
-
-
 
 
 }

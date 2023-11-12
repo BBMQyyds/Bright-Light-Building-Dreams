@@ -10,37 +10,47 @@ package com.neu.administrator.model.es;
 public class VolunteerConstants {
     public static final String VOL_MAPPING_TEMPLATE=
             "{\n" +
-            "  \"mappings\": {\n" +
-            "    \"properties\": {\n" +
-            "      \"id\":{\n" +
-            "        \"type\": \"keyword\",\n" +
-            "        \"index\": false\n" +
-            "      },\n" +
-            "      \"username\":{\n" +
-            "        \"type\":\"keyword\"\n" +
-            "      },\n" +
-            "      \"name\":{\n" +
-            "        \"type\": \"text\",\n" +
-            "        \"analyzer\": \"ik_smart\"\n" +
-            "      },\n" +
-            "      \"location\":{\n" +
-            "        \"type\": \"text\",\n" +
-            "        \"analyzer\": \"ik_smart\"\n" +
-            "      },\n" +
-            "      \"duty\":{\n" +
-            "        \"type\": \"integer\",\n" +
-            "        \"index\": false\n" +
-            "      },\n" +
-            "      \"vol_corrected_tasks\":{\n" +
-            "        \"type\": \"integer\",\n" +
-            "        \"index\": false\n" +
-            "      },\n" +
-            "      \"vol_tel\":{\n" +
-            "        \"type\": \"keyword\"\n" +
-            "      }\n" +
-            "      \n" +
-            "      \n" +
-            "    }\n" +
-            "  }\n" +
-            "}";
+                    "  \"mappings\": {\n" +
+                    "    \"properties\": {\n" +
+                    "      \"id\":{\n" +
+                    "        \"type\": \"keyword\",\n" +
+                    "        \"index\": false\n" +
+                    "      },\n" +
+                    "      \"username\":{\n" +
+                    "        \"type\":\"keyword\"\n" +
+                    "      },\n" +
+                    "      \"password\":{\n" +
+                    "        \"type\": \"keyword\"\n" +
+                    "      },\n" +
+                    "      \"name\":{\n" +
+                    "        \"type\": \"text\",\n" +
+                    "        \"analyzer\": \"ik_smart\"\n" +
+                    "      },\n" +
+                    "      \"location\":{\n" +
+                    "        \"type\": \"text\",\n" +
+                    "        \"analyzer\": \"ik_smart\"\n" +
+                    "      },\n" +
+                    "      \"duty\":{\n" +
+                    "        \"type\": \"integer\",\n" +
+                    "        \"index\": false\n" +
+                    "      },\n" +
+                    "      \"vol_corrected_tasks\":{\n" +
+                    "        \"type\": \"integer\",\n" +
+                    "        \"index\": false\n" +
+                    "      },\n" +
+                    "      \"vol_tel\":{\n" +
+                    "        \"type\": \"keyword\"\n" +
+                    "      },\n" +
+                    "      \"vol_sfz\":{\n" +
+                    "        \"type\":\"keyword\",\n" +
+                    "        \"index\": false\n" +
+                    "      },\n" +
+                    "      \"is_pass\":{\n" +
+                    "        \"type\": \"boolean\",\n" +
+                    "       \"index\": false\n" +
+                    "        \n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}";
 }

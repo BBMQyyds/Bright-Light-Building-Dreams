@@ -22,5 +22,8 @@
     <sql id="Base_Column_List">
         id, score, start_time, finish_time, video, subject, grade, status, is_must_do, content, name, task_photo
     </sql>
+    <select id="selectChildIdsByTaskId" resultType="java.lang.String">
+        select child_id from task_child where task_id = #{taskId}
+    </select>
 
 </mapper>

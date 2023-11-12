@@ -23,4 +23,7 @@ public class RequestParams {
     private Integer duty;
 
     private Integer completedTasks;
+
+    private String volunteerId;
+
 }

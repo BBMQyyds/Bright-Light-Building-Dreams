@@ -1,5 +1,6 @@
 package com.neu.administrator.model.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class Child implements Serializable {
 
     private String id;
 
+
     private String username;
 
     private Integer score;
@@ -36,9 +38,10 @@ public class Child implements Serializable {
 
     private Integer completedTasks;
 
+
     private String volunteerId;
 
-    private Integer isPass;
-
+    @TableField("is_pass")
+    private Boolean pass;
 
 }

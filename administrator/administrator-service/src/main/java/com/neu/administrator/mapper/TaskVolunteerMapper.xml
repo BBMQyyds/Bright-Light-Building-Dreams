@@ -22,5 +22,18 @@
     <sql id="Base_Column_List">
         volunteer_id, child_id, task_id, approval_start_time, approval_finish_time, approval_end_time, is_completed_approval, approval_comments, homework_photo, task_photo, child_name, task_name
     </sql>
-
+    <insert id="insertTaskVol">
+        insert into task_volunteer
+    </insert>
+    <insert id="insertTaskVolunteer">
+        insert into task_volunteer
+        (volunteer_id, child_id, task_id, approval_start_time, approval_finish_time, approval_end_time, is_completed_approval, approval_comments, homework_photo, task_photo, child_name, task_name)
+        values
+        (#{volunteerId}, #{childId}, #{taskId}, #{approvalStartTime}, #{approvalFinishTime}, #{approvalEndTime}, #{completedApproval}, #{approvalComments}, #{homeworkPhoto}, #{taskPhoto}, #{childName}, #{taskName})
+    </insert>
+    <update id="updateTaskVolunteer">
+        update task_volunteer
+        set volunteer_id=#{volunteerId}
+        where  child_id=#{childId} and task_id=#{taskId};
+    </update>
 </mapper>

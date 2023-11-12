@@ -6,6 +6,7 @@ import com.neu.administrator.model.dto.VolunteerDto;
 import com.neu.administrator.model.po.Task;
 import com.neu.base.model.PageParams;
 import com.neu.base.model.PageResult;
+import com.neu.base.model.message.AllocateTaskVolMessage;
 
 /**
  * @ClassName TaskService
@@ -15,7 +16,8 @@ import com.neu.base.model.PageResult;
  * @Version 1.0
  */
 public interface TaskService extends IService<Task> {
-    void allocateTaskToVol(String childId, String taskId);
+     void allocateTaskToVol(AllocateTaskVolMessage allocateTaskVolMessage);
+
 
     PageResult<Task> searchTasks(PageParams pageParams,Task task);
 

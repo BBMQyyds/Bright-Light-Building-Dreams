@@ -15,7 +15,7 @@
         <result column="assignment_stage" property="assignmentStage" />
         <result column="homework_photo" property="homeworkPhoto" />
         <result column="task_approve_time" property="taskApproveTime" />
-        <result column="comment" property="comment" />
+        <result column="comments" property="comment" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -23,4 +23,30 @@
         child_id, task_id, score, task_start_time, task_finish_time, task_end_time, is_completed, is_corrected, assignment_stage, homework_photo, task_approve_time, comment
     </sql>
 
+    <update id="updateAssignmentStage">
+        update task_child
+        set assignment_stage=#{assignmentStage}
+        where child_id=#{childId} and task_id=#{taskId};
+    </update>
+    <update id="updateVolIdTaskChild">
+        update task_child
+        set volunteer_id=#{volunteerId}
+        where child_id=#{childId} and task_id=#{taskId};
+    </update>
+    <select id="selectByChildId" resultType="com.neu.administrator.model.po.TaskChild">
+        select *
+        from task_child
+        where child_id=#{childId} and task_id=#{taskId};
+    </select>
+    <select id="searchTasks" resultMap="BaseResultMap">
+        select *
+        from task_child
+        where task_id=#{taskId} and is_completed=#{isCompleted} and is_corrected=#{isCorrected}
+        limit #{pageNo},#{pageSize};
+    </select>
+    <select id="searchTasksCount" resultType="java.lang.Long">
+        select count(*)
+        from task_child
+        where task_id=#{taskId} and is_completed=#{isCompleted} and is_corrected=#{isCorrected}
+    </select>
 </mapper>

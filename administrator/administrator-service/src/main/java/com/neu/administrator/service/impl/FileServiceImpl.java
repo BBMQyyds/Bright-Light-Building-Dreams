@@ -141,8 +141,8 @@ public class FileServiceImpl implements FileService {
         String defaultFolderPath = getDefaultFolderPath();
         //存储到minio中的对象名(fileMd5.extension是存储在目录里的对象名称)
         String  objectName = defaultFolderPath + fileMd5 + extension;
-        log.info(extension);
-        log.info(mimeType);
+        //log.info(extension);
+        //log.info(mimeType);
         if(!extension.equals(".mp4")){
             //将文件上传到minio
             boolean b = addMediaFilesToMinIO(localFilePath, mimeType, bucket_Files, objectName);

@@ -17,5 +17,29 @@
     <sql id="Base_Column_List">
         org_id, org_name, org_introduction, org_number, org_address, org_volunteer_id, org_pass_if
     </sql>
+    <update id="updateByOrgId">
+        update organization
+        <set>
+            <if test="orgName != null and orgName != ''">
+                org_name = #{orgName},
+            </if>
+            <if test="orgIntroduction != null and orgIntroduction != ''">
+                org_introduction = #{orgIntroduction},
+            </if>
+            <if test="orgNumber != null">
+                org_number = #{orgNumber},
+            </if>
+            <if test="orgAddress != null and orgAddress!=''">
+                org_address = #{orgAddress},
+            </if>
+            <if test="orgVolunteerId != null and orgVolunteerId != ''">
+                org_volunteer_id = #{orgVolunteerId},
+            </if>
+            <if test="orgPassIf != null and orgPassIf != ''">
+                org_pass_if = #{orgPassIf},
+            </if>
+        </set>
+        where org_id = #{orgId}
+    </update>
 
 </mapper>

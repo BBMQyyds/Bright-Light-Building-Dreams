@@ -2,6 +2,7 @@ package com.neu.administrator.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.neu.administrator.constants.MqConstants;
+import com.neu.administrator.model.dto.TaskDto;
 import com.neu.administrator.model.es.PageResult;
 import com.neu.administrator.model.es.RequestParams;
 import com.neu.administrator.model.es.SearchVolParams;
@@ -112,6 +113,17 @@ public class AdministratorInfoController {
     }
 
 
+    @ApiOperation("es分页需搜索需要帮助的孩子")
+    @PostMapping("/search/childInNeed")
+    public RestResponse<PageResult> searchChildInNeed(@RequestBody RequestParams params){
+        return RestResponse.success(administratorInfoService.searchChildInNeed(params));
+    }
+
+    @ApiOperation("搜索还没有分配学习任务的的孩子")
+    @PostMapping("/search/childNotAssign")
+    public RestResponse<PageResult> searchChildInNeed(@RequestBody TaskDto params){
+        return RestResponse.success(administratorInfoService.searchChildNotAssign(params));
+    }
 
 
     @ApiOperation("删除志愿者数据")
@@ -130,11 +142,17 @@ public class AdministratorInfoController {
         return RestResponse.success("操作成功");
     }
 
-    @ApiOperation("es分页搜索志愿者")
-    @PostMapping("/volunteer/search")
-    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
-        return RestResponse.success(administratorInfoService.searchVol(params));
-    }
+//    @ApiOperation("es分页搜索志愿者")
+//    @PostMapping("/volunteer/search")
+//    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
+//        return RestResponse.success(administratorInfoService.searchVol(params));
+//    }
+//
+//    @ApiOperation("es分页搜索志愿者")
+//    @PostMapping("/volunteer/search")
+//    public RestResponse<PageResult> search(@RequestBody SearchVolParams params){
+//        return RestResponse.success(administratorInfoService.searchVol(params));
+//    }
 
 
 
